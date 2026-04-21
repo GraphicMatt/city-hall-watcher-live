@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f5f5f0;
+  --foreground: #1a1a1a;
 }
 
 @theme inline {
@@ -14,13 +14,29 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #111;
+    --foreground: #e8e8e0;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Post card new-flash animation: instant blue background, fades out over 0.8s */
+.post-card {
+  transition: background-color 0.8s ease-out;
+}
+
+.post-card-flash {
+  background-color: #eef5fd !important;
+  transition: none !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  .post-card-flash {
+    background-color: #1a2a3a !important;
+  }
 }

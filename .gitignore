@@ -24,6 +24,9 @@
 .DS_Store
 *.pem
 
+# local KV store (dev fallback for Vercel KV)
+.kv-store.json
+
 # debug
 npm-debug.log*
 yarn-debug.log*

@@ -1,65 +1,56 @@
-import Image from "next/image";
+import type { Metadata } from 'next';
+import { getActiveSession } from '@/lib/kv';
+import LivePoller from '@/components/LivePoller';
 
-export default function Home() {
-  return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+export const dynamic = 'force-dynamic';
+
+export async function generateMetadata(): Promise<Metadata> {
+  const session = await getActiveSession();
+  const isLive = session?.status === 'live';
+  return {
+    title: isLive ? 'Live — CHW Live' : 'CHW Live — Toronto City Council',
+    description: isLive
+      ? 'Live coverage of a Toronto City Council meeting by Matt Elliott. Auto-updating.'
+      : 'Live coverage of Toronto City Council meetings by Matt Elliott.',
+    openGraph: {
+      title: isLive ? 'CHW Live — Toronto City Council (Live)' : 'CHW Live — Toronto City Council',
+      description: isLive
+        ? 'Live coverage of a Toronto City Council meeting by Matt Elliott. Auto-updating.'
+        : 'Live coverage of Toronto City Council meetings by Matt Elliott.',
+      url: 'https://live.cityhallwatcher.com',
+      siteName: 'CHW Live',
+    },
+  };
+}
+
+export default async function Home() {
+  const session = await getActiveSession();
+
+  if (!session || session.status === 'ended') {
+    return (
+      <>
+        <header className="bg-white dark:bg-[#1a1a1a] border-b border-[#e0e0d8] dark:border-[#2a2a2a] px-6 py-3.5 flex items-center justify-between sticky top-0 z-10">
+          <h1 className="text-sm font-semibold tracking-tight text-[#1a1a1a] dark:text-[#e8e8e0]">
+            CHW Live <span className="text-[#888] font-normal">/ Toronto City Council</span>
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
+          <span className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full bg-[#f0f0ea] text-[#666] dark:bg-[#2a2a2a] dark:text-[#999]">
+            <span className="w-[7px] h-[7px] rounded-full bg-current" />
+            No coverage
+          </span>
+        </header>
+        <main className="max-w-[640px] mx-auto px-4 py-16 text-center">
+          <p className="text-sm text-[#999] dark:text-[#555]">No live coverage right now.</p>
+          <p className="text-xs text-[#bbb] dark:text-[#444] mt-2">Check back during a Toronto City Council meeting.</p>
           <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/archive"
+            className="inline-block mt-6 text-xs text-[#1a6bbf] dark:text-[#5a9fd4] hover:underline"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
+            View past coverage →
           </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
+        </main>
+      </>
+    );
+  }
+
+  return <LivePoller rootUri={session.rootUri} authorDid={session.authorDid} />;
 }

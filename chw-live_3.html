@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CHW Live</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #f5f5f0;
+    color: #1a1a1a;
+    min-height: 100vh;
+  }
+
+  header {
+    background: #fff;
+    border-bottom: 1px solid #e0e0d8;
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  header h1 { font-size: 16px; font-weight: 600; letter-spacing: -0.01em; color: #1a1a1a; }
+  header h1 span { color: #888; font-weight: 400; }
+
+  #status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 99px;
+    background: #f0f0ea;
+    color: #666;
+    font-weight: 500;
+  }
+
+  #status-badge.live { background: #e6f4ea; color: #2a7a3a; }
+  #status-badge.error { background: #fdecea; color: #c0392b; }
+
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+  .dot.pulse { animation: pulse 1.4s infinite; }
+
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
+
+  main { max-width: 640px; margin: 0 auto; padding: 24px 16px 48px; }
+
+  #setup-screen {
+    background: #fff;
+    border: 1px solid #e0e0d8;
+    border-radius: 12px;
+    padding: 24px;
+    margin-top: 16px;
+  }
+
+  #setup-screen h2 { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+  #setup-screen p { font-size: 13px; color: #666; margin-bottom: 16px; line-height: 1.5; }
+
+  .url-row { display: flex; gap: 8px; }
+
+  .url-row input {
+    flex: 1;
+    font-size: 14px;
+    padding: 9px 12px;
+    border: 1px solid #d0d0c8;
+    border-radius: 8px;
+    background: #fafaf8;
+    color: #1a1a1a;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+
+  .url-row input:focus { border-color: #888; background: #fff; }
+  .url-row input::placeholder { color: #aaa; }
+
+  button.primary {
+    font-size: 14px;
+    font-weight: 500;
+    padding: 9px 18px;
+    border-radius: 8px;
+    border: none;
+    background: #1a1a1a;
+    color: #fff;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s;
+  }
+
+  button.primary:hover { background: #333; }
+  button.primary:active { background: #000; }
+
+  #setup-error { margin-top: 10px; font-size: 13px; color: #c0392b; display: none; }
+
+  #debug-output {
+    margin-top: 8px;
+    font-size: 11px;
+    font-family: monospace;
+    background: #f5f5f0;
+    border-radius: 6px;
+    padding: 8px 10px;
+    color: #888;
+    word-break: break-all;
+    display: none;
+  }
+
+  #live-screen { display: none; }
+
+  .live-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .live-meta { font-size: 12px; color: #999; display: flex; align-items: center; gap: 12px; }
+
+  button.ghost {
+    font-size: 12px;
+    color: #999;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+    padding: 0;
+  }
+
+  button.ghost:hover { color: #333; }
+
+  .post-list { display: flex; flex-direction: column; gap: 10px; }
+
+  .post-card {
+    background: #fff;
+    border: 1px solid #e0e0d8;
+    border-radius: 10px;
+    padding: 13px 15px;
+    transition: background 0.8s ease-out;
+  }
+
+  .post-card.new-flash { background: #eef5fd; transition: none; }
+
+  .post-text { font-size: 14px; line-height: 1.65; color: #1a1a1a; white-space: pre-wrap; word-break: break-word; }
+  .post-meta { font-size: 12px; color: #aaa; margin-top: 7px; }
+  .image-wrap { margin-top: 9px; }
+
+  .image-wrap img {
+    max-width: 100%;
+    border-radius: 8px;
+    border: 1px solid #e0e0d8;
+    max-height: 320px;
+    object-fit: cover;
+  }
+
+  .empty-state { text-align: center; padding: 3rem 0; font-size: 14px; color: #999; }
+
+  .post-text a { color: #1a6bbf; text-decoration: none; }
+  .post-text a:hover { text-decoration: underline; }
+
+  /* image gallery */
+  .image-gallery { margin-top: 9px; display: grid; gap: 4px; }
+  .image-gallery.count-1 { grid-template-columns: 1fr; }
+  .image-gallery.count-2 { grid-template-columns: 1fr 1fr; }
+  .image-gallery.count-3 { grid-template-columns: 1fr 1fr; }
+  .image-gallery.count-3 .gallery-img:first-child { grid-column: 1 / -1; }
+  .image-gallery.count-4 { grid-template-columns: 1fr 1fr; }
+
+  .gallery-img {
+    cursor: zoom-in;
+    overflow: hidden;
+    border-radius: 6px;
+    border: 1px solid #e0e0d8;
+    aspect-ratio: 16/10;
+  }
+
+  .gallery-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: opacity 0.15s;
+  }
+
+  .gallery-img:hover img { opacity: 0.92; }
+
+  /* lightbox */
+  #lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.88);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    cursor: zoom-out;
+  }
+
+  #lightbox.open { display: flex; }
+
+  #lightbox img {
+    max-width: 92vw;
+    max-height: 92vh;
+    object-fit: contain;
+    border-radius: 4px;
+  }
+
+  #lightbox-close {
+    position: fixed;
+    top: 16px;
+    right: 20px;
+    color: #fff;
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+    opacity: 0.7;
+    background: none;
+    border: none;
+    padding: 4px 8px;
+  }
+
+  #lightbox-close:hover { opacity: 1; }
+
+  @media (prefers-color-scheme: dark) {
+    body { background: #111; color: #e8e8e0; }
+    header { background: #1a1a1a; border-color: #2a2a2a; }
+    header h1 { color: #e8e8e0; }
+    #status-badge { background: #2a2a2a; color: #999; }
+    #status-badge.live { background: #1a3a22; color: #4caf6a; }
+    #status-badge.error { background: #3a1a1a; color: #f08080; }
+    #setup-screen { background: #1a1a1a; border-color: #2a2a2a; }
+    #setup-screen h2 { color: #e8e8e0; }
+    #setup-screen p { color: #888; }
+    .url-row input { background: #111; border-color: #333; color: #e8e8e0; }
+    .url-row input:focus { border-color: #666; background: #1a1a1a; }
+    button.primary { background: #e8e8e0; color: #111; }
+    button.primary:hover { background: #fff; }
+    #debug-output { background: #222; color: #666; }
+    .post-card { background: #1a1a1a; border-color: #2a2a2a; }
+    .post-card.new-flash { background: #1a2a3a; }
+    .post-text { color: #e8e8e0; }
+    .post-meta { color: #555; }
+    .gallery-img { border-color: #2a2a2a; }
+    .post-text a { color: #5a9fd4; }
+    .live-meta { color: #555; }
+    button.ghost { color: #555; }
+    button.ghost:hover { color: #aaa; }
+    .empty-state { color: #555; }
+  }
+</style>
+</head>
+<body>
+
+<div id="lightbox" onclick="closeLightbox()">
+  <button id="lightbox-close" onclick="closeLightbox()">&#x2715;</button>
+  <img id="lightbox-img" src="" alt="" onclick="event.stopPropagation()" />
+</div>
+
+<header>
+  <h1>CHW Live <span>/ Toronto City Council</span></h1>
+  <div id="status-badge"><span class="dot"></span> Ready</div>
+</header>
+
+<main>
+  <div id="setup-screen">
+    <h2>Start live coverage</h2>
+    <p>Paste the URL of your first Bluesky post. All your replies in the thread will appear here automatically — no hashtags needed on individual posts.</p>
+    <div class="url-row">
+      <input type="text" id="post-url" placeholder="https://bsky.app/profile/graphicmatt.com/post/..." />
+      <button class="primary" onclick="startLive()">Go live</button>
+    </div>
+    <div id="setup-error"></div>
+    <div id="debug-output"></div>
+  </div>
+
+  <div id="live-screen">
+    <div class="live-header">
+      <div class="live-meta">
+        <span id="post-count"></span>
+        <span id="last-updated"></span>
+      </div>
+      <button class="ghost" onclick="resetToSetup()">Change thread</button>
+    </div>
+    <div id="post-list" class="post-list">
+      <div class="empty-state">Loading posts...</div>
+    </div>
+  </div>
+</main>
+
+<script>
+  let pollTimer = null;
+  let knownUris = new Set();
+  let rootUri = null;
+  let authorDid = null;
+
+  function parsePostUrl(url) {
+    const m = url.trim().match(/bsky\.app\/profile\/([^/]+)\/post\/([a-zA-Z0-9]+)/);
+    if (!m) return null;
+    return { handle: m[1], rkey: m[2] };
+  }
+
+  async function resolveHandle(handle) {
+    const r = await fetch(`https://public.api.bsky.app/xrpc/com.atproto.identity.resolveHandle?handle=${encodeURIComponent(handle)}`);
+    if (!r.ok) throw new Error(`Handle resolve failed (${r.status}): ${await r.text()}`);
+    return (await r.json()).did;
+  }
+
+  async function fetchThreadPosts() {
+    const posts = [];
+
+    // Step 1: fetch the root post directly to get its timestamp and text
+    const rootRkey = rootUri.split('/').pop();
+    const rootUriEncoded = encodeURIComponent(`at://${authorDid}/app.bsky.feed.post/${rootRkey}`);
+    const rootR = await fetch(`https://public.api.bsky.app/xrpc/app.bsky.feed.getPostThread?uri=${rootUriEncoded}&depth=0&parentHeight=0`);
+    if (!rootR.ok) throw new Error(`Could not load root post (${rootR.status}): ${await rootR.text()}`);
+    const rootData = await rootR.json();
+    const rootPost = rootData.thread?.post;
+    if (!rootPost) throw new Error('Root post not found');
+    posts.push(rootPost);
+    const rootTimestamp = new Date(rootPost.indexedAt).getTime();
+
+    // Step 2: page through the author's feed, collecting posts whose
+    // reply.root.uri matches our thread root. Stop when we reach posts
+    // older than the root post.
+    let cursor = null;
+    let pages = 0;
+    const maxPages = 20;
+
+    while (pages < maxPages) {
+      const url = new URL('https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed');
+      url.searchParams.set('actor', authorDid);
+      url.searchParams.set('limit', '100');
+      url.searchParams.set('filter', 'posts_with_replies');
+      if (cursor) url.searchParams.set('cursor', cursor);
+
+      const r = await fetch(url.toString());
+      if (!r.ok) throw new Error(`Feed fetch failed (${r.status}): ${await r.text()}`);
+      const data = await r.json();
+
+      let reachedRoot = false;
+
+      for (const item of (data.feed || [])) {
+        const post = item.post;
+        if (!post) continue;
+        const postTime = new Date(post.indexedAt).getTime();
+
+        // 2-second buffer to account for slight timestamp skew
+        if (postTime < rootTimestamp - 2000) {
+          reachedRoot = true;
+          break;
+        }
+
+        const replyRoot = post.record?.reply?.root?.uri;
+        if (replyRoot === rootUri && post.author?.did === authorDid) {
+          if (!posts.find(p => p.uri === post.uri)) posts.push(post);
+        }
+      }
+
+      if (reachedRoot || !data.cursor) break;
+      cursor = data.cursor;
+      pages++;
+    }
+
+    return posts;
+  }
+
+  function formatTime(ts) {
+    return new Date(ts).toLocaleTimeString('en-CA', { hour: '2-digit', minute: '2-digit', hour12: true });
+  }
+
+  function getImages(post) {
+    try {
+      if (post.embed?.$type === 'app.bsky.embed.images#view') return post.embed.images || [];
+    } catch (e) {}
+    return [];
+  }
+
+  function esc(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  // Extract facets (links, mentions) from a post and return linkified HTML
+  function linkifyText(post) {
+    const text = post.record?.text || '';
+    const facets = post.record?.facets || [];
+    if (!facets.length) return esc(text);
+
+    const encoder = new TextEncoder();
+    const bytes = encoder.encode(text);
+    const segments = [];
+    let pos = 0;
+
+    const sorted = [...facets].sort((a, b) => a.index.byteStart - b.index.byteStart);
+
+    for (const facet of sorted) {
+      const { byteStart, byteEnd } = facet.index;
+      if (byteStart > pos) {
+        segments.push(esc(new TextDecoder().decode(bytes.slice(pos, byteStart))));
+      }
+      const segText = esc(new TextDecoder().decode(bytes.slice(byteStart, byteEnd)));
+      const linkFeature = facet.features?.find(f => f.$type === 'app.bsky.richtext.facet#link');
+      if (linkFeature?.uri) {
+        segments.push(`<a href="${esc(linkFeature.uri)}" target="_blank" rel="noopener">${segText}</a>`);
+      } else {
+        segments.push(segText);
+      }
+      pos = byteEnd;
+    }
+
+    if (pos < bytes.length) {
+      segments.push(esc(new TextDecoder().decode(bytes.slice(pos))));
+    }
+
+    return segments.join('');
+  }
+
+  function renderGallery(images) {
+    if (!images.length) return '';
+    const count = Math.min(images.length, 4);
+    const imgs = images.slice(0, count);
+    const thumbs = imgs.map(img => {
+      const thumb = esc(img.thumb || img.fullsize || '');
+      const full = esc(img.fullsize || img.thumb || '');
+      const alt = esc(img.alt || '');
+      return `<div class="gallery-img" onclick="openLightbox('${full}','${alt}')">
+        <img src="${thumb}" alt="${alt}" loading="lazy" />
+      </div>`;
+    }).join('');
+    return `<div class="image-gallery count-${count}">${thumbs}</div>`;
+  }
+
+  function openLightbox(src, alt) {
+    const lb = document.getElementById('lightbox');
+    const img = document.getElementById('lightbox-img');
+    img.src = src;
+    img.alt = alt;
+    lb.classList.add('open');
+    document.addEventListener('keydown', onLightboxKey);
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.getElementById('lightbox-img').src = '';
+    document.removeEventListener('keydown', onLightboxKey);
+  }
+
+  function onLightboxKey(e) {
+    if (e.key === 'Escape') closeLightbox();
+  }
+
+  function setStatus(type, text) {
+    const b = document.getElementById('status-badge');
+    b.className = type;
+    b.innerHTML = `<span class="dot${type === '' ? ' pulse' : ''}"></span> ${esc(text)}`;
+  }
+
+  function renderPosts(posts) {
+    const list = document.getElementById('post-list');
+    const countEl = document.getElementById('post-count');
+
+    if (!posts.length) {
+      list.innerHTML = '<div class="empty-state">No posts yet — replies will appear here as you add them.</div>';
+      countEl.textContent = '';
+      return;
+    }
+
+    const sorted = [...posts].sort((a, b) => new Date(b.indexedAt) - new Date(a.indexedAt));
+    const isFirstLoad = knownUris.size === 0;
+    const newOnes = sorted.filter(p => !knownUris.has(p.uri));
+    newOnes.forEach(p => knownUris.add(p.uri));
+
+    countEl.textContent = `${posts.length} post${posts.length !== 1 ? 's' : ''}`;
+
+    list.innerHTML = sorted.map(post => {
+      const isNew = newOnes.includes(post) && !isFirstLoad;
+      const images = getImages(post);
+      return `<div class="post-card${isNew ? ' new-flash' : ''}">
+        <div class="post-text">${linkifyText(post)}</div>
+        ${renderGallery(images)}
+        <div class="post-meta">${formatTime(post.indexedAt)}</div>
+      </div>`;
+    }).join('');
+
+    if (!isFirstLoad && newOnes.length) {
+      setTimeout(() => {
+        document.querySelectorAll('.post-card.new-flash').forEach(el => el.classList.remove('new-flash'));
+      }, 1500);
+    }
+  }
+
+  async function fetchAndRender() {
+    try {
+      const posts = await fetchThreadPosts();
+      renderPosts(posts);
+      setStatus('live', 'Live');
+      document.getElementById('last-updated').textContent =
+        'Updated ' + new Date().toLocaleTimeString('en-CA', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+    } catch (e) {
+      setStatus('error', 'Connection error — retrying');
+      console.error(e);
+    }
+  }
+
+  async function startLive() {
+    const url = document.getElementById('post-url').value;
+    const parsed = parsePostUrl(url);
+    const errDiv = document.getElementById('setup-error');
+    const debugDiv = document.getElementById('debug-output');
+    errDiv.style.display = 'none';
+    debugDiv.style.display = 'none';
+
+    if (!parsed) {
+      errDiv.textContent = 'Invalid URL — paste a bsky.app post link.';
+      errDiv.style.display = 'block';
+      return;
+    }
+
+    try {
+      setStatus('', 'Connecting...');
+      authorDid = await resolveHandle(parsed.handle);
+      rootUri = `at://${authorDid}/app.bsky.feed.post/${parsed.rkey}`;
+      knownUris.clear();
+      document.getElementById('setup-screen').style.display = 'none';
+      document.getElementById('live-screen').style.display = 'block';
+      await fetchAndRender();
+      if (pollTimer) clearInterval(pollTimer);
+      pollTimer = setInterval(fetchAndRender, 45000);
+    } catch (e) {
+      setStatus('', 'Ready');
+      errDiv.textContent = 'Could not load thread — see details below.';
+      errDiv.style.display = 'block';
+      debugDiv.textContent = e.message;
+      debugDiv.style.display = 'block';
+    }
+  }
+
+  function resetToSetup() {
+    if (pollTimer) clearInterval(pollTimer);
+    knownUris.clear();
+    rootUri = null;
+    authorDid = null;
+    setStatus('', 'Ready');
+    document.getElementById('live-screen').style.display = 'none';
+    document.getElementById('setup-screen').style.display = 'block';
+  }
+</script>
+</body>
+</html>
