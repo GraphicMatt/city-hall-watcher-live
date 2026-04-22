@@ -1,5 +1,7 @@
 import { getArchiveIndex } from '@/lib/kv';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: 'Past Coverage — CHW Live',
   description: 'Archive of past Toronto City Council live coverage threads by Matt Elliott.',
