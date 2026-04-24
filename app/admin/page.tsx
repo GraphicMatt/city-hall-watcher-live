@@ -15,6 +15,8 @@ export default function AdminPage() {
   const [sessionError, setSessionError] = useState('');
   const [loading, setLoading] = useState(false);
   const [endError, setEndError] = useState('');
+  const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState<string | null>(null);
 
   useEffect(() => {
     fetch('/api/auth')
@@ -101,6 +103,17 @@ export default function AdminPage() {
       setEndError('Network error — try again.');
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function handleDeleteArchive(slug: string) {
+    setDeleting(slug);
+    try {
+      await fetch(`/api/archive/${slug}`, { method: 'DELETE' });
+      await fetchArchiveIndex();
+    } finally {
+      setDeleting(null);
+      setConfirmDelete(null);
     }
   }
 
@@ -272,6 +285,32 @@ export default function AdminPage() {
                     <span className="text-xs text-[#aaa] dark:text-[#555] ml-2">
                       {entry.postCount} posts
                     </span>
+                  </div>
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    {confirmDelete === entry.slug ? (
+                      <>
+                        <button
+                          onClick={() => handleDeleteArchive(entry.slug)}
+                          disabled={deleting === entry.slug}
+                          className="text-xs text-[#c0392b] dark:text-[#f08080] hover:underline disabled:opacity-50"
+                        >
+                          {deleting === entry.slug ? 'Deleting…' : 'Confirm delete'}
+                        </button>
+                        <button
+                          onClick={() => setConfirmDelete(null)}
+                          className="text-xs text-[#aaa] hover:text-[#555] dark:hover:text-[#ccc]"
+                        >
+                          Cancel
+                        </button>
+                      </>
+                    ) : (
+                      <button
+                        onClick={() => setConfirmDelete(entry.slug)}
+                        className="text-xs text-[#ccc] dark:text-[#444] hover:text-[#c0392b] dark:hover:text-[#f08080] transition-colors"
+                      >
+                        Delete
+                      </button>
+                    )}
                   </div>
                 </div>
               ))}

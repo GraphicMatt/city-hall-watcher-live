@@ -133,3 +133,21 @@ export async function setArchivePosts(slug: string, posts: BlueskyPost[]): Promi
   }
   storeSet(key, JSON.stringify(posts));
 }
+
+export async function deleteArchiveEntry(slug: string): Promise<void> {
+  // Remove from index
+  const index = await getArchiveIndex();
+  const updated = index.filter(e => e.slug !== slug);
+  // Delete posts snapshot
+  const postsKey = `archive:posts:${slug}`;
+  if (isKvConfigured()) {
+    const { kv } = await import('@vercel/kv');
+    await Promise.all([
+      kv.set(ARCHIVE_INDEX_KEY, JSON.stringify(updated)),
+      kv.del(postsKey),
+    ]);
+    return;
+  }
+  storeSet(ARCHIVE_INDEX_KEY, JSON.stringify(updated));
+  storeDel(postsKey);
+}

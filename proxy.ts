@@ -17,5 +17,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/api/session'],
+  matcher: ['/api/session', '/api/archive/:path*'],
 };
