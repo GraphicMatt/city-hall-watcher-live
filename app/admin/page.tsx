@@ -14,6 +14,7 @@ export default function AdminPage() {
   const [urlInput, setUrlInput] = useState('');
   const [sessionError, setSessionError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [endError, setEndError] = useState('');
 
   useEffect(() => {
     fetch('/api/auth')
@@ -88,9 +89,16 @@ export default function AdminPage() {
 
   async function handleEndSession() {
     setLoading(true);
+    setEndError('');
     try {
-      await fetch('/api/session', { method: 'DELETE' });
+      const r = await fetch('/api/session', { method: 'DELETE' });
+      if (!r.ok) {
+        const data = await r.json();
+        setEndError(data.error || 'Archive failed — try again.');
+      }
       await Promise.all([fetchSession(), fetchArchiveIndex()]);
+    } catch {
+      setEndError('Network error — try again.');
     } finally {
       setLoading(false);
     }
@@ -186,13 +194,16 @@ export default function AdminPage() {
               <p className="text-xs text-[#aaa] dark:text-[#444]">
                 Started {new Date(session.startedAt).toLocaleString('en-CA', { dateStyle: 'medium', timeStyle: 'short' })}
               </p>
-              {isEnded && session.archivedSlug && (
+              {isEnded && session.archivedSlug && session.archivedSlug !== '__archiving__' && (
                 <a
                   href={`/${session.archivedSlug}`}
                   className="text-xs text-[#1a6bbf] dark:text-[#5a9fd4] hover:underline mt-1"
                 >
                   View archive → /{session.archivedSlug}
                 </a>
+              )}
+              {isEnded && session.archivedSlug === '__archiving__' && (
+                <p className="text-xs text-[#888] dark:text-[#555] mt-1">Archive in progress…</p>
               )}
             </div>
           )}
@@ -229,6 +240,11 @@ export default function AdminPage() {
             <p className="text-xs text-[#888] dark:text-[#555] mb-4">
               Posts will be snapshotted and saved to the archive. This may take a few seconds.
             </p>
+            {endError && (
+              <p className="text-xs text-[#c0392b] dark:text-[#f08080] mb-3">
+                ⚠ {endError}
+              </p>
+            )}
             <button
               onClick={handleEndSession}
               disabled={loading}

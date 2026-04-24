@@ -44,13 +44,21 @@ export async function DELETE() {
   const session = await getActiveSession();
   if (!session) return NextResponse.json({ ok: true });
 
-  let archivedSlug = session.archivedSlug;
-
-  if (!archivedSlug) {
-    archivedSlug = await snapshotSession(session);
+  // Already ended or archiving in progress — bail immediately to prevent double-snapshot
+  if (session.status === 'ended' || session.archivedSlug) {
+    return NextResponse.json({ ok: true, archivedSlug: session.archivedSlug ?? null });
   }
 
-  await setActiveSession({ ...session, status: 'ended', archivedSlug });
+  // Write sentinel *before* the slow Bluesky fetch so concurrent requests see it and bail
+  await setActiveSession({ ...session, status: 'ended', archivedSlug: '__archiving__' });
 
-  return NextResponse.json({ ok: true, archivedSlug });
+  try {
+    const slug = await snapshotSession(session);
+    await setActiveSession({ ...session, status: 'ended', archivedSlug: slug });
+    return NextResponse.json({ ok: true, archivedSlug: slug });
+  } catch (e) {
+    // Clear sentinel so admin can retry
+    await setActiveSession({ ...session, status: 'ended', archivedSlug: undefined });
+    return NextResponse.json({ error: (e as Error).message }, { status: 500 });
+  }
 }
