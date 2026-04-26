@@ -27,14 +27,14 @@ export default function ImageGallery({ images }: ImageGalleryProps) {
         {visible.map((img, i) => (
           <div
             key={i}
-            className={`cursor-zoom-in overflow-hidden rounded-md border border-[#e0e0d8] dark:border-[#2a2a2a] aspect-[16/10] ${count === 3 && i === 0 ? 'col-span-2' : ''}`}
+            className={`cursor-zoom-in overflow-hidden rounded-md border border-[#e0e0d8] dark:border-[#2a2a2a] bg-[#f0f0eb] dark:bg-[#111] ${count === 1 ? 'flex items-center justify-center' : `aspect-[16/10] ${count === 3 && i === 0 ? 'col-span-2' : ''}`}`}
             onClick={() => { setLightboxSrc(img.fullsize || img.thumb); setLightboxAlt(img.alt || ''); }}
           >
             <img
               src={img.thumb || img.fullsize}
               alt={img.alt || ''}
               loading="lazy"
-              className="w-full h-full object-cover block hover:opacity-90 transition-opacity duration-150"
+              className={`block hover:opacity-90 transition-opacity duration-150 ${count === 1 ? 'w-full max-h-[480px] object-contain' : 'w-full h-full object-contain'}`}
             />
           </div>
         ))}

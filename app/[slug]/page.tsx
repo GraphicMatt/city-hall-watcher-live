@@ -44,6 +44,7 @@ export default async function ArchivePage({ params }: Props) {
       label={entry?.label ?? slug}
       postCount={posts.length}
       startedAt={entry?.startedAt}
+      slug={slug}
     />
   );
 }

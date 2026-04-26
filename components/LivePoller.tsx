@@ -6,6 +6,7 @@ import type { BlueskyPost } from '@/lib/bluesky';
 import StatusBadge from './StatusBadge';
 import type { StatusType } from './StatusBadge';
 import PostList from './PostList';
+import type { SortOrder } from './PostList';
 
 const POLL_INTERVAL = 45_000;
 
@@ -19,7 +20,7 @@ export default function LivePoller({ rootUri, authorDid }: LivePollerProps) {
   const [posts, setPosts] = useState<BlueskyPost[]>([]);
   const [newUris, setNewUris] = useState<Set<string>>(new Set());
   const [lastUpdated, setLastUpdated] = useState('');
-  const [order, setOrder] = useState<'newest' | 'oldest'>('newest');
+  const [order, setOrder] = useState<SortOrder>('newest');
 
   const knownUrisRef = useRef<Set<string>>(new Set());
   const isFirstLoadRef = useRef(true);
@@ -78,12 +79,16 @@ export default function LivePoller({ rootUri, authorDid }: LivePollerProps) {
             {postCount > 0 && <span>{postCount} {postCount === 1 ? 'post' : 'posts'}</span>}
             {lastUpdated && <span>Updated {lastUpdated}</span>}
           </div>
-          <button
-            onClick={() => setOrder(o => o === 'newest' ? 'oldest' : 'newest')}
-            className="text-xs text-[#999] dark:text-[#555] bg-none border-none cursor-pointer underline p-0 hover:text-[#333] dark:hover:text-[#aaa]"
+          <select
+            value={order}
+            onChange={e => setOrder(e.target.value as SortOrder)}
+            className="text-xs text-[#999] dark:text-[#555] bg-transparent border-none cursor-pointer p-0 hover:text-[#333] dark:hover:text-[#aaa] outline-none"
           >
-            {order === 'newest' ? 'Newest first' : 'Oldest first'}
-          </button>
+            <option value="newest">Newest first</option>
+            <option value="oldest">Oldest first</option>
+            <option value="most-liked">Most liked</option>
+            <option value="most-reposted">Most reposted</option>
+          </select>
         </div>
         <PostList posts={posts} newUris={newUris} order={order} />
       </main>

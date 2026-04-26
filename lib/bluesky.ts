@@ -33,6 +33,9 @@ export interface BlueskyPost {
     images?: BlueskyImage[];
   };
   indexedAt: string;
+  likeCount?: number;
+  repostCount?: number;
+  replyCount?: number;
 }
 
 export function parsePostUrl(url: string): { handle: string; rkey: string } | null {

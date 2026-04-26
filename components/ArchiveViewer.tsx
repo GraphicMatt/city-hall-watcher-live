@@ -3,18 +3,20 @@
 import { useState } from 'react';
 import type { BlueskyPost } from '@/lib/bluesky';
 import PostList from './PostList';
+import type { SortOrder } from './PostList';
 
 interface ArchiveViewerProps {
   posts: BlueskyPost[];
   label: string;
   postCount: number;
   startedAt?: string;
+  slug: string;
 }
 
 const EMPTY_URIS = new Set<string>();
 
-export default function ArchiveViewer({ posts, label, postCount, startedAt }: ArchiveViewerProps) {
-  const [order, setOrder] = useState<'newest' | 'oldest'>('oldest');
+export default function ArchiveViewer({ posts, label, postCount, startedAt, slug }: ArchiveViewerProps) {
+  const [order, setOrder] = useState<SortOrder>('oldest');
 
   const dateStr = startedAt
     ? new Date(startedAt).toLocaleDateString('en-CA', { dateStyle: 'long' })
@@ -40,12 +42,16 @@ export default function ArchiveViewer({ posts, label, postCount, startedAt }: Ar
             {postCount} {postCount === 1 ? 'post' : 'posts'}
           </span>
           <div className="flex items-center gap-3">
-            <button
-              onClick={() => setOrder(o => o === 'newest' ? 'oldest' : 'newest')}
-              className="text-xs text-[#999] dark:text-[#555] bg-none border-none cursor-pointer underline p-0 hover:text-[#333] dark:hover:text-[#aaa]"
+            <select
+              value={order}
+              onChange={e => setOrder(e.target.value as SortOrder)}
+              className="text-xs text-[#999] dark:text-[#555] bg-transparent border-none cursor-pointer p-0 hover:text-[#333] dark:hover:text-[#aaa] outline-none"
             >
-              {order === 'newest' ? 'Newest first' : 'Oldest first'}
-            </button>
+              <option value="oldest">Oldest first</option>
+              <option value="newest">Newest first</option>
+              <option value="most-liked">Most liked</option>
+              <option value="most-reposted">Most reposted</option>
+            </select>
             <a
               href="/archive"
               className="text-xs text-[#999] dark:text-[#555] hover:text-[#333] dark:hover:text-[#aaa] underline"
@@ -60,7 +66,7 @@ export default function ArchiveViewer({ posts, label, postCount, startedAt }: Ar
             </a>
           </div>
         </div>
-        <PostList posts={posts} newUris={EMPTY_URIS} order={order} />
+        <PostList posts={posts} newUris={EMPTY_URIS} order={order} slug={slug} />
       </main>
     </>
   );
