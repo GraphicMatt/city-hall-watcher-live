@@ -13,6 +13,7 @@ interface CandidateThread {
   date: string;
   previewText: string;
   alreadyArchived: boolean;
+  replyCount: number;
 }
 
 interface TweetPreview {
@@ -641,7 +642,12 @@ export default function AdminPage() {
                         <div className="flex items-start justify-between gap-2">
                           <div className="flex-1 min-w-0">
                             <p className="text-xs font-medium text-[#1a1a1a] dark:text-[#e8e8e0]">{c.meetingLabel}</p>
-                            <p className="text-xs text-[#aaa] dark:text-[#555]">{c.date}</p>
+                            <p className="text-xs text-[#aaa] dark:text-[#555]">
+                              {c.date}
+                              {c.replyCount > 0 && (
+                                <span className="ml-2 text-[#bbb] dark:text-[#444]">↩ {c.replyCount}</span>
+                              )}
+                            </p>
                             <p className="text-xs text-[#666] dark:text-[#888] mt-1 break-words">{c.previewText}&hellip;</p>
                           </div>
                           <div className="flex-shrink-0">
