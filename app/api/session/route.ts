@@ -39,6 +39,15 @@ export async function POST(request: NextRequest) {
   return NextResponse.json({ ok: true, rootUri, authorDid });
 }
 
+// PATCH: update session metadata (admin only, protected by proxy)
+export async function PATCH(request: NextRequest) {
+  const session = await getActiveSession();
+  if (!session) return NextResponse.json({ error: 'No active session' }, { status: 404 });
+  const { metadata } = await request.json();
+  await setActiveSession({ ...session, metadata });
+  return NextResponse.json({ ok: true });
+}
+
 // DELETE: snapshot posts, then end the session (admin only, protected by proxy)
 export async function DELETE() {
   const session = await getActiveSession();

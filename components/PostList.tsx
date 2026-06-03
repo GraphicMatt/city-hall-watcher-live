@@ -1,4 +1,7 @@
-import type { BlueskyPost } from '@/lib/bluesky';
+'use client';
+
+import { useRef, useEffect, useMemo } from 'react';
+import type { BlueskyPost, VideoSegment } from '@/lib/bluesky';
 import PostCard from './PostCard';
 
 export type SortOrder = 'newest' | 'oldest' | 'most-liked' | 'most-reposted';
@@ -8,9 +11,51 @@ interface PostListProps {
   newUris: Set<string>;
   order: SortOrder;
   slug?: string;
+  videoSegments?: VideoSegment[];
+  firstUnreadUri?: string | null;
+  onPostSeen?: (indexedAt: string) => void;
 }
 
-export default function PostList({ posts, newUris, order, slug }: PostListProps) {
+export default function PostList({
+  posts,
+  newUris,
+  order,
+  slug,
+  videoSegments,
+  firstUnreadUri,
+  onPostSeen,
+}: PostListProps) {
+  const listRef = useRef<HTMLDivElement>(null);
+  // Keep the callback in a ref so the observer never goes stale
+  const onPostSeenRef = useRef(onPostSeen);
+  useEffect(() => { onPostSeenRef.current = onPostSeen; }, [onPostSeen]);
+
+  const sorted = useMemo(() => {
+    const arr = [...posts];
+    if (order === 'oldest') return arr.sort((a, b) => a.indexedAt.localeCompare(b.indexedAt));
+    if (order === 'most-liked') return arr.sort((a, b) => (b.likeCount ?? 0) - (a.likeCount ?? 0));
+    if (order === 'most-reposted') return arr.sort((a, b) => (b.repostCount ?? 0) - (a.repostCount ?? 0));
+    return arr.sort((a, b) => b.indexedAt.localeCompare(a.indexedAt)); // newest
+  }, [posts, order]);
+
+  // Observe every post wrapper; fire onPostSeen when it enters the viewport.
+  useEffect(() => {
+    if (!listRef.current || !onPostSeenRef.current) return;
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const ts = (entry.target as HTMLElement).dataset.indexedAt;
+            if (ts) onPostSeenRef.current?.(ts);
+          }
+        });
+      },
+      { threshold: 0.5 },
+    );
+    listRef.current.querySelectorAll('[data-indexed-at]').forEach(el => observer.observe(el));
+    return () => observer.disconnect();
+  }, [sorted]); // reconnect whenever the post list changes
+
   if (!posts.length) {
     return (
       <div className="text-center py-12 text-sm text-[#999] dark:text-[#555]">
@@ -19,18 +64,30 @@ export default function PostList({ posts, newUris, order, slug }: PostListProps)
     );
   }
 
-  const sorted = [...posts].sort((a, b) => {
-    if (order === 'oldest') return new Date(a.indexedAt).getTime() - new Date(b.indexedAt).getTime();
-    if (order === 'most-liked') return (b.likeCount ?? 0) - (a.likeCount ?? 0);
-    if (order === 'most-reposted') return (b.repostCount ?? 0) - (a.repostCount ?? 0);
-    return new Date(b.indexedAt).getTime() - new Date(a.indexedAt).getTime(); // newest
-  });
-
   return (
-    <div className="flex flex-col gap-2.5">
-      {sorted.map(post => (
-        <PostCard key={post.uri} post={post} isNew={newUris.has(post.uri)} slug={slug} />
-      ))}
+    <div ref={listRef} className="flex flex-col gap-2.5">
+      {sorted.map(post => {
+        const showDivider = order === 'oldest' && firstUnreadUri === post.uri;
+        return (
+          <div key={post.uri} data-indexed-at={post.indexedAt} data-post-uri={post.uri}>
+            {showDivider && (
+              <div className="flex items-center gap-3 py-2">
+                <div className="flex-1 h-px bg-[#1a6bbf]/25 dark:bg-[#5a9fd4]/25" />
+                <span className="text-[11px] font-medium text-[#1a6bbf] dark:text-[#5a9fd4] tracking-wide uppercase">
+                  New
+                </span>
+                <div className="flex-1 h-px bg-[#1a6bbf]/25 dark:bg-[#5a9fd4]/25" />
+              </div>
+            )}
+            <PostCard
+              post={post}
+              isNew={newUris.has(post.uri)}
+              slug={slug}
+              videoSegments={videoSegments}
+            />
+          </div>
+        );
+      })}
     </div>
   );
 }

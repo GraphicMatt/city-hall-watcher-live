@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getArchivePosts, getArchiveIndex } from '@/lib/kv';
-import { getImages, formatTime } from '@/lib/bluesky';
+import { getImages, formatTime, getYoutubeTimestampUrl, formatYoutubeOffset } from '@/lib/bluesky';
 import PostCard from '@/components/PostCard';
 
 interface Props {
@@ -54,6 +54,8 @@ export default async function PostPage({ params }: Props) {
   const label = entry?.label ?? slug;
 
   const bskyUrl = `https://bsky.app/profile/${post.author.handle}/post/${postId}`;
+  const videoSegments = entry?.metadata?.videoSegments;
+  const ytResult = videoSegments?.length ? getYoutubeTimestampUrl(post, videoSegments) : null;
 
   return (
     <>
@@ -79,6 +81,16 @@ export default async function PostPage({ params }: Props) {
       <main className="max-w-[640px] mx-auto px-4 py-8 pb-12">
         <PostCard post={post} isNew={false} />
         <div className="mt-4 flex items-center gap-4 text-xs text-[#aaa] dark:text-[#555]">
+          {ytResult && (
+            <a
+              href={ytResult.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-[#c0392b] dark:hover:text-[#f08080] hover:underline transition-colors"
+            >
+              ▶ Watch — {ytResult.segment.label} at {formatYoutubeOffset(ytResult.offsetSeconds)}
+            </a>
+          )}
           <a
             href={bskyUrl}
             target="_blank"

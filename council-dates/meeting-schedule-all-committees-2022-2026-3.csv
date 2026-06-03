@@ -1,0 +1,1447 @@
+_id,Term,Committee,MTG #,Date,Start Time,End Time,Location
+1,2022-2026,Aboriginal Affairs Advisory Committee,1,2024-10-08,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+2,2022-2026,Aboriginal Affairs Advisory Committee,2,2024-11-26,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+3,2022-2026,Aboriginal Affairs Advisory Committee,3,2025-01-30,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+4,2022-2026,Aboriginal Affairs Advisory Committee,4,2025-04-02,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+5,2022-2026,Aboriginal Affairs Advisory Committee,5,2025-04-29,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+6,2022-2026,Aboriginal Affairs Advisory Committee,6,2025-06-10,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+7,2022-2026,Aboriginal Affairs Advisory Committee,7,2025-07-29,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+8,2022-2026,Aboriginal Affairs Advisory Committee,8,2025-09-09,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+9,2022-2026,Aboriginal Affairs Advisory Committee,9,2025-11-06,09:30 AM,18:00 PM,"Toronto Aboriginal Support Services Council, 660 Dundas Street East"
+10,2022-2026,Aboriginal Affairs Advisory Committee,10,2026-02-03,09:30 AM,18:00 PM,"Toronto Aboriginal Support Services Council, 660 Dundas Street East"
+11,2022-2026,Aboriginal Affairs Advisory Committee,11,2026-04-21,09:30 AM,18:00 PM,"Toronto Aboriginal Support Services Council, 660 Dundas Street East"
+12,2022-2026,Aboriginal Affairs Advisory Committee,12,2026-06-03,09:30 AM,18:00 PM,"Toronto Aboriginal Support Services Council, 660 Dundas Street East"
+13,2022-2026,Audit Committee,1,2023-02-13,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+14,2022-2026,Audit Committee,2,2023-07-07,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+15,2022-2026,Audit Committee,3,2023-12-01,09:30 AM,15:30 PM,"Committee Room 1, City Hall/Video Conference"
+16,2022-2026,Audit Committee,4,2024-02-23,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+17,2022-2026,Audit Committee,5,2024-07-05,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+18,2022-2026,Audit Committee,6,2024-10-15,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+19,2022-2026,Audit Committee,7,2024-12-09,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+20,2022-2026,Audit Committee,8,2025-02-12,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+21,2022-2026,Audit Committee,9,2025-07-11,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+22,2022-2026,Audit Committee,10,2025-11-05,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+23,2022-2026,Audit Committee,11,2026-02-12,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+24,2022-2026,Audit Committee,12,2026-05-01,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+25,2022-2026,Audit Committee,13,2026-07-10,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+26,2022-2026,Bid Award Panel,1,2022-11-16,14:00 PM,14:15 PM,Teleconference
+27,2022-2026,Bid Award Panel,2,2022-11-23,14:00 PM,14:15 PM,Teleconference
+28,2022-2026,Bid Award Panel,3,2022-11-30,14:00 PM,14:15 PM,Teleconference
+29,2022-2026,Bid Award Panel,4,2022-12-07,14:00 PM,14:15 PM,Teleconference
+30,2022-2026,Bid Award Panel,5,2022-12-14,14:00 PM,14:15 PM,Teleconference
+31,2022-2026,Bid Award Panel,6,2022-12-21,14:00 PM,14:15 PM,Teleconference
+32,2022-2026,Bid Award Panel,7,2022-12-28,14:00 PM,14:15 PM,Teleconference
+33,2022-2026,Bid Award Panel,8,2023-01-04,14:00 PM,18:00 PM,Video Conference
+34,2022-2026,Bid Award Panel,9,2023-01-11,14:00 PM,18:00 PM,Video Conference
+35,2022-2026,Bid Award Panel,10,2023-01-18,14:00 PM,18:00 PM,Video Conference
+36,2022-2026,Bid Award Panel,11,2023-01-25,14:00 PM,18:00 PM,Video Conference
+37,2022-2026,Bid Award Panel,12,2023-02-01,14:00 PM,18:00 PM,Video Conference
+38,2022-2026,Bid Award Panel,13,2023-02-08,14:00 PM,18:00 PM,Video Conference
+39,2022-2026,Bid Award Panel,14,2023-02-15,14:00 PM,18:00 PM,Video Conference
+40,2022-2026,Bid Award Panel,15,2023-02-22,14:00 PM,18:00 PM,Video Conference
+41,2022-2026,Bid Award Panel,16,2023-03-01,14:00 PM,18:00 PM,Video Conference
+42,2022-2026,Bid Award Panel,17,2023-03-08,14:00 PM,18:00 PM,Video Conference
+43,2022-2026,Bid Award Panel,18,2023-03-15,14:00 PM,18:00 PM,Video Conference
+44,2022-2026,Bid Award Panel,19,2023-03-22,14:00 PM,18:00 PM,Video Conference
+45,2022-2026,Bid Award Panel,20,2023-03-29,14:00 PM,18:00 PM,Video Conference
+46,2022-2026,Bid Award Panel,21,2023-04-05,14:00 PM,18:00 PM,Video Conference
+47,2022-2026,Bid Award Panel,22,2023-04-12,14:00 PM,18:00 PM,Video Conference
+48,2022-2026,Bid Award Panel,23,2023-04-19,14:00 PM,18:00 PM,Video Conference
+49,2022-2026,Bid Award Panel,24,2023-04-26,14:00 PM,18:00 PM,Video Conference
+50,2022-2026,Bid Award Panel,25,2023-05-03,14:00 PM,18:00 PM,Video Conference
+51,2022-2026,Bid Award Panel,26,2023-05-10,14:00 PM,18:00 PM,Video Conference
+52,2022-2026,Bid Award Panel,27,2023-05-17,14:00 PM,18:00 PM,Video Conference
+53,2022-2026,Bid Award Panel,28,2023-05-24,14:00 PM,18:00 PM,Video Conference
+54,2022-2026,Bid Award Panel,29,2023-05-31,14:00 PM,18:00 PM,Video Conference
+55,2022-2026,Bid Award Panel,30,2023-06-07,14:00 PM,18:00 PM,Video Conference
+56,2022-2026,Bid Award Panel,31,2023-06-14,14:00 PM,18:00 PM,Video Conference
+57,2022-2026,Bid Award Panel,32,2023-06-20,14:00 PM,18:00 PM,Video Conference
+58,2022-2026,Bid Award Panel,33,2023-06-28,14:00 PM,18:00 PM,Video Conference
+59,2022-2026,Bid Award Panel,34,2023-07-05,14:00 PM,18:00 PM,Video Conference
+60,2022-2026,Bid Award Panel,35,2023-07-12,14:00 PM,18:00 PM,Video Conference
+61,2022-2026,Bid Award Panel,36,2023-07-19,14:00 PM,18:00 PM,Video Conference
+62,2022-2026,Bid Award Panel,37,2023-07-26,14:00 PM,18:00 PM,Video Conference
+63,2022-2026,Bid Award Panel,38,2023-08-02,14:00 PM,18:00 PM,Video Conference
+64,2022-2026,Bid Award Panel,39,2023-08-09,14:00 PM,18:00 PM,Video Conference
+65,2022-2026,Bid Award Panel,40,2023-08-16,14:00 PM,18:00 PM,Video Conference
+66,2022-2026,Bid Award Panel,41,2023-08-16,14:15 PM,18:00 PM,Teleconference
+67,2022-2026,Bid Award Panel,42,2023-08-23,14:00 PM,18:00 PM,Video Conference
+68,2022-2026,Bid Award Panel,43,2023-08-30,14:00 PM,18:00 PM,Video Conference
+69,2022-2026,Bid Award Panel,44,2023-09-06,14:00 PM,18:00 PM,Video Conference
+70,2022-2026,Bid Award Panel,45,2023-09-13,14:00 PM,18:00 PM,Video Conference
+71,2022-2026,Bid Award Panel,46,2023-09-20,14:00 PM,18:00 PM,Video Conference
+72,2022-2026,Bid Award Panel,47,2023-09-26,14:00 PM,18:00 PM,Video Conference
+73,2022-2026,Bid Award Panel,48,2023-10-04,14:00 PM,18:00 PM,Video Conference
+74,2022-2026,Bid Award Panel,49,2023-10-11,14:00 PM,18:00 PM,Video Conference
+75,2022-2026,Bid Award Panel,50,2023-10-18,14:00 PM,18:00 PM,Video Conference
+76,2022-2026,Bid Award Panel,51,2023-10-25,14:00 PM,18:00 PM,Video Conference
+77,2022-2026,Bid Award Panel,52,2023-11-01,14:00 PM,18:00 PM,Video Conference
+78,2022-2026,Bid Award Panel,53,2023-11-08,14:00 PM,18:00 PM,Video Conference
+79,2022-2026,Bid Award Panel,54,2023-11-15,14:00 PM,18:00 PM,Video Conference
+80,2022-2026,Bid Award Panel,55,2023-11-22,14:00 PM,18:00 PM,Video Conference
+81,2022-2026,Bid Award Panel,56,2023-11-29,14:00 PM,18:00 PM,Video Conference
+82,2022-2026,Bid Award Panel,57,2023-12-06,14:00 PM,18:00 PM,Video Conference
+83,2022-2026,Bid Award Panel,58,2023-12-13,14:00 PM,18:00 PM,Video Conference
+84,2022-2026,Bid Award Panel,59,2023-12-20,14:00 PM,18:00 PM,Video Conference
+85,2022-2026,Bid Award Panel,60,2023-12-27,14:00 PM,18:00 PM,Video Conference
+86,2022-2026,Bid Award Panel,61,2024-01-03,14:00 PM,18:00 PM,Video Conference
+87,2022-2026,Bid Award Panel,62,2024-01-10,14:00 PM,18:00 PM,Video Conference
+88,2022-2026,Bid Award Panel,63,2024-01-17,14:00 PM,18:00 PM,Video Conference
+89,2022-2026,Bid Award Panel,64,2024-01-31,14:00 PM,18:00 PM,Video Conference
+90,2022-2026,Bid Award Panel,65,2024-02-07,14:00 PM,18:00 PM,Video Conference
+91,2022-2026,Bid Award Panel,66,2024-02-14,14:00 PM,18:00 PM,Video Conference
+92,2022-2026,Bid Award Panel,67,2024-02-21,14:00 PM,18:00 PM,Video Conference
+93,2022-2026,Bid Award Panel,68,2024-02-28,14:00 PM,18:00 PM,Video Conference
+94,2022-2026,Bid Award Panel,69,2024-03-06,14:00 PM,18:00 PM,Video Conference
+95,2022-2026,Bid Award Panel,70,2024-03-13,14:00 PM,18:00 PM,Video Conference
+96,2022-2026,Bid Award Panel,71,2024-03-20,14:00 PM,18:00 PM,Video Conference
+97,2022-2026,Bid Award Panel,72,2024-03-27,14:00 PM,18:00 PM,Video Conference
+98,2022-2026,Bid Award Panel,73,2024-04-03,14:00 PM,18:00 PM,Video Conference
+99,2022-2026,Bid Award Panel,74,2024-04-09,14:00 PM,18:00 PM,Video Conference
+100,2022-2026,Bid Award Panel,75,2024-04-17,14:00 PM,18:00 PM,Video Conference
+101,2022-2026,Bid Award Panel,76,2024-04-24,14:00 PM,18:00 PM,Video Conference
+102,2022-2026,Bid Award Panel,77,2024-05-01,14:00 PM,18:00 PM,Video Conference
+103,2022-2026,Bid Award Panel,78,2024-05-08,14:00 PM,18:00 PM,Video Conference
+104,2022-2026,Bid Award Panel,79,2024-05-15,14:00 PM,18:00 PM,Video Conference
+105,2022-2026,Bid Award Panel,80,2024-05-22,14:00 PM,18:00 PM,Video Conference
+106,2022-2026,Bid Award Panel,81,2024-05-29,14:00 PM,18:00 PM,Video Conference
+107,2022-2026,Bid Award Panel,82,2024-06-05,14:00 PM,18:00 PM,Video Conference
+108,2022-2026,Bid Award Panel,83,2024-06-12,14:00 PM,18:00 PM,Video Conference
+109,2022-2026,Bid Award Panel,84,2024-06-19,14:00 PM,18:00 PM,Video Conference
+110,2022-2026,Bid Award Panel,85,2024-06-26,14:00 PM,18:00 PM,Video Conference
+111,2022-2026,Bid Award Panel,86,2024-07-03,14:00 PM,18:00 PM,Video Conference
+112,2022-2026,Bid Award Panel,87,2024-07-10,14:00 PM,18:00 PM,Video Conference
+113,2022-2026,Bid Award Panel,88,2024-07-17,14:00 PM,18:00 PM,Video Conference
+114,2022-2026,Bid Award Panel,89,2024-07-24,14:00 PM,18:00 PM,Video Conference
+115,2022-2026,Bid Award Panel,90,2024-07-31,14:00 PM,18:00 PM,Video Conference
+116,2022-2026,Bid Award Panel,91,2024-08-07,14:00 PM,18:00 PM,Video Conference
+117,2022-2026,Bid Award Panel,92,2024-08-14,14:00 PM,18:00 PM,Video Conference
+118,2022-2026,Bid Award Panel,93,2024-08-21,14:00 PM,18:00 PM,Video Conference
+119,2022-2026,Bid Award Panel,94,2024-08-28,14:00 PM,18:00 PM,Video Conference
+120,2022-2026,Bid Award Panel,95,2024-09-04,14:00 PM,18:00 PM,Video Conference
+121,2022-2026,Bid Award Panel,96,2024-09-11,14:00 PM,18:00 PM,Video Conference
+122,2022-2026,Bid Award Panel,97,2024-09-18,14:00 PM,18:00 PM,Video Conference
+123,2022-2026,Bid Award Panel,98,2024-09-25,14:00 PM,18:00 PM,Video Conference
+124,2022-2026,Bid Award Panel,99,2024-10-02,14:00 PM,18:00 PM,Video Conference
+125,2022-2026,Bid Award Panel,100,2024-10-09,14:00 PM,18:00 PM,Video Conference
+126,2022-2026,Bid Award Panel,101,2024-10-09,14:30 PM,18:00 PM,Teleconference
+127,2022-2026,Bid Award Panel,102,2024-10-16,14:00 PM,18:00 PM,Video Conference
+128,2022-2026,Bid Award Panel,103,2024-10-23,14:00 PM,18:00 PM,Video Conference
+129,2022-2026,Bid Award Panel,104,2024-10-30,14:00 PM,18:00 PM,Video Conference
+130,2022-2026,Bid Award Panel,105,2024-11-06,14:00 PM,18:00 PM,Video Conference
+131,2022-2026,Bid Award Panel,106,2024-11-13,14:00 PM,18:00 PM,Video Conference
+132,2022-2026,Bid Award Panel,107,2024-11-20,14:00 PM,18:00 PM,Video Conference
+133,2022-2026,Bid Award Panel,108,2024-11-27,14:00 PM,18:00 PM,Video Conference
+134,2022-2026,Bid Award Panel,109,2024-12-04,14:00 PM,18:00 PM,Video Conference
+135,2022-2026,Bid Award Panel,110,2024-12-11,14:00 PM,18:00 PM,Video Conference
+136,2022-2026,Bid Award Panel,111,2024-12-18,14:00 PM,18:00 PM,Video Conference
+137,2022-2026,Bid Award Panel,112,2024-12-23,14:00 PM,18:00 PM,Video Conference
+138,2022-2026,Bid Award Panel,113,2024-12-31,14:00 PM,18:00 PM,Video Conference
+139,2022-2026,Bid Award Panel,114,2025-01-08,14:00 PM,18:00 PM,Video Conference
+140,2022-2026,Bid Award Panel,115,2025-01-15,14:00 PM,18:00 PM,Video Conference
+141,2022-2026,Bid Award Panel,116,2025-01-22,14:00 PM,18:00 PM,Video Conference
+142,2022-2026,Bid Award Panel,117,2025-01-28,14:00 PM,18:00 PM,Video Conference
+143,2022-2026,Bid Award Panel,118,2025-02-05,14:00 PM,18:00 PM,Video Conference
+144,2022-2026,Bid Award Panel,119,2025-02-12,14:00 PM,18:00 PM,Video Conference
+145,2022-2026,Bid Award Panel,120,2025-02-19,14:00 PM,18:00 PM,Video Conference
+146,2022-2026,Bid Award Panel,121,2025-02-26,14:00 PM,18:00 PM,Video Conference
+147,2022-2026,Bid Award Panel,122,2025-03-05,14:00 PM,18:00 PM,Video Conference
+148,2022-2026,Bid Award Panel,123,2025-03-12,14:00 PM,18:00 PM,Video Conference
+149,2022-2026,Bid Award Panel,124,2025-03-19,14:00 PM,18:00 PM,Video Conference
+150,2022-2026,Bid Award Panel,125,2025-03-26,14:00 PM,18:00 PM,Video Conference
+151,2022-2026,Bid Award Panel,126,2025-04-02,14:00 PM,18:00 PM,Video Conference
+152,2022-2026,Bid Award Panel,127,2025-04-09,14:00 PM,18:00 PM,Video Conference
+153,2022-2026,Bid Award Panel,128,2025-04-16,14:00 PM,18:00 PM,Video Conference
+154,2022-2026,Bid Award Panel,129,2025-04-23,14:00 PM,18:00 PM,Video Conference
+155,2022-2026,Bid Award Panel,130,2025-04-30,14:00 PM,18:00 PM,Video Conference
+156,2022-2026,Bid Award Panel,131,2025-05-07,14:00 PM,18:00 PM,Video Conference
+157,2022-2026,Bid Award Panel,132,2025-05-14,14:00 PM,18:00 PM,Video Conference
+158,2022-2026,Bid Award Panel,133,2025-05-21,14:00 PM,18:00 PM,Video Conference
+159,2022-2026,Bid Award Panel,134,2025-05-28,14:00 PM,18:00 PM,Video Conference
+160,2022-2026,Bid Award Panel,135,2025-06-04,14:00 PM,18:00 PM,Video Conference
+161,2022-2026,Bid Award Panel,136,2025-06-11,14:00 PM,18:00 PM,Video Conference
+162,2022-2026,Bid Award Panel,137,2025-06-18,14:00 PM,18:00 PM,Video Conference
+163,2022-2026,Bid Award Panel,138,2025-06-25,14:00 PM,18:00 PM,Video Conference
+164,2022-2026,Bid Award Panel,139,2025-07-02,14:00 PM,18:00 PM,Video Conference
+165,2022-2026,Bid Award Panel,140,2025-07-09,14:00 PM,18:00 PM,Video Conference
+166,2022-2026,Bid Award Panel,141,2025-07-16,14:00 PM,18:00 PM,Video Conference
+167,2022-2026,Bid Award Panel,142,2025-07-23,14:00 PM,18:00 PM,Video Conference
+168,2022-2026,Bid Award Panel,143,2025-07-30,14:00 PM,18:00 PM,Video Conference
+169,2022-2026,Bid Award Panel,144,2025-08-06,14:00 PM,18:00 PM,Video Conference
+170,2022-2026,Bid Award Panel,145,2025-08-13,14:00 PM,18:00 PM,Video Conference
+171,2022-2026,Bid Award Panel,146,2025-08-20,14:00 PM,18:00 PM,Video Conference
+172,2022-2026,Bid Award Panel,147,2025-08-27,14:00 PM,18:00 PM,Video Conference
+173,2022-2026,Bid Award Panel,148,2025-09-03,14:00 PM,18:00 PM,Video Conference
+174,2022-2026,Bid Award Panel,149,2025-09-10,14:00 PM,18:00 PM,Video Conference
+175,2022-2026,Bid Award Panel,150,2025-09-17,14:00 PM,18:00 PM,Video Conference
+176,2022-2026,Bid Award Panel,151,2025-09-25,14:00 PM,18:00 PM,Video Conference
+177,2022-2026,Board of Health,1,2023-01-16,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+178,2022-2026,Board of Health,2,2023-02-21,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+179,2022-2026,Board of Health,3,2023-04-17,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+180,2022-2026,Board of Health,4,2023-05-29,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+181,2022-2026,Board of Health,5,2023-07-04,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+182,2022-2026,Board of Health,6,2023-09-11,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+183,2022-2026,Board of Health,7,2023-10-23,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+184,2022-2026,Board of Health,8,2023-11-27,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+185,2022-2026,Board of Health,9,2024-01-15,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+186,2022-2026,Board of Health,10,2024-02-12,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+187,2022-2026,Board of Health,11,2024-03-25,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+188,2022-2026,Board of Health,12,2024-04-29,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+189,2022-2026,Board of Health,13,2024-05-27,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+190,2022-2026,Board of Health,14,2024-07-08,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+191,2022-2026,Board of Health,15,2024-07-09,13:30 PM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+192,2022-2026,Board of Health,16,2024-09-09,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+193,2022-2026,Board of Health,17,2024-10-21,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+194,2022-2026,Board of Health,18,2024-11-18,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+195,2022-2026,Board of Health,19,2024-12-09,09:30 AM,18:00 PM,Video Conference
+196,2022-2026,Board of Health,20,2024-12-19,13:00 PM,18:00 PM,Video Conference
+197,2022-2026,Board of Health,21,2025-01-20,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+198,2022-2026,Board of Health,22,2025-02-10,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+199,2022-2026,Board of Health,23,2025-04-01,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+200,2022-2026,Board of Health,24,2025-05-05,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+201,2022-2026,Board of Health,25,2025-06-03,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+202,2022-2026,Board of Health,26,2025-07-07,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+203,2022-2026,Board of Health,27,2025-09-15,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+204,2022-2026,Board of Health,28,2025-10-27,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+205,2022-2026,Board of Health,29,2025-11-24,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+206,2022-2026,Board of Health,30,2026-02-23,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+207,2022-2026,Board of Health,31,2026-03-30,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+208,2022-2026,Board of Health,32,2026-05-04,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+209,2022-2026,Board of Health,33,2026-06-01,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+210,2022-2026,Board of Health,34,2026-07-13,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+211,2022-2026,Board of Health - Budget Committee,1,2023-07-25,13:30 PM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+212,2022-2026,Board of Health - Budget Committee,2,2023-10-04,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+213,2022-2026,Board of Health - Budget Committee,3,2024-07-23,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+214,2022-2026,Board of Health - Budget Committee,4,2025-07-07,14:30 PM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+215,2022-2026,Board of Health - Performance Appraisal of the Medical Officer of Health,1,2023-06-27,14:00 PM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+216,2022-2026,Board of Health - Performance Appraisal of the Medical Officer of Health,2,2024-05-21,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+217,2022-2026,Board of Health - Performance Appraisal of the Medical Officer of Health,3,2025-04-07,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+218,2022-2026,Board of Health - Performance Appraisal of the Medical Officer of Health,4,2026-03-06,13:00 PM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+219,2022-2026,Board of Health - Strategic Plan Development Committee,1,2024-01-15,14:00 PM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+220,2022-2026,Board of Health - Strategic Plan Development Committee,2,2024-02-05,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+221,2022-2026,Board of Health - Strategic Plan Development Committee,3,2024-04-24,10:00 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+222,2022-2026,Board of Health - Strategic Plan Development Committee,4,2024-06-04,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+223,2022-2026,Budget Committee,1,2023-01-10,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+224,2022-2026,Budget Committee,2,2023-01-13,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+225,2022-2026,Budget Committee,2,2023-01-12,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+226,2022-2026,Budget Committee,3,2023-01-24,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+227,2022-2026,Budget Committee,4,2024-01-10,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+228,2022-2026,Budget Committee,5,2024-01-17,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+229,2022-2026,Budget Committee,5,2024-01-16,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+230,2022-2026,Budget Committee,5,2024-01-18,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+231,2022-2026,Budget Committee,6,2024-01-26,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+232,2022-2026,Budget Committee,7,2025-01-13,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+233,2022-2026,Budget Committee,8,2025-01-17,09:30 AM,16:00 PM,"Committee Room 1, City Hall/Video Conference"
+234,2022-2026,Budget Committee,8,2025-01-15,09:30 AM,16:00 PM,"Committee Room 1, City Hall/Video Conference"
+235,2022-2026,Budget Committee,8,2025-01-16,09:30 AM,16:00 PM,"Committee Room 1, City Hall/Video Conference"
+236,2022-2026,Budget Committee,9,2025-01-24,09:30 AM,16:00 PM,"Committee Room 1, City Hall/Video Conference"
+237,2022-2026,Budget Committee,10,2026-01-08,11:00 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+238,2022-2026,Budget Committee,11,2026-01-16,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+239,2022-2026,Budget Committee,11,2026-01-14,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+240,2022-2026,Budget Committee,11,2026-01-15,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+241,2022-2026,Budget Committee,12,2026-01-23,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+242,2022-2026,Budget Subcommittee at City Hall  ,1,2023-01-17,09:30 AM,13:30 PM,"Committee Room 1, City Hall/Video Conference"
+243,2022-2026,Budget Subcommittee at City Hall  ,2,2023-01-17,13:30 PM,16:30 PM,"Committee Room 1, City Hall/Video Conference"
+244,2022-2026,Budget Subcommittee at City Hall  ,3,2023-01-17,18:00 PM,22:00 PM,"Committee Room 1, City Hall/Video Conference"
+245,2022-2026,Budget Subcommittee at City Hall  ,4,2024-01-22,09:30 AM,12:30 PM,"Committee Room 1, City Hall/Video Conference"
+246,2022-2026,Budget Subcommittee at City Hall  ,5,2024-01-22,13:30 PM,16:30 PM,"Committee Room 1, City Hall/Video Conference"
+247,2022-2026,Budget Subcommittee at City Hall  ,6,2024-01-22,18:00 PM,21:30 PM,"Committee Room 1, City Hall/Video Conference"
+248,2022-2026,Budget Subcommittee at City Hall  ,7,2025-01-21,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+249,2022-2026,Budget Subcommittee at City Hall  ,8,2025-01-21,13:30 PM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+250,2022-2026,Budget Subcommittee at City Hall  ,9,2025-01-21,18:00 PM,21:00 PM,"Committee Room 1, City Hall/Video Conference"
+251,2022-2026,Budget Subcommittee at City Hall  ,10,2026-01-20,09:30 AM,12:30 PM,"Committee Room 1, City Hall/Video Conference"
+252,2022-2026,Budget Subcommittee at City Hall  ,11,2026-01-20,13:30 PM,16:30 PM,"Committee Room 1, City Hall/Video Conference"
+253,2022-2026,Budget Subcommittee at City Hall  ,12,2026-01-20,18:00 PM,21:00 PM,"Committee Room 1, City Hall/Video Conference"
+254,2022-2026,Budget Subcommittee at Etobicoke Civic Centre,1,2023-01-18,13:30 PM,16:30 PM,"Council Chamber, Etobicoke Civic Centre/Video Conference"
+255,2022-2026,Budget Subcommittee at Etobicoke Civic Centre,2,2023-01-18,18:00 PM,22:00 PM,"Council Chamber, Etobicoke Civic Centre/Video Conference"
+256,2022-2026,Budget Subcommittee at Etobicoke Civic Centre,3,2024-01-23,13:30 PM,16:30 PM,"Council Chamber, Etobicoke Civic Centre/Video Conference"
+257,2022-2026,Budget Subcommittee at Etobicoke Civic Centre,4,2024-01-23,18:00 PM,21:30 PM,"Council Chamber, Etobicoke Civic Centre/Video Conference"
+258,2022-2026,Budget Subcommittee at Etobicoke Civic Centre,5,2025-01-22,09:30 AM,12:30 PM,"Council Chamber, Etobicoke Civic Centre/Video Conference"
+259,2022-2026,Budget Subcommittee at Etobicoke Civic Centre,6,2025-01-22,13:30 PM,16:30 PM,"Council Chamber, Etobicoke Civic Centre/Video Conference"
+260,2022-2026,Budget Subcommittee at Etobicoke Civic Centre,7,2025-01-22,18:00 PM,22:00 PM,"Council Chamber, Etobicoke Civic Centre/Video Conference"
+261,2022-2026,Budget Subcommittee at Etobicoke Civic Centre,8,2026-01-21,09:30 AM,12:30 PM,"Council Chamber, Etobicoke Civic Centre/Video Conference"
+262,2022-2026,Budget Subcommittee at Etobicoke Civic Centre,9,2026-01-21,13:30 PM,16:30 PM,"Council Chamber, Etobicoke Civic Centre/Video Conference"
+263,2022-2026,Budget Subcommittee at Etobicoke Civic Centre,10,2026-01-21,18:00 PM,21:00 PM,"Council Chamber, Etobicoke Civic Centre/Video Conference"
+264,2022-2026,Budget Subcommittee at North York Civic Centre,1,2023-01-17,13:30 PM,16:30 PM,"Council Chamber, North York Civic Centre/Video Conference"
+265,2022-2026,Budget Subcommittee at North York Civic Centre,2,2023-01-17,18:00 PM,22:00 PM,"Council Chamber, North York Civic Centre/Video Conference"
+266,2022-2026,Budget Subcommittee at North York Civic Centre,3,2024-01-23,13:30 PM,16:30 PM,"Council Chamber, North York Civic Centre/Video Conference"
+267,2022-2026,Budget Subcommittee at North York Civic Centre,4,2024-01-23,18:00 PM,21:30 PM,"Council Chamber, North York Civic Centre/Video Conference"
+268,2022-2026,Budget Subcommittee at North York Civic Centre,5,2025-01-22,09:30 AM,12:30 PM,"Council Chamber, North York Civic Centre/Video Conference"
+269,2022-2026,Budget Subcommittee at North York Civic Centre,6,2025-01-22,13:30 PM,16:30 PM,"Council Chamber, North York Civic Centre/Video Conference"
+270,2022-2026,Budget Subcommittee at North York Civic Centre,7,2025-01-22,18:00 PM,22:00 PM,"Council Chamber, North York Civic Centre/Video Conference"
+271,2022-2026,Budget Subcommittee at North York Civic Centre,8,2026-01-20,09:30 AM,12:30 PM,"Council Chamber, North York Civic Centre/Video Conference"
+272,2022-2026,Budget Subcommittee at North York Civic Centre,9,2026-01-20,13:30 PM,16:30 PM,"Council Chamber, North York Civic Centre/Video Conference"
+273,2022-2026,Budget Subcommittee at North York Civic Centre,10,2026-01-20,18:00 PM,21:00 PM,"Council Chamber, North York Civic Centre/Video Conference"
+274,2022-2026,Budget Subcommittee at Scarborough Civic Centre,1,2023-01-18,13:30 PM,16:30 PM,"Council Chamber, Scarborough Civic Centre/Video Conference"
+275,2022-2026,Budget Subcommittee at Scarborough Civic Centre,2,2023-01-18,18:00 PM,22:00 PM,"Council Chamber, Scarborough Civic Centre/Video Conference"
+276,2022-2026,Budget Subcommittee at Scarborough Civic Centre,3,2024-01-22,13:30 PM,16:30 PM,"Council Chamber, Scarborough Civic Centre/Video Conference"
+277,2022-2026,Budget Subcommittee at Scarborough Civic Centre,4,2024-01-22,18:00 PM,21:30 PM,"Council Chamber, Scarborough Civic Centre/Video Conference"
+278,2022-2026,Budget Subcommittee at Scarborough Civic Centre,5,2025-01-21,09:30 AM,18:00 PM,"Council Chamber, Scarborough Civic Centre/Video Conference"
+279,2022-2026,Budget Subcommittee at Scarborough Civic Centre,6,2025-01-21,13:30 PM,18:00 PM,"Council Chamber, Scarborough Civic Centre/Video Conference"
+280,2022-2026,Budget Subcommittee at Scarborough Civic Centre,7,2025-01-21,18:00 PM,21:00 PM,"Council Chamber, Scarborough Civic Centre/Video Conference"
+281,2022-2026,Budget Subcommittee at Scarborough Civic Centre,8,2026-01-21,09:30 AM,12:30 PM,"Council Chamber, Scarborough Civic Centre/Video Conference"
+282,2022-2026,Budget Subcommittee at Scarborough Civic Centre,9,2026-01-21,13:30 PM,16:30 PM,"Council Chamber, Scarborough Civic Centre/Video Conference"
+283,2022-2026,Budget Subcommittee at Scarborough Civic Centre,10,2026-01-21,18:00 PM,21:00 PM,"Council Chamber, Scarborough Civic Centre/Video Conference"
+284,2022-2026,City Council,1,2022-11-23,14:00 PM,20:00 PM,"Council Chamber, City Hall/Video Conference"
+285,2022-2026,City Council,1,2022-11-24,12:00 PM,20:00 PM,"Council Chamber, City Hall/Video Conference"
+286,2022-2026,City Council,2,2022-12-15,09:30 AM,20:00 PM,"Council Chamber, City Hall/Video Conference"
+287,2022-2026,City Council,2,2022-12-14,09:30 AM,20:00 PM,"Council Chamber, City Hall/Video Conference"
+288,2022-2026,City Council,3,2023-02-07,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+289,2022-2026,City Council,3,2023-02-08,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+290,2022-2026,City Council,4,2023-02-15,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+291,2022-2026,City Council,5,2023-03-29,09:30 AM,20:00 PM,"Council Chamber, City Hall/Video Conference"
+292,2022-2026,City Council,5,2023-03-31,09:30 AM,20:00 PM,"Council Chamber, City Hall/Video Conference"
+293,2022-2026,City Council,5,2023-03-30,09:30 AM,20:00 PM,"Council Chamber, City Hall/Video Conference"
+294,2022-2026,City Council,6,2023-05-10,09:30 AM,20:00 PM,"Council Chamber, City Hall/Video Conference"
+295,2022-2026,City Council,6,2023-05-11,09:30 AM,20:00 PM,"Council Chamber, City Hall/Video Conference"
+296,2022-2026,City Council,6,2023-05-12,09:30 AM,20:00 PM,"Council Chamber, City Hall/Video Conference"
+297,2022-2026,City Council,7,2023-06-14,09:30 AM,20:00 PM,"Council Chamber, City Hall/Video Conference"
+298,2022-2026,City Council,7,2023-06-15,09:30 AM,20:00 PM,"Council Chamber, City Hall/Video Conference"
+299,2022-2026,City Council,8,2023-07-19,09:30 AM,20:00 PM,"Council Chamber, City Hall/Video Conference"
+300,2022-2026,City Council,8,2023-07-20,09:30 AM,20:00 PM,"Council Chamber, City Hall/Video Conference"
+301,2022-2026,City Council,9,2023-08-10,14:00 PM,20:00 PM,"Committee Room 1, City Hall/Video Conference"
+302,2022-2026,City Council,10,2023-09-06,09:30 AM,20:00 PM,"Council Chamber, City Hall/Video Conference"
+303,2022-2026,City Council,11,2023-10-11,09:30 AM,20:00 PM,"Council Chamber, City Hall/Video Conference"
+304,2022-2026,City Council,11,2023-10-12,09:30 AM,20:00 PM,"Council Chamber, City Hall/Video Conference"
+305,2022-2026,City Council,12,2023-11-08,09:30 AM,20:00 PM,"Council Chamber, City Hall/Video Conference"
+306,2022-2026,City Council,12,2023-11-09,09:30 AM,20:00 PM,"Council Chamber, City Hall/Video Conference"
+307,2022-2026,City Council,13,2023-12-13,09:30 AM,20:00 PM,"Council Chamber, City Hall/Video Conference"
+308,2022-2026,City Council,13,2023-12-15,09:30 AM,20:00 PM,"Council Chamber, City Hall/Video Conference"
+309,2022-2026,City Council,13,2023-12-14,09:30 AM,20:00 PM,"Council Chamber, City Hall/Video Conference"
+310,2022-2026,City Council,14,2024-02-07,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+311,2022-2026,City Council,14,2024-02-06,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+312,2022-2026,City Council,15,2024-02-14,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+313,2022-2026,City Council,16,2024-03-20,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+314,2022-2026,City Council,16,2024-03-21,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+315,2022-2026,City Council,17,2024-04-17,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+316,2022-2026,City Council,17,2024-04-18,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+317,2022-2026,City Council,18,2024-05-22,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+318,2022-2026,City Council,18,2024-05-23,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+319,2022-2026,City Council,19,2024-06-27,09:30 AM,18:30 PM,"Council Chamber, City Hall/Video Conference"
+320,2022-2026,City Council,19,2024-06-26,09:30 AM,18:30 PM,"Council Chamber, City Hall/Video Conference"
+321,2022-2026,City Council,20,2024-07-24,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+322,2022-2026,City Council,20,2024-07-25,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+323,2022-2026,City Council,21,2024-09-05,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+324,2022-2026,City Council,22,2024-10-09,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+325,2022-2026,City Council,22,2024-10-10,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+326,2022-2026,City Council,23,2024-11-14,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+327,2022-2026,City Council,23,2024-11-13,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+328,2022-2026,City Council,24,2024-12-18,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+329,2022-2026,City Council,24,2024-12-17,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+330,2022-2026,City Council,25,2024-12-20,09:00 AM,20:00 PM,"Council Chamber, City Hall/Video Conference"
+331,2022-2026,City Council,26,2025-02-05,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+332,2022-2026,City Council,27,2025-02-11,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+333,2022-2026,City Council,28,2025-03-26,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+334,2022-2026,City Council,28,2025-03-27,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+335,2022-2026,City Council,29,2025-04-23,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+336,2022-2026,City Council,29,2025-04-24,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+337,2022-2026,City Council,30,2025-05-22,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+338,2022-2026,City Council,30,2025-05-21,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+339,2022-2026,City Council,31,2025-06-25,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+340,2022-2026,City Council,31,2025-06-26,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+341,2022-2026,City Council,32,2025-07-24,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+342,2022-2026,City Council,32,2025-07-23,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+343,2022-2026,City Council,33,2025-10-08,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+344,2022-2026,City Council,33,2025-10-09,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+345,2022-2026,City Council,34,2025-11-12,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+346,2022-2026,City Council,34,2025-11-13,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+347,2022-2026,City Council,35,2025-12-16,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+348,2022-2026,City Council,35,2025-12-17,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+349,2022-2026,City Council,36,2026-02-04,09:30 AM,20:00 PM,"Council Chamber, City Hall/Video Conference"
+350,2022-2026,City Council,37,2026-02-04,14:00 PM,20:00 PM,"Council Chamber, City Hall/Video Conference"
+351,2022-2026,City Council,38,2026-02-10,09:30 AM,20:00 PM,"Council Chamber, City Hall/Video Conference"
+352,2022-2026,City Council,39,2026-03-25,09:30 AM,20:00 PM,"Council Chamber, City Hall/Video Conference"
+353,2022-2026,City Council,39,2026-03-26,09:30 AM,20:00 PM,"Council Chamber, City Hall/Video Conference"
+354,2022-2026,City Council,40,2026-04-23,09:30 AM,20:00 PM,"Council Chamber, City Hall/Video Conference"
+355,2022-2026,City Council,40,2026-04-22,09:30 AM,20:00 PM,"Council Chamber, City Hall/Video Conference"
+356,2022-2026,City Council,41,2026-05-22,09:30 AM,20:00 PM,"Council Chamber, City Hall/Video Conference"
+357,2022-2026,City Council,41,2026-05-20,09:30 AM,20:00 PM,"Council Chamber, City Hall/Video Conference"
+358,2022-2026,City Council,41,2026-05-21,09:30 AM,20:00 PM,"Council Chamber, City Hall/Video Conference"
+359,2022-2026,City Council,42,2026-06-26,09:30 AM,20:00 PM,"Council Chamber, City Hall/Video Conference"
+360,2022-2026,City Council,42,2026-06-24,09:30 AM,20:00 PM,"Council Chamber, City Hall/Video Conference"
+361,2022-2026,City Council,42,2026-06-25,09:30 AM,20:00 PM,"Council Chamber, City Hall/Video Conference"
+362,2022-2026,City Council,43,2026-07-30,09:30 AM,20:00 PM,"Council Chamber, City Hall/Video Conference"
+363,2022-2026,City Council,43,2026-07-29,09:30 AM,20:00 PM,"Council Chamber, City Hall/Video Conference"
+364,2022-2026,City Council,43,2026-07-31,09:30 AM,20:00 PM,"Council Chamber, City Hall/Video Conference"
+365,2022-2026,City Council,44,2026-09-16,09:30 AM,20:00 PM,"Council Chamber, City Hall/Video Conference"
+366,2022-2026,City-School Boards Advisory Committee,1,2024-03-04,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+367,2022-2026,City-School Boards Advisory Committee,2,2024-06-18,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+368,2022-2026,City-School Boards Advisory Committee,3,2024-10-21,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+369,2022-2026,City-School Boards Advisory Committee,4,2025-02-26,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+370,2022-2026,City-School Boards Advisory Committee,5,2025-06-12,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+371,2022-2026,Civic Appointments Committee,1,2023-01-05,09:30 AM,18:00 PM,Video Conference
+372,2022-2026,Civic Appointments Committee,2,2023-02-01,08:45 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+373,2022-2026,Civic Appointments Committee,3,2023-02-21,09:30 AM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+374,2022-2026,Civic Appointments Committee,4,2023-03-06,09:30 AM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+375,2022-2026,Civic Appointments Committee,5,2023-04-19,09:30 AM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+376,2022-2026,Civic Appointments Committee,6,2023-05-30,09:30 AM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+377,2022-2026,Civic Appointments Committee,7,2023-07-06,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+378,2022-2026,Civic Appointments Committee,8,2023-10-05,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+379,2022-2026,Civic Appointments Committee,9,2023-11-13,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+380,2022-2026,Civic Appointments Committee,10,2023-12-04,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+381,2022-2026,Civic Appointments Committee,11,2023-12-11,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+382,2022-2026,Civic Appointments Committee,12,2024-01-12,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+383,2022-2026,Civic Appointments Committee,13,2024-02-02,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+384,2022-2026,Civic Appointments Committee,14,2024-03-04,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+385,2022-2026,Civic Appointments Committee,15,2024-04-12,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+386,2022-2026,Civic Appointments Committee,16,2024-05-10,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+387,2022-2026,Civic Appointments Committee,17,2024-07-18,14:00 PM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+388,2022-2026,Civic Appointments Committee,18,2024-09-27,09:30 AM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+389,2022-2026,Civic Appointments Committee,19,2024-10-22,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+390,2022-2026,Civic Appointments Committee,20,2024-11-21,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+391,2022-2026,Civic Appointments Committee,21,2024-12-13,09:30 AM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+392,2022-2026,Civic Appointments Committee,22,2025-02-14,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+393,2022-2026,Civic Appointments Committee,23,2025-03-17,11:00 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+394,2022-2026,Civic Appointments Committee,24,2025-04-11,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+395,2022-2026,Civic Appointments Committee,25,2025-05-02,09:30 AM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+396,2022-2026,Civic Appointments Committee,26,2025-06-09,09:30 AM,18:00 PM,"Committee Room 3, City Hall"
+397,2022-2026,Civic Appointments Committee,27,2025-06-30,09:30 AM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+398,2022-2026,Civic Appointments Committee,28,2025-07-21,09:30 AM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+399,2022-2026,Civic Appointments Committee,29,2025-09-04,09:30 AM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+400,2022-2026,Civic Appointments Committee,30,2025-10-17,09:30 AM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+401,2022-2026,Civic Appointments Committee,31,2025-11-21,09:30 AM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+402,2022-2026,Civic Appointments Committee,32,2026-01-30,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+403,2022-2026,Civic Appointments Committee,33,2026-02-27,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+404,2022-2026,Civic Appointments Committee,34,2026-04-17,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+405,2022-2026,Civic Appointments Committee,35,2026-05-15,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+406,2022-2026,Civic Appointments Committee,36,2026-06-08,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+407,2022-2026,Civic Appointments Committee,37,2026-06-30,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+408,2022-2026,Civic Appointments Committee,38,2026-07-17,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+409,2022-2026,Compliance Audit Committee,1,2023-05-10,09:30 AM,18:00 PM,Video Conference
+410,2022-2026,Compliance Audit Committee,2,2023-07-13,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+411,2022-2026,Compliance Audit Committee,3,2023-07-19,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+412,2022-2026,Compliance Audit Committee,4,2023-07-24,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+413,2022-2026,Compliance Audit Committee,5,2023-11-10,13:30 PM,18:00 PM,Video Conference
+414,2022-2026,Compliance Audit Committee,6,2024-02-28,09:00 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+415,2022-2026,Compliance Audit Committee,7,2024-03-05,09:00 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+416,2022-2026,Compliance Audit Committee,8,2024-03-22,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+417,2022-2026,Compliance Audit Committee,9,2024-07-03,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+418,2022-2026,Compliance Audit Committee,10,2024-07-29,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+419,2022-2026,Compliance Audit Committee,11,2024-09-25,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+420,2022-2026,Compliance Audit Committee,12,2024-10-07,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+421,2022-2026,Compliance Audit Committee,13,2024-11-12,13:00 PM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+422,2022-2026,Compliance Audit Committee,14,2024-12-13,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+423,2022-2026,Compliance Audit Committee,15,2025-02-27,09:30 AM,12:00 PM,"Committee Room 2, City Hall/Video Conference"
+424,2022-2026,Confronting Anti-Black Racism Advisory Committee,1,2023-10-25,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+425,2022-2026,Confronting Anti-Black Racism Advisory Committee,2,2024-02-09,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+426,2022-2026,Confronting Anti-Black Racism Advisory Committee,3,2024-05-15,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+427,2022-2026,Confronting Anti-Black Racism Advisory Committee,4,2024-09-04,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+428,2022-2026,Confronting Anti-Black Racism Advisory Committee,5,2025-02-13,09:30 AM,18:00 PM,Video Conference
+429,2022-2026,Confronting Anti-Black Racism Advisory Committee,6,2025-06-09,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+430,2022-2026,Confronting Anti-Black Racism Advisory Committee,7,2025-09-03,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+431,2022-2026,Confronting Anti-Black Racism Advisory Committee,8,2025-11-25,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+432,2022-2026,Confronting Anti-Black Racism Advisory Committee,9,2026-03-23,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+433,2022-2026,Confronting Anti-Black Racism Advisory Committee,10,2026-05-28,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+434,2022-2026,Corporations Nominating Panel,1,2023-03-10,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+435,2022-2026,Corporations Nominating Panel,2,2023-03-20,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+436,2022-2026,Corporations Nominating Panel,3,2023-04-24,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+437,2022-2026,Corporations Nominating Panel,4,2023-05-17,09:30 AM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+438,2022-2026,Corporations Nominating Panel,5,2023-06-02,09:30 AM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+439,2022-2026,Corporations Nominating Panel,6,2024-02-09,15:00 PM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+440,2022-2026,Corporations Nominating Panel,7,2024-02-26,09:30 AM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+441,2022-2026,Corporations Nominating Panel,8,2024-05-15,09:30 AM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+442,2022-2026,Corporations Nominating Panel,9,2024-06-10,12:00 PM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+443,2022-2026,Corporations Nominating Panel,9,2024-06-14,09:30 AM,18:00 PM,Video Conference
+444,2022-2026,Corporations Nominating Panel,9,2024-06-12,11:00 AM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+445,2022-2026,Corporations Nominating Panel,10,2024-07-15,13:00 PM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+446,2022-2026,Corporations Nominating Panel,11,2024-10-07,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+447,2022-2026,Corporations Nominating Panel,12,2024-10-25,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+448,2022-2026,Corporations Nominating Panel,13,2024-11-21,09:30 AM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+449,2022-2026,Corporations Nominating Panel,14,2024-11-25,12:00 PM,18:00 PM,Video Conference
+450,2022-2026,Corporations Nominating Panel,15,2024-12-06,09:00 AM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+451,2022-2026,Corporations Nominating Panel,16,2025-04-29,09:30 AM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+452,2022-2026,Corporations Nominating Panel,17,2025-05-29,11:00 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+453,2022-2026,Corporations Nominating Panel,18,2025-06-13,09:30 AM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+454,2022-2026,Corporations Nominating Panel,19,2025-06-23,09:00 AM,18:00 PM,Video Conference
+455,2022-2026,Corporations Nominating Panel,20,2025-07-07,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+456,2022-2026,Corporations Nominating Panel,21,2025-09-02,14:00 PM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+457,2022-2026,Corporations Nominating Panel,22,2025-09-22,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+458,2022-2026,Corporations Nominating Panel,23,2025-10-31,13:30 PM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+459,2022-2026,Corporations Nominating Panel,24,2025-11-17,13:00 PM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+460,2022-2026,Corporations Nominating Panel,25,2025-11-25,09:00 AM,18:00 PM,Video Conference
+461,2022-2026,Corporations Nominating Panel,26,2025-12-03,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+462,2022-2026,Corporations Nominating Panel,27,2025-12-08,09:30 AM,18:00 PM,Video Conference
+463,2022-2026,Corporations Nominating Panel,28,2026-04-08,15:00 PM,18:00 PM,Video Conference
+464,2022-2026,CreateTO,1,2022-11-18,09:30 AM,18:00 PM,Video Conference
+465,2022-2026,CreateTO,2,2023-02-06,13:30 PM,18:00 PM,Video Conference
+466,2022-2026,CreateTO,3,2023-03-27,13:30 PM,18:00 PM,Video Conference
+467,2022-2026,CreateTO,4,2023-04-24,14:00 PM,18:00 PM,Video Conference
+468,2022-2026,CreateTO,5,2023-06-20,13:30 PM,18:00 PM,Video Conference
+469,2022-2026,CreateTO,6,2023-07-25,13:30 PM,18:00 PM,Video Conference
+470,2022-2026,CreateTO,7,2023-10-05,13:30 PM,18:00 PM,Video Conference
+471,2022-2026,CreateTO,8,2023-11-14,13:30 PM,18:00 PM,Video Conference
+472,2022-2026,CreateTO,9,2024-02-16,09:30 AM,18:00 PM,Video Conference
+473,2022-2026,CreateTO,10,2024-03-08,13:30 PM,18:00 PM,Video Conference
+474,2022-2026,CreateTO,11,2024-04-22,14:30 PM,18:00 PM,Video Conference
+475,2022-2026,CreateTO,12,2024-06-19,13:30 PM,18:00 PM,Video Conference
+476,2022-2026,CreateTO,13,2024-09-10,13:30 PM,18:00 PM,Video Conference
+477,2022-2026,CreateTO,14,2024-10-29,13:30 PM,18:00 PM,Video Conference
+478,2022-2026,CreateTO,15,2024-11-28,13:30 PM,18:00 PM,Video Conference
+479,2022-2026,CreateTO,16,2025-01-30,13:30 PM,18:00 PM,Video Conference
+480,2022-2026,CreateTO,17,2025-03-03,13:30 PM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+481,2022-2026,CreateTO,18,2025-04-22,13:30 PM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+482,2022-2026,CreateTO,19,2025-06-20,13:30 PM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+483,2022-2026,CreateTO,20,2025-07-21,13:30 PM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+484,2022-2026,CreateTO,21,2025-10-15,14:30 PM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+485,2022-2026,CreateTO,22,2025-11-18,13:30 PM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+486,2022-2026,CreateTO,23,2026-01-26,13:30 PM,18:00 PM,Video Conference
+487,2022-2026,CreateTO,24,2026-03-06,13:30 PM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+488,2022-2026,CreateTO,25,2026-04-27,13:30 PM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+489,2022-2026,CreateTO,26,2026-06-19,13:30 PM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+490,2022-2026,CreateTO,27,2026-07-27,13:30 PM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+491,2022-2026,CreateTO,28,2026-11-10,13:30 PM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+492,2022-2026,CreateTO - Human Resources Committee,1,2026-02-20,13:30 PM,18:00 PM,Video Conference
+493,2022-2026,CreateTO - Human Resources Committee,2,2026-03-30,15:30 PM,18:00 PM,Video Conference
+494,2022-2026,CreateTO - Human Resources Committee,3,2026-06-22,10:00 AM,18:00 PM,Video Conference
+495,2022-2026,Dangerous Dog Review Tribunal,1,2023-01-31,09:30 AM,18:00 PM,Video Conference
+496,2022-2026,Dangerous Dog Review Tribunal,2,2023-02-23,09:30 AM,18:00 PM,Video Conference
+497,2022-2026,Dangerous Dog Review Tribunal,3,2023-03-23,09:30 AM,18:00 PM,Video Conference
+498,2022-2026,Dangerous Dog Review Tribunal,4,2023-04-04,09:30 AM,18:00 PM,Video Conference
+499,2022-2026,Dangerous Dog Review Tribunal,5,2023-04-20,09:30 AM,18:00 PM,Video Conference
+500,2022-2026,Dangerous Dog Review Tribunal,6,2023-05-01,09:30 AM,18:00 PM,Video Conference
+501,2022-2026,Dangerous Dog Review Tribunal,7,2023-05-11,09:30 AM,18:00 PM,Video Conference
+502,2022-2026,Dangerous Dog Review Tribunal,8,2023-06-07,09:30 AM,18:00 PM,Video Conference
+503,2022-2026,Dangerous Dog Review Tribunal,9,2023-06-08,09:30 AM,18:00 PM,Video Conference
+504,2022-2026,Dangerous Dog Review Tribunal,10,2023-06-19,09:30 AM,18:00 PM,Video Conference
+505,2022-2026,Dangerous Dog Review Tribunal,11,2023-09-14,09:30 AM,18:00 PM,Video Conference
+506,2022-2026,Dangerous Dog Review Tribunal,12,2023-10-12,09:30 AM,18:00 PM,Video Conference
+507,2022-2026,Dangerous Dog Review Tribunal,13,2023-11-09,09:30 AM,18:00 PM,Video Conference
+508,2022-2026,Dangerous Dog Review Tribunal,14,2023-12-18,09:30 AM,18:00 PM,Video Conference
+509,2022-2026,Dangerous Dog Review Tribunal,15,2024-01-16,09:30 AM,18:00 PM,Video Conference
+510,2022-2026,Dangerous Dog Review Tribunal,16,2024-01-18,09:30 AM,18:00 PM,Video Conference
+511,2022-2026,Dangerous Dog Review Tribunal,17,2024-02-22,09:30 AM,18:00 PM,Video Conference
+512,2022-2026,Dangerous Dog Review Tribunal,18,2024-03-28,09:30 AM,18:00 PM,Video Conference
+513,2022-2026,Dangerous Dog Review Tribunal,19,2024-04-25,09:30 AM,18:00 PM,Video Conference
+514,2022-2026,Dangerous Dog Review Tribunal,20,2024-05-30,09:30 AM,18:00 PM,Video Conference
+515,2022-2026,Dangerous Dog Review Tribunal,21,2024-06-27,09:30 AM,18:00 PM,Video Conference
+516,2022-2026,Dangerous Dog Review Tribunal,22,2024-09-12,09:30 AM,18:00 PM,Video Conference
+517,2022-2026,Dangerous Dog Review Tribunal,23,2024-09-17,09:30 AM,18:00 PM,Video Conference
+518,2022-2026,Dangerous Dog Review Tribunal,24,2024-10-10,09:30 AM,18:00 PM,Video Conference
+519,2022-2026,Dangerous Dog Review Tribunal,25,2025-01-23,09:30 AM,18:00 PM,Video Conference
+520,2022-2026,Dangerous Dog Review Tribunal,26,2025-02-20,09:30 AM,18:00 PM,Video Conference
+521,2022-2026,Dangerous Dog Review Tribunal,27,2025-03-20,09:30 AM,18:00 PM,Video Conference
+522,2022-2026,Dangerous Dog Review Tribunal,28,2025-06-12,09:30 AM,18:00 PM,Video Conference
+523,2022-2026,Dangerous Dog Review Tribunal,29,2025-09-18,14:00 PM,18:00 PM,Video Conference
+524,2022-2026,Dangerous Dog Review Tribunal,30,2025-10-16,09:30 AM,18:00 PM,Video Conference
+525,2022-2026,Dangerous Dog Review Tribunal,31,2025-11-13,09:30 AM,18:00 PM,Video Conference
+526,2022-2026,Dangerous Dog Review Tribunal,32,2026-02-20,09:30 AM,18:00 PM,Video Conference
+527,2022-2026,Dangerous Dog Review Tribunal,33,2026-04-22,09:30 AM,18:00 PM,Video Conference
+528,2022-2026,Dangerous Dog Review Tribunal,34,2026-06-17,09:30 AM,18:00 PM,Video Conference
+529,2022-2026,Dangerous Dog Review Tribunal,35,2026-07-22,09:30 AM,18:00 PM,Video Conference
+530,2022-2026,Dangerous Dog Review Tribunal,36,2026-09-16,09:30 AM,18:00 PM,Video Conference
+531,2022-2026,Dangerous Dog Review Tribunal,37,2026-10-21,09:30 AM,18:00 PM,Video Conference
+532,2022-2026,Debenture Committee,1,2022-12-08,09:00 AM,18:00 PM,Video Conference
+533,2022-2026,Debenture Committee,2,2023-04-27,15:00 PM,18:00 PM,Video Conference
+534,2022-2026,Debenture Committee,3,2023-07-04,13:30 PM,18:00 PM,Video Conference
+535,2022-2026,Debenture Committee,4,2023-09-29,13:00 PM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+536,2022-2026,Debenture Committee,5,2023-11-27,16:00 PM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+537,2022-2026,Debenture Committee,6,2024-05-13,11:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+538,2022-2026,Debenture Committee,7,2024-07-23,12:30 PM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+539,2022-2026,Debenture Committee,8,2024-10-25,10:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+540,2022-2026,Debenture Committee,9,2024-11-27,10:00 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+541,2022-2026,Debenture Committee,10,2025-03-06,10:00 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+542,2022-2026,Debenture Committee,11,2025-06-24,12:30 PM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+543,2022-2026,Debenture Committee,12,2025-09-22,13:30 PM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+544,2022-2026,Debenture Committee,13,2025-12-01,16:00 PM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+545,2022-2026,Debenture Committee,14,2026-03-06,15:00 PM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+546,2022-2026,Debenture Committee,15,2026-04-14,15:00 PM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+547,2022-2026,Economic and Community Development Committee ,1,2023-01-11,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+548,2022-2026,Economic and Community Development Committee ,2,2023-02-16,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+549,2022-2026,Economic and Community Development Committee ,3,2023-04-25,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+550,2022-2026,Economic and Community Development Committee ,4,2023-05-31,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+551,2022-2026,Economic and Community Development Committee ,5,2023-07-06,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+552,2022-2026,Economic and Community Development Committee ,6,2023-09-21,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+553,2022-2026,Economic and Community Development Committee ,7,2023-10-24,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+554,2022-2026,Economic and Community Development Committee ,8,2023-11-28,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+555,2022-2026,Economic and Community Development Committee ,9,2024-01-11,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+556,2022-2026,Economic and Community Development Committee ,10,2024-02-20,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+557,2022-2026,Economic and Community Development Committee ,11,2024-03-28,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+558,2022-2026,Economic and Community Development Committee ,12,2024-04-30,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+559,2022-2026,Economic and Community Development Committee ,13,2024-05-29,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+560,2022-2026,Economic and Community Development Committee ,14,2024-07-04,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+561,2022-2026,Economic and Community Development Committee ,15,2024-09-18,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+562,2022-2026,Economic and Community Development Committee ,16,2024-10-23,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+563,2022-2026,Economic and Community Development Committee ,17,2024-11-26,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+564,2022-2026,Economic and Community Development Committee ,18,2025-02-26,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+565,2022-2026,Economic and Community Development Committee ,19,2025-04-08,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+566,2022-2026,Economic and Community Development Committee ,20,2025-05-06,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+567,2022-2026,Economic and Community Development Committee ,21,2025-06-10,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+568,2022-2026,Economic and Community Development Committee ,22,2025-07-09,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+569,2022-2026,Economic and Community Development Committee ,23,2025-09-16,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+570,2022-2026,Economic and Community Development Committee ,24,2025-10-28,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+571,2022-2026,Economic and Community Development Committee ,25,2025-12-02,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+572,2022-2026,Economic and Community Development Committee ,26,2026-02-24,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+573,2022-2026,Economic and Community Development Committee ,27,2026-04-09,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+574,2022-2026,Economic and Community Development Committee ,28,2026-05-05,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+575,2022-2026,Economic and Community Development Committee ,29,2026-06-09,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+576,2022-2026,Economic and Community Development Committee ,30,2026-07-14,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+577,2022-2026,Etobicoke York Community Council,1,2022-11-28,09:30 AM,18:00 PM,"Council Chamber, Etobicoke Civic Centre/Video Conference"
+578,2022-2026,Etobicoke York Community Council,2,2023-01-23,09:30 AM,18:00 PM,"Council Chamber, Etobicoke Civic Centre/Video Conference"
+579,2022-2026,Etobicoke York Community Council,3,2023-02-27,09:30 AM,18:00 PM,"Council Chamber, Etobicoke Civic Centre/Video Conference"
+580,2022-2026,Etobicoke York Community Council,4,2023-04-03,09:30 AM,18:00 PM,"Council Chamber, Etobicoke Civic Centre/Video Conference"
+581,2022-2026,Etobicoke York Community Council,5,2023-05-15,09:30 AM,18:00 PM,"Council Chamber, Etobicoke Civic Centre/Video Conference"
+582,2022-2026,Etobicoke York Community Council,6,2023-06-19,09:30 AM,18:00 PM,"Council Chamber, Etobicoke Civic Centre/Video Conference"
+583,2022-2026,Etobicoke York Community Council,7,2023-09-18,09:30 AM,18:00 PM,"Council Chamber, Etobicoke Civic Centre/Video Conference"
+584,2022-2026,Etobicoke York Community Council,8,2023-10-16,09:30 AM,18:00 PM,"Council Chamber, Etobicoke Civic Centre/Video Conference"
+585,2022-2026,Etobicoke York Community Council,9,2023-11-13,13:30 PM,18:00 PM,"Council Chamber, Etobicoke Civic Centre/Video Conference"
+586,2022-2026,Etobicoke York Community Council,10,2024-01-19,09:30 AM,18:00 PM,"Council Chamber, Etobicoke Civic Centre/Video Conference"
+587,2022-2026,Etobicoke York Community Council,11,2024-02-26,09:30 AM,18:00 PM,"Council Chamber, Etobicoke Civic Centre/Video Conference"
+588,2022-2026,Etobicoke York Community Council,12,2024-04-08,09:30 AM,18:00 PM,"Council Chamber, Etobicoke Civic Centre/Video Conference"
+589,2022-2026,Etobicoke York Community Council,13,2024-05-13,09:30 AM,18:00 PM,"Council Chamber, Etobicoke Civic Centre/Video Conference"
+590,2022-2026,Etobicoke York Community Council,14,2024-06-03,09:30 AM,18:00 PM,"Council Chamber, Etobicoke Civic Centre/Video Conference"
+591,2022-2026,Etobicoke York Community Council,15,2024-07-15,09:30 AM,18:00 PM,"Council Chamber, Etobicoke Civic Centre/Video Conference"
+592,2022-2026,Etobicoke York Community Council,16,2024-09-23,09:30 AM,18:00 PM,"Council Chamber, Etobicoke Civic Centre/Video Conference"
+593,2022-2026,Etobicoke York Community Council,17,2024-10-28,09:30 AM,18:00 PM,"Council Chamber, Etobicoke Civic Centre/Video Conference"
+594,2022-2026,Etobicoke York Community Council,18,2024-12-02,09:30 AM,18:00 PM,"Council Chamber, Etobicoke Civic Centre/Video Conference"
+595,2022-2026,Etobicoke York Community Council,19,2025-01-09,09:30 AM,18:00 PM,"Council Chamber, Etobicoke Civic Centre/Video Conference"
+596,2022-2026,Etobicoke York Community Council,20,2025-02-19,09:30 AM,18:00 PM,"Council Chamber, Etobicoke Civic Centre/Video Conference"
+597,2022-2026,Etobicoke York Community Council,21,2025-04-02,09:30 AM,18:00 PM,"Council Chamber, Etobicoke Civic Centre/Video Conference"
+598,2022-2026,Etobicoke York Community Council,22,2025-04-30,09:30 AM,18:00 PM,"Council Chamber, Etobicoke Civic Centre/Video Conference"
+599,2022-2026,Etobicoke York Community Council,23,2025-06-04,09:30 AM,18:00 PM,"Council Chamber, Etobicoke Civic Centre/Video Conference"
+600,2022-2026,Etobicoke York Community Council,24,2025-07-03,09:30 AM,18:00 PM,"Council Chamber, Etobicoke Civic Centre/Video Conference"
+601,2022-2026,Etobicoke York Community Council,25,2025-09-17,09:30 AM,18:00 PM,"Council Chamber, Etobicoke Civic Centre/Video Conference"
+602,2022-2026,Etobicoke York Community Council,26,2025-10-21,09:30 AM,18:00 PM,"Council Chamber, Etobicoke Civic Centre/Video Conference"
+603,2022-2026,Etobicoke York Community Council,27,2025-11-26,09:30 AM,18:00 PM,"Council Chamber, Etobicoke Civic Centre/Video Conference"
+604,2022-2026,Etobicoke York Community Council,28,2026-01-06,09:30 AM,18:00 PM,"Council Chamber, Etobicoke Civic Centre/Video Conference"
+605,2022-2026,Etobicoke York Community Council,29,2026-02-18,09:30 AM,18:00 PM,"Council Chamber, Etobicoke Civic Centre/Video Conference"
+606,2022-2026,Etobicoke York Community Council,30,2026-03-31,09:30 AM,18:00 PM,"Council Chamber, Etobicoke Civic Centre/Video Conference"
+607,2022-2026,Etobicoke York Community Council,31,2026-04-29,09:30 AM,18:00 PM,"Council Chamber, Etobicoke Civic Centre/Video Conference"
+608,2022-2026,Etobicoke York Community Council,32,2026-05-26,09:30 AM,18:00 PM,"Council Chamber, Etobicoke Civic Centre/Video Conference"
+609,2022-2026,Etobicoke York Community Council,33,2026-07-07,09:30 AM,18:00 PM,"Council Chamber, Etobicoke Civic Centre/Video Conference"
+610,2022-2026,Executive Committee,1,2022-12-06,13:30 PM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+611,2022-2026,Executive Committee,2,2023-01-31,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+612,2022-2026,Executive Committee,3,2023-03-21,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+613,2022-2026,Executive Committee,4,2023-05-02,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+614,2022-2026,Executive Committee,5,2023-06-06,09:30 AM,18:00 PM,"Council Chamber, Scarborough Civic Centre/Video Conference"
+615,2022-2026,Executive Committee,6,2023-07-11,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+616,2022-2026,Executive Committee,7,2023-08-24,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+617,2022-2026,Executive Committee,8,2023-10-03,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+618,2022-2026,Executive Committee,9,2023-10-31,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+619,2022-2026,Executive Committee,10,2023-12-05,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+620,2022-2026,Executive Committee,11,2024-01-30,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+621,2022-2026,Executive Committee,12,2024-02-29,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+622,2022-2026,Executive Committee,13,2024-04-09,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+623,2022-2026,Executive Committee,14,2024-05-14,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+624,2022-2026,Executive Committee,15,2024-06-18,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+625,2022-2026,Executive Committee,16,2024-07-16,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+626,2022-2026,Executive Committee,17,2024-10-01,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+627,2022-2026,Executive Committee,18,2024-11-05,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+628,2022-2026,Executive Committee,19,2024-12-10,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+629,2022-2026,Executive Committee,20,2025-01-28,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+630,2022-2026,Executive Committee,21,2025-03-19,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+631,2022-2026,Executive Committee,22,2025-04-14,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+632,2022-2026,Executive Committee,23,2025-05-13,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+633,2022-2026,Executive Committee,24,2025-06-17,10:00 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+634,2022-2026,Executive Committee,25,2025-07-16,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+635,2022-2026,Executive Committee,26,2025-09-29,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+636,2022-2026,Executive Committee,27,2025-11-04,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+637,2022-2026,Executive Committee,28,2025-12-09,10:00 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+638,2022-2026,Executive Committee,29,2026-03-10,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+639,2022-2026,Executive Committee,30,2026-04-15,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+640,2022-2026,Executive Committee,31,2026-05-12,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+641,2022-2026,Executive Committee,32,2026-06-16,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+642,2022-2026,Executive Committee,33,2026-07-21,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+643,2022-2026,Exhibition Place,1,2022-12-09,09:30 AM,18:00 PM,"Exhibition Place, Beanfield Centre, Room 205 ABC, 105 Princes' Blvd/Video Conf"
+644,2022-2026,Exhibition Place,2,2023-02-02,09:30 AM,18:00 PM,"Exhibition Place, Beanfield Centre, Room 204, 105 Princes' Blvd/Video Conference"
+645,2022-2026,Exhibition Place,3,2023-04-04,09:30 AM,18:00 PM,"Exhibition Place, Beanfield Centre, Room 204, 105 Princes' Blvd/Video Conference"
+646,2022-2026,Exhibition Place,4,2023-06-08,09:30 AM,18:00 PM,"Exhibition Place, Beanfield Centre, Room 204, 105 Princes' Blvd/Video Conference"
+647,2022-2026,Exhibition Place,5,2023-09-15,09:30 AM,18:00 PM,"Exhibition Place, Beanfield Centre, Room 204, 105 Princes' Blvd/Video Conference"
+648,2022-2026,Exhibition Place,6,2023-10-27,09:30 AM,18:00 PM,"Exhibition Place, Enercare Centre, Salon 107, 100 Princes' Blvd/Video Conference"
+649,2022-2026,Exhibition Place,7,2023-12-04,09:30 AM,18:00 PM,"Exhibition Place, Enercare Centre, Salon 103, 100 Princes Blvd/Video Conference"
+650,2022-2026,Exhibition Place,8,2024-02-02,09:30 AM,18:00 PM,"Exhibition Place, Beanfield Centre, Room 204, 105 Princes' Blvd/Video Conference"
+651,2022-2026,Exhibition Place,9,2024-04-25,09:30 AM,18:00 PM,"Exhibition Place, Beanfield Centre, Room 204, 105 Princes' Blvd/Video Conference"
+652,2022-2026,Exhibition Place,10,2024-06-05,09:30 AM,18:00 PM,"Exhibition Place, Enercare Centre, Salon 103, 100 Princes Blvd/Video Conference"
+653,2022-2026,Exhibition Place,11,2024-09-13,09:30 AM,18:00 PM,"Exhibition Place, Beanfield Centre, Room 204, 105 Princes' Blvd/Video Conference"
+654,2022-2026,Exhibition Place,12,2024-09-19,15:00 PM,18:00 PM,Video Conference
+655,2022-2026,Exhibition Place,13,2024-10-18,09:30 AM,18:00 PM,"Exhibition Place, Beanfield Centre, Room 204, 105 Princes' Blvd/Video Conference"
+656,2022-2026,Exhibition Place,14,2024-12-12,09:30 AM,18:00 PM,"Exhibition Place, Beanfield Centre, Room 204, 105 Princes' Blvd/Video Conference"
+657,2022-2026,Exhibition Place,15,2025-02-04,09:30 AM,18:00 PM,"Exhibition Place, Automotive Bldg, Room 204, 105 Princes' Blvd/Video Conference"
+658,2022-2026,Exhibition Place,16,2025-04-28,09:30 AM,18:00 PM,"Exhibition Place, Automotive Bldg, Room 204, 105 Princes' Blvd/Video Conference"
+659,2022-2026,Exhibition Place,17,2025-06-13,09:30 AM,18:00 PM,"Exhibition Place, Automotive Bldg, Room 204, 105 Princes' Blvd/Video Conference"
+660,2022-2026,Exhibition Place,18,2025-09-22,09:30 AM,18:00 PM,"Exhibition Place, Automotive Bldg, Room 204, 105 Princes' Blvd/Video Conference"
+661,2022-2026,Exhibition Place,19,2025-10-31,09:30 AM,18:00 PM,"Exhibition Place, Automotive Bldg, Room 204, 105 Princes' Blvd/Video Conference"
+662,2022-2026,Exhibition Place,20,2025-12-05,09:30 AM,18:00 PM,"Exhibition Place, Automotive Bldg, Room 204, 105 Princes' Blvd/Video Conference"
+663,2022-2026,Exhibition Place,21,2026-02-02,09:30 AM,18:00 PM,"Exhibition Place, Automotive Bldg, Room 204, 105 Princes' Blvd/Video Conference"
+664,2022-2026,Exhibition Place,22,2026-04-16,09:30 AM,18:00 PM,"Exhibition Place, Automotive Bldg, Room 204, 105 Princes Blvd/Video Conference"
+665,2022-2026,Exhibition Place,23,2026-06-18,09:30 AM,18:00 PM,"Exhibition Place, Automotive Bldg, Room 204, 105 Princes' Blvd/Video Conference"
+666,2022-2026,Exhibition Place,24,2026-09-17,09:30 AM,18:00 PM,"Exhibition Place, Automotive Bldg, Room 204, 105 Princes' Blvd/Video Conference"
+667,2022-2026,Exhibition Place,25,2026-10-14,09:30 AM,18:00 PM,"Exhibition Place, Automotive Bldg, Room 204, 105 Princes' Blvd/Video Conference"
+668,2022-2026,FIFA World Cup 2026 Subcommittee,1,2024-07-05,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+669,2022-2026,FIFA World Cup 2026 Subcommittee,2,2024-11-04,14:00 PM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+670,2022-2026,FIFA World Cup 2026 Subcommittee,3,2025-03-18,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+671,2022-2026,FIFA World Cup 2026 Subcommittee,4,2025-05-12,14:00 PM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+672,2022-2026,FIFA World Cup 2026 Subcommittee,5,2025-06-16,14:00 PM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+673,2022-2026,FIFA World Cup 2026 Subcommittee,6,2025-09-15,14:00 PM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+674,2022-2026,FIFA World Cup 2026 Subcommittee,7,2025-10-14,14:00 PM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+675,2022-2026,FIFA World Cup 2026 Subcommittee,8,2025-12-02,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+676,2022-2026,FIFA World Cup 2026 Subcommittee,9,2026-01-19,13:30 PM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+677,2022-2026,FIFA World Cup 2026 Subcommittee,10,2026-02-09,14:00 PM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+678,2022-2026,FIFA World Cup 2026 Subcommittee,11,2026-03-30,13:30 PM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+679,2022-2026,FIFA World Cup 2026 Subcommittee,12,2026-04-28,14:00 PM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+680,2022-2026,FIFA World Cup 2026 Subcommittee,13,2026-07-06,13:30 PM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+681,2022-2026,"Film, Television and Digital Media Advisory Board",1,2023-11-24,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+682,2022-2026,"Film, Television and Digital Media Advisory Board",2,2024-03-01,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+683,2022-2026,"Film, Television and Digital Media Advisory Board",3,2024-05-16,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+684,2022-2026,"Film, Television and Digital Media Advisory Board",4,2024-07-05,14:00 PM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+685,2022-2026,"Film, Television and Digital Media Advisory Board",5,2024-11-07,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+686,2022-2026,"Film, Television and Digital Media Advisory Board",6,2025-02-06,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+687,2022-2026,"Film, Television and Digital Media Advisory Board",7,2025-05-20,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+688,2022-2026,"Film, Television and Digital Media Advisory Board",8,2025-09-15,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+689,2022-2026,"Film, Television and Digital Media Advisory Board",9,2026-02-03,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+690,2022-2026,"Film, Television and Digital Media Advisory Board",10,2026-06-29,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+691,2022-2026,General Government Committee,1,2023-01-20,11:00 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+692,2022-2026,General Government Committee,2,2023-03-03,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+693,2022-2026,General Government Committee,3,2023-04-20,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+694,2022-2026,General Government Committee,4,2023-05-30,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+695,2022-2026,General Government Committee,5,2023-07-10,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+696,2022-2026,General Government Committee,6,2023-10-02,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+697,2022-2026,General Government Committee,7,2023-10-30,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+698,2022-2026,General Government Committee,8,2023-12-06,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+699,2022-2026,General Government Committee,9,2024-01-08,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+700,2022-2026,General Government Committee,10,2024-02-13,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+701,2022-2026,General Government Committee,11,2024-03-26,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+702,2022-2026,General Government Committee,12,2024-05-01,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+703,2022-2026,General Government Committee,13,2024-05-30,14:30 PM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+704,2022-2026,General Government Committee,14,2024-07-02,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+705,2022-2026,General Government Committee,15,2024-07-24,12:30 PM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+706,2022-2026,General Government Committee,16,2024-09-17,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+707,2022-2026,General Government Committee,17,2024-10-16,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+708,2022-2026,General Government Committee,18,2024-11-20,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+709,2022-2026,General Government Committee,19,2025-02-25,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+710,2022-2026,General Government Committee,20,2025-04-07,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+711,2022-2026,General Government Committee,21,2025-05-12,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+712,2022-2026,General Government Committee,22,2025-06-16,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+713,2022-2026,General Government Committee,23,2025-07-14,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+714,2022-2026,General Government Committee,24,2025-09-19,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+715,2022-2026,General Government Committee,25,2025-10-23,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+716,2022-2026,General Government Committee,26,2025-12-08,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+717,2022-2026,General Government Committee,27,2026-03-09,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+718,2022-2026,General Government Committee,28,2026-04-08,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+719,2022-2026,General Government Committee,29,2026-05-11,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+720,2022-2026,General Government Committee,30,2026-06-02,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+721,2022-2026,General Government Committee,31,2026-07-20,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+722,2022-2026,Housing Rights Advisory Committee,1,2024-03-18,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+723,2022-2026,Housing Rights Advisory Committee,2,2024-05-13,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+724,2022-2026,Housing Rights Advisory Committee,3,2024-09-23,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+725,2022-2026,Housing Rights Advisory Committee,4,2024-11-04,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+726,2022-2026,Housing Rights Advisory Committee,5,2025-02-06,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+727,2022-2026,Housing Rights Advisory Committee,6,2025-06-03,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+728,2022-2026,Housing Rights Advisory Committee,7,2025-09-16,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+729,2022-2026,Housing Rights Advisory Committee,8,2025-11-19,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+730,2022-2026,Housing Rights Advisory Committee,9,2026-02-20,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+731,2022-2026,Housing Rights Advisory Committee,10,2026-04-08,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+732,2022-2026,Housing Rights Advisory Committee,11,2026-05-29,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+733,2022-2026,Housing Rights Advisory Committee,12,2026-06-22,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+734,2022-2026,Infrastructure and Environment Committee,1,2023-01-30,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+735,2022-2026,Infrastructure and Environment Committee,2,2023-03-20,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+736,2022-2026,Infrastructure and Environment Committee,3,2023-04-26,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+737,2022-2026,Infrastructure and Environment Committee,4,2023-06-05,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+738,2022-2026,Infrastructure and Environment Committee,5,2023-06-28,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+739,2022-2026,Infrastructure and Environment Committee,6,2023-09-20,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+740,2022-2026,Infrastructure and Environment Committee,7,2023-10-25,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+741,2022-2026,Infrastructure and Environment Committee,8,2023-11-07,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+742,2022-2026,Infrastructure and Environment Committee,9,2023-11-29,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+743,2022-2026,Infrastructure and Environment Committee,10,2024-01-09,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+744,2022-2026,Infrastructure and Environment Committee,11,2024-02-27,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+745,2022-2026,Infrastructure and Environment Committee,12,2024-03-27,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+746,2022-2026,Infrastructure and Environment Committee,13,2024-05-02,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+747,2022-2026,Infrastructure and Environment Committee,14,2024-05-28,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+748,2022-2026,Infrastructure and Environment Committee,15,2024-07-03,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+749,2022-2026,Infrastructure and Environment Committee,16,2024-09-27,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+750,2022-2026,Infrastructure and Environment Committee,17,2024-10-22,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+751,2022-2026,Infrastructure and Environment Committee,18,2024-11-27,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+752,2022-2026,Infrastructure and Environment Committee,19,2025-02-27,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+753,2022-2026,Infrastructure and Environment Committee,20,2025-04-09,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+754,2022-2026,Infrastructure and Environment Committee,21,2025-05-07,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+755,2022-2026,Infrastructure and Environment Committee,22,2025-06-11,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+756,2022-2026,Infrastructure and Environment Committee,23,2025-07-10,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+757,2022-2026,Infrastructure and Environment Committee,24,2025-09-26,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+758,2022-2026,Infrastructure and Environment Committee,25,2025-10-29,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+759,2022-2026,Infrastructure and Environment Committee,26,2025-12-04,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+760,2022-2026,Infrastructure and Environment Committee,27,2026-02-25,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+761,2022-2026,Infrastructure and Environment Committee,28,2026-04-07,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+762,2022-2026,Infrastructure and Environment Committee,29,2026-05-06,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+763,2022-2026,Infrastructure and Environment Committee,30,2026-06-10,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+764,2022-2026,Infrastructure and Environment Committee,31,2026-07-15,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+765,2022-2026,Labour Relations Subcommittee,1,2024-10-21,15:00 PM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+766,2022-2026,Labour Relations Subcommittee,2,2025-03-17,15:00 PM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+767,2022-2026,Long-Term Care Committee of Management,1,2025-06-19,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+768,2022-2026,Long-Term Care Committee of Management,2,2026-06-23,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+769,2022-2026,Members of the Toronto Atmospheric Fund,1,2023-04-27,13:45 PM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+770,2022-2026,Members of the Toronto Atmospheric Fund,2,2024-04-26,09:45 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+771,2022-2026,Members of the Toronto Atmospheric Fund,3,2024-11-21,09:45 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+772,2022-2026,Members of the Toronto Atmospheric Fund,4,2025-04-29,09:45 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+773,2022-2026,Members of the Toronto Atmospheric Fund,5,2026-04-28,09:45 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+774,2022-2026,Nominating Panel - Administrative Penalty Tribunal,1,2023-07-07,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+775,2022-2026,Nominating Panel - Administrative Penalty Tribunal,2,2023-11-16,13:00 PM,18:00 PM,Video Conference
+776,2022-2026,Nominating Panel - Administrative Penalty Tribunal,3,2023-12-01,11:00 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+777,2022-2026,Nominating Panel - Administrative Penalty Tribunal,3,2023-11-28,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+778,2022-2026,Nominating Panel - Administrative Penalty Tribunal,4,2026-03-13,09:30 AM,18:00 PM,Video Conference
+779,2022-2026,Nominating Panel - Administrative Penalty Tribunal,5,2026-04-07,13:00 PM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+780,2022-2026,Nominating Panel - Administrative Penalty Tribunal,5,2026-04-09,09:30 AM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+781,2022-2026,Nominating Panel - Administrative Penalty Tribunal,6,2026-05-01,09:30 AM,18:00 PM,Video Conference
+782,2022-2026,Nominating Panel - Committee of Adjustment,1,2023-06-23,09:30 AM,18:00 PM,Video Conference
+783,2022-2026,Nominating Panel - Committee of Adjustment,2,2023-09-14,08:45 AM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+784,2022-2026,Nominating Panel - Committee of Adjustment,2,2023-09-15,08:45 AM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+785,2022-2026,Nominating Panel - Committee of Adjustment,2,2023-09-18,08:45 AM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+786,2022-2026,Nominating Panel - Committee of Adjustment,3,2023-10-06,09:30 AM,18:00 PM,Video Conference
+787,2022-2026,Nominating Panel - Committee of Adjustment,4,2024-03-25,09:30 AM,18:00 PM,Video Conference
+788,2022-2026,Nominating Panel - Committee of Adjustment,5,2024-04-08,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+789,2022-2026,Nominating Panel - Committee of Adjustment,6,2024-06-18,09:30 AM,18:00 PM,Video Conference
+790,2022-2026,Nominating Panel - Committee of Adjustment,7,2024-07-10,09:30 AM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+791,2022-2026,Nominating Panel - Committee of Adjustment,8,2025-05-26,09:30 AM,18:00 PM,Video Conference
+792,2022-2026,Nominating Panel - Committee of Adjustment,9,2025-06-13,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+793,2022-2026,Nominating Panel - Committee of Adjustment,10,2025-07-10,14:00 PM,18:00 PM,Video Conference
+794,2022-2026,Nominating Panel - Committee of Adjustment,11,2025-10-27,09:30 AM,18:00 PM,Video Conference
+795,2022-2026,Nominating Panel - Committee of Adjustment,12,2025-11-27,10:00 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+796,2022-2026,Nominating Panel - Compliance Audit Committee,1,2026-03-30,09:30 AM,18:00 PM,Video Conference
+797,2022-2026,Nominating Panel - Compliance Audit Committee,2,2026-04-20,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+798,2022-2026,Nominating Panel - Compliance Audit Committee,3,2026-05-26,14:30 PM,18:00 PM,Video Conference
+799,2022-2026,Nominating Panel - Dangerous Dog Review Tribunal,1,2023-04-19,09:30 AM,18:00 PM,Video Conference
+800,2022-2026,Nominating Panel - Dangerous Dog Review Tribunal,2,2023-04-28,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+801,2022-2026,Nominating Panel - Dangerous Dog Review Tribunal,3,2023-11-14,09:30 AM,18:00 PM,Video Conference
+802,2022-2026,Nominating Panel - Dangerous Dog Review Tribunal,4,2023-11-30,15:00 PM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+803,2022-2026,Nominating Panel - Dangerous Dog Review Tribunal,5,2025-01-23,09:30 AM,18:00 PM,Video Conference
+804,2022-2026,Nominating Panel - Dangerous Dog Review Tribunal,6,2025-02-26,13:00 PM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+805,2022-2026,Nominating Panel - Multi-Tenant House Licensing Tribunal,1,2024-01-09,09:30 AM,18:00 PM,Video Conference
+806,2022-2026,Nominating Panel - Multi-Tenant House Licensing Tribunal,2,2024-01-23,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+807,2022-2026,Nominating Panel - Multi-Tenant House Licensing Tribunal,3,2024-02-09,09:30 AM,18:00 PM,Video Conference
+808,2022-2026,Nominating Panel - Multi-Tenant House Licensing Tribunal,4,2024-03-01,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+809,2022-2026,Nominating Panel - Property Standards Committee,1,2023-09-11,09:30 AM,18:00 PM,Video Conference
+810,2022-2026,Nominating Panel - Property Standards Committee,2,2023-09-28,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+811,2022-2026,Nominating Panel - Property Standards Committee,3,2024-02-27,09:30 AM,18:00 PM,Video Conference
+812,2022-2026,Nominating Panel - Property Standards Committee,4,2024-03-27,14:00 PM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+813,2022-2026,Nominating Panel - Property Standards Committee,5,2024-06-13,11:00 AM,18:00 PM,Video Conference
+814,2022-2026,Nominating Panel - Property Standards Committee,6,2024-07-09,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+815,2022-2026,Nominating Panel - Property Standards Committee,7,2025-06-12,09:30 AM,18:00 PM,Video Conference
+816,2022-2026,Nominating Panel - Property Standards Committee,8,2025-07-07,09:30 AM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+817,2022-2026,Nominating Panel - Sign Variance Committee,1,2023-11-06,09:30 AM,18:00 PM,Video Conference
+818,2022-2026,Nominating Panel - Sign Variance Committee,2,2023-11-29,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+819,2022-2026,Nominating Panel - Sign Variance Committee,3,2026-03-12,09:30 AM,18:00 PM,Video Conference
+820,2022-2026,Nominating Panel - Sign Variance Committee,4,2026-04-09,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+821,2022-2026,Nominating Panel - Toronto Licensing Tribunal,1,2023-03-10,13:00 PM,18:00 PM,Video Conference
+822,2022-2026,Nominating Panel - Toronto Licensing Tribunal,2,2023-03-21,09:30 AM,18:00 PM,Video Conference
+823,2022-2026,Nominating Panel - Toronto Licensing Tribunal,3,2026-04-13,09:30 AM,18:00 PM,Video Conference
+824,2022-2026,Nominating Panel - Toronto Licensing Tribunal,4,2026-05-05,09:30 AM,18:00 PM,Video Conference
+825,2022-2026,Nominating Panel - Toronto Local Appeal Body,1,2024-01-10,09:30 AM,18:00 PM,Video Conference
+826,2022-2026,Nominating Panel - Toronto Local Appeal Body,2,2024-01-29,09:30 AM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+827,2022-2026,Nominating Panel - Toronto Local Appeal Body,3,2025-04-17,09:30 AM,18:00 PM,Video Conference
+828,2022-2026,Nominating Panel - Toronto Local Appeal Body,4,2025-05-07,09:30 AM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+829,2022-2026,Nominating Panel - Toronto Local Appeal Body,5,2026-05-25,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+830,2022-2026,Nominating Panel - Toronto Local Appeal Body,6,2026-06-12,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+831,2022-2026,North York Community Council,1,2022-11-29,09:30 AM,18:00 PM,"Council Chamber, North York Civic Centre/Video Conference"
+832,2022-2026,North York Community Council,2,2023-01-25,09:30 AM,18:00 PM,"Council Chamber, North York Civic Centre/Video Conference"
+833,2022-2026,North York Community Council,3,2023-02-22,09:30 AM,18:00 PM,"Council Chamber, North York Civic Centre/Video Conference"
+834,2022-2026,North York Community Council,4,2023-04-04,09:30 AM,18:00 PM,"Council Chamber, North York Civic Centre/Video Conference"
+835,2022-2026,North York Community Council,5,2023-05-16,09:30 AM,18:00 PM,"Council Chamber, North York Civic Centre/Video Conference"
+836,2022-2026,North York Community Council,6,2023-06-20,09:30 AM,18:00 PM,"Council Chamber, North York Civic Centre/Video Conference"
+837,2022-2026,North York Community Council,7,2023-09-07,09:30 AM,18:00 PM,Video Conference
+838,2022-2026,North York Community Council,8,2023-10-17,09:30 AM,18:00 PM,"Council Chamber, North York Civic Centre/Video Conference"
+839,2022-2026,North York Community Council,9,2023-11-14,09:30 AM,18:00 PM,"Council Chamber, North York Civic Centre/Video Conference"
+840,2022-2026,North York Community Council,10,2024-01-24,09:30 AM,18:00 PM,"Council Chamber, North York Civic Centre/Video Conference"
+841,2022-2026,North York Community Council,11,2024-02-22,09:30 AM,18:00 PM,"Council Chamber, North York Civic Centre/Video Conference"
+842,2022-2026,North York Community Council,12,2024-04-02,09:30 AM,18:00 PM,"Council Chamber, North York Civic Centre/Video Conference"
+843,2022-2026,North York Community Council,13,2024-05-08,09:30 AM,18:00 PM,"Council Chamber, North York Civic Centre/Video Conference"
+844,2022-2026,North York Community Council,14,2024-06-04,09:30 AM,18:00 PM,"Council Chamber, North York Civic Centre/Video Conference"
+845,2022-2026,North York Community Council,15,2024-07-09,09:30 AM,18:00 PM,"Council Chamber, North York Civic Centre/Video Conference"
+846,2022-2026,North York Community Council,16,2024-08-20,09:30 AM,18:00 PM,"Council Chamber, North York Civic Centre/Video Conference"
+847,2022-2026,North York Community Council,17,2024-09-24,09:30 AM,18:00 PM,"Council Chamber, North York Civic Centre/Video Conference"
+848,2022-2026,North York Community Council,18,2024-10-29,09:30 AM,18:00 PM,"Council Chamber, North York Civic Centre/Video Conference"
+849,2022-2026,North York Community Council,19,2024-12-03,09:30 AM,18:00 PM,"Council Chamber, North York Civic Centre/Video Conference"
+850,2022-2026,North York Community Council,20,2025-01-09,09:30 AM,18:00 PM,"Council Chamber, North York Civic Centre/Video Conference"
+851,2022-2026,North York Community Council,21,2025-02-19,09:30 AM,18:00 PM,"Council Chamber, North York Civic Centre/Video Conference"
+852,2022-2026,North York Community Council,22,2025-04-02,09:30 AM,18:00 PM,"Council Chamber, North York Civic Centre/Video Conference"
+853,2022-2026,North York Community Council,23,2025-04-30,09:30 AM,18:00 PM,"Council Chamber, North York Civic Centre/Video Conference"
+854,2022-2026,North York Community Council,24,2025-06-04,09:30 AM,18:00 PM,"Council Chamber, North York Civic Centre/Video Conference"
+855,2022-2026,North York Community Council,25,2025-07-03,09:30 AM,18:00 PM,"Council Chamber, North York Civic Centre/Video Conference"
+856,2022-2026,North York Community Council,26,2025-09-17,09:30 AM,18:00 PM,"Council Chamber, North York Civic Centre/Video Conference"
+857,2022-2026,North York Community Council,27,2025-10-21,09:30 AM,18:00 PM,"Council Chamber, North York Civic Centre/Video Conference"
+858,2022-2026,North York Community Council,28,2025-12-05,09:30 AM,18:00 PM,"Council Chamber, North York Civic Centre/Video Conference"
+859,2022-2026,North York Community Council,29,2026-01-06,09:30 AM,18:00 PM,"Council Chamber, North York Civic Centre/Video Conference"
+860,2022-2026,North York Community Council,30,2026-02-18,09:30 AM,18:00 PM,"Council Chamber, North York Civic Centre/Video Conference"
+861,2022-2026,North York Community Council,31,2026-03-31,09:30 AM,18:00 PM,"Council Chamber, North York Civic Centre/Video Conference"
+862,2022-2026,North York Community Council,32,2026-04-29,09:30 AM,18:00 PM,"Council Chamber, North York Civic Centre/Video Conference"
+863,2022-2026,North York Community Council,33,2026-05-26,09:30 AM,18:00 PM,"Council Chamber, North York Civic Centre/Video Conference"
+864,2022-2026,North York Community Council,34,2026-07-07,09:30 AM,18:00 PM,"Council Chamber, North York Civic Centre/Video Conference"
+865,2022-2026,Planning and Housing Committee,1,2023-01-19,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+866,2022-2026,Planning and Housing Committee,2,2023-02-28,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+867,2022-2026,Planning and Housing Committee,3,2023-04-27,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+868,2022-2026,Planning and Housing Committee,4,2023-06-01,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+869,2022-2026,Planning and Housing Committee,5,2023-07-05,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+870,2022-2026,Planning and Housing Committee,6,2023-09-28,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+871,2022-2026,Planning and Housing Committee,7,2023-10-26,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+872,2022-2026,Planning and Housing Committee,8,2023-11-30,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+873,2022-2026,Planning and Housing Committee,9,2024-01-29,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+874,2022-2026,Planning and Housing Committee,10,2024-02-28,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+875,2022-2026,Planning and Housing Committee,11,2024-04-05,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+876,2022-2026,Planning and Housing Committee,12,2024-05-09,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+877,2022-2026,Planning and Housing Committee,13,2024-06-13,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+878,2022-2026,Planning and Housing Committee,14,2024-07-11,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+879,2022-2026,Planning and Housing Committee,15,2024-09-26,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+880,2022-2026,Planning and Housing Committee,16,2024-10-30,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+881,2022-2026,Planning and Housing Committee,17,2024-12-05,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+882,2022-2026,Planning and Housing Committee,18,2025-01-23,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+883,2022-2026,Planning and Housing Committee,19,2025-03-18,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+884,2022-2026,Planning and Housing Committee,20,2025-04-10,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+885,2022-2026,Planning and Housing Committee,21,2025-05-08,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+886,2022-2026,Planning and Housing Committee,22,2025-06-12,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+887,2022-2026,Planning and Housing Committee,23,2025-07-15,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+888,2022-2026,Planning and Housing Committee,24,2025-09-25,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+889,2022-2026,Planning and Housing Committee,25,2025-10-30,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+890,2022-2026,Planning and Housing Committee,26,2025-12-03,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+891,2022-2026,Planning and Housing Committee,27,2026-01-22,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+892,2022-2026,Planning and Housing Committee,28,2026-02-26,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+893,2022-2026,Planning and Housing Committee,29,2026-04-14,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+894,2022-2026,Planning and Housing Committee,30,2026-05-07,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+895,2022-2026,Planning and Housing Committee,31,2026-06-11,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+896,2022-2026,Planning and Housing Committee,32,2026-07-16,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+897,2022-2026,Property Standards - Etobicoke York Panel,1,2022-11-22,09:30 AM,18:00 PM,Video Conference
+898,2022-2026,Property Standards - Etobicoke York Panel,2,2023-01-24,09:30 AM,18:00 PM,Video Conference
+899,2022-2026,Property Standards - Etobicoke York Panel,3,2023-02-28,09:30 AM,18:00 PM,Video Conference
+900,2022-2026,Property Standards - Etobicoke York Panel,4,2023-03-28,09:30 AM,18:00 PM,Video Conference
+901,2022-2026,Property Standards - Etobicoke York Panel,5,2023-06-13,09:30 AM,18:00 PM,Video Conference
+902,2022-2026,Property Standards - Etobicoke York Panel,6,2023-09-19,09:30 AM,18:00 PM,Video Conference
+903,2022-2026,Property Standards - Etobicoke York Panel,7,2023-10-17,09:30 AM,18:00 PM,Video Conference
+904,2022-2026,Property Standards - Etobicoke York Panel,8,2023-11-14,09:30 AM,18:00 PM,Video Conference
+905,2022-2026,Property Standards - Etobicoke York Panel,9,2023-12-12,09:30 AM,18:00 PM,Video Conference
+906,2022-2026,Property Standards - Etobicoke York Panel,10,2024-01-23,09:30 AM,18:00 PM,Video Conference
+907,2022-2026,Property Standards - Etobicoke York Panel,11,2024-02-27,09:30 AM,18:00 PM,Video Conference
+908,2022-2026,Property Standards - Etobicoke York Panel,12,2024-03-19,09:30 AM,18:00 PM,Video Conference
+909,2022-2026,Property Standards - Etobicoke York Panel,13,2024-04-16,09:30 AM,18:00 PM,Video Conference
+910,2022-2026,Property Standards - Etobicoke York Panel,14,2024-05-14,09:30 AM,18:00 PM,Video Conference
+911,2022-2026,Property Standards - Etobicoke York Panel,15,2024-06-11,09:30 AM,18:00 PM,Video Conference
+912,2022-2026,Property Standards - Etobicoke York Panel,16,2024-07-16,09:30 AM,18:00 PM,Video Conference
+913,2022-2026,Property Standards - Etobicoke York Panel,17,2024-09-17,09:30 AM,18:00 PM,Video Conference
+914,2022-2026,Property Standards - Etobicoke York Panel,18,2024-09-26,09:30 AM,18:00 PM,Video Conference
+915,2022-2026,Property Standards - Etobicoke York Panel,19,2024-10-29,09:30 AM,18:00 PM,Video Conference
+916,2022-2026,Property Standards - Etobicoke York Panel,20,2024-11-26,09:30 AM,18:00 PM,Video Conference
+917,2022-2026,Property Standards - Etobicoke York Panel,21,2024-12-03,09:30 AM,18:00 PM,Video Conference
+918,2022-2026,Property Standards - Etobicoke York Panel,22,2025-01-14,09:30 AM,18:00 PM,Video Conference
+919,2022-2026,Property Standards - Etobicoke York Panel,23,2025-02-25,09:30 AM,18:00 PM,Video Conference
+920,2022-2026,Property Standards - Etobicoke York Panel,24,2025-03-18,09:30 AM,18:00 PM,Video Conference
+921,2022-2026,Property Standards - Etobicoke York Panel,25,2025-04-15,09:30 AM,18:00 PM,Video Conference
+922,2022-2026,Property Standards - Etobicoke York Panel,26,2025-05-13,09:30 AM,18:00 PM,Video Conference
+923,2022-2026,Property Standards - Etobicoke York Panel,27,2025-06-24,09:30 AM,18:00 PM,Video Conference
+924,2022-2026,Property Standards - Etobicoke York Panel,28,2025-07-22,09:30 AM,18:00 PM,Video Conference
+925,2022-2026,Property Standards - Etobicoke York Panel,29,2025-09-09,09:30 AM,18:00 PM,Video Conference
+926,2022-2026,Property Standards - Etobicoke York Panel,30,2025-10-07,09:30 AM,18:00 PM,Video Conference
+927,2022-2026,Property Standards - Etobicoke York Panel,31,2025-12-09,09:30 AM,18:00 PM,Video Conference
+928,2022-2026,Property Standards - Etobicoke York Panel,32,2026-01-27,09:30 AM,18:00 PM,Video Conference
+929,2022-2026,Property Standards - Etobicoke York Panel,33,2026-02-24,09:30 AM,18:00 PM,Video Conference
+930,2022-2026,Property Standards - Etobicoke York Panel,34,2026-03-31,09:30 AM,18:00 PM,Video Conference
+931,2022-2026,Property Standards - Etobicoke York Panel,35,2026-04-28,09:30 AM,18:00 PM,Video Conference
+932,2022-2026,Property Standards - Etobicoke York Panel,36,2026-05-26,09:30 AM,18:00 PM,Video Conference
+933,2022-2026,Property Standards - Etobicoke York Panel,37,2026-06-30,09:30 AM,18:00 PM,Video Conference
+934,2022-2026,Property Standards - Etobicoke York Panel,38,2026-07-28,09:30 AM,18:00 PM,Video Conference
+935,2022-2026,Property Standards - Etobicoke York Panel,39,2026-09-29,09:30 AM,18:00 PM,Video Conference
+936,2022-2026,Property Standards - Etobicoke York Panel,40,2026-10-27,09:30 AM,18:00 PM,Video Conference
+937,2022-2026,Property Standards - North York Panel,1,2022-12-13,13:30 PM,18:00 PM,Video Conference
+938,2022-2026,Property Standards - North York Panel,2,2023-01-25,09:30 AM,18:00 PM,Video Conference
+939,2022-2026,Property Standards - North York Panel,3,2023-03-29,09:30 AM,18:00 PM,Video Conference
+940,2022-2026,Property Standards - North York Panel,4,2023-09-20,09:30 AM,18:00 PM,Video Conference
+941,2022-2026,Property Standards - North York Panel,5,2023-10-18,09:30 AM,18:00 PM,Video Conference
+942,2022-2026,Property Standards - North York Panel,6,2023-11-15,09:30 AM,18:00 PM,Video Conference
+943,2022-2026,Property Standards - North York Panel,7,2023-12-13,09:30 AM,18:00 PM,Video Conference
+944,2022-2026,Property Standards - North York Panel,8,2024-01-24,09:30 AM,18:00 PM,Video Conference
+945,2022-2026,Property Standards - North York Panel,9,2024-03-20,09:30 AM,18:00 PM,Video Conference
+946,2022-2026,Property Standards - North York Panel,10,2024-04-17,09:30 AM,18:00 PM,Video Conference
+947,2022-2026,Property Standards - North York Panel,11,2024-06-12,09:30 AM,18:00 PM,Video Conference
+948,2022-2026,Property Standards - North York Panel,12,2024-07-17,09:30 AM,18:00 PM,Video Conference
+949,2022-2026,Property Standards - North York Panel,13,2024-09-18,09:30 AM,18:00 PM,Video Conference
+950,2022-2026,Property Standards - North York Panel,14,2024-10-30,09:30 AM,18:00 PM,Video Conference
+951,2022-2026,Property Standards - North York Panel,15,2024-11-27,09:30 AM,18:00 PM,Video Conference
+952,2022-2026,Property Standards - North York Panel,16,2025-01-15,09:30 AM,18:00 PM,Video Conference
+953,2022-2026,Property Standards - North York Panel,17,2025-02-26,09:30 AM,18:00 PM,Video Conference
+954,2022-2026,Property Standards - North York Panel,18,2025-05-14,09:30 AM,18:00 PM,Video Conference
+955,2022-2026,Property Standards - North York Panel,19,2025-06-25,09:30 AM,18:00 PM,Video Conference
+956,2022-2026,Property Standards - North York Panel,20,2025-07-23,09:30 AM,18:00 PM,Video Conference
+957,2022-2026,Property Standards - North York Panel,21,2025-09-10,09:30 AM,18:00 PM,Video Conference
+958,2022-2026,Property Standards - North York Panel,22,2025-10-08,09:30 AM,18:00 PM,Video Conference
+959,2022-2026,Property Standards - North York Panel,23,2025-11-05,09:30 AM,18:00 PM,Video Conference
+960,2022-2026,Property Standards - North York Panel,24,2025-12-10,09:30 AM,18:00 PM,Video Conference
+961,2022-2026,Property Standards - North York Panel,25,2026-01-28,09:30 AM,18:00 PM,Video Conference
+962,2022-2026,Property Standards - North York Panel,26,2026-02-25,09:30 AM,18:00 PM,Video Conference
+963,2022-2026,Property Standards - North York Panel,27,2026-03-25,09:30 AM,18:00 PM,Video Conference
+964,2022-2026,Property Standards - North York Panel,28,2026-04-29,09:30 AM,18:00 PM,Video Conference
+965,2022-2026,Property Standards - North York Panel,29,2026-05-22,09:30 AM,18:00 PM,Video Conference
+966,2022-2026,Property Standards - North York Panel,30,2026-06-24,09:30 AM,18:00 PM,Video Conference
+967,2022-2026,Property Standards - North York Panel,31,2026-07-29,09:30 AM,18:00 PM,Video Conference
+968,2022-2026,Property Standards - North York Panel,32,2026-09-23,09:30 AM,18:00 PM,Video Conference
+969,2022-2026,Property Standards - North York Panel,33,2026-10-28,09:30 AM,18:00 PM,Video Conference
+970,2022-2026,Property Standards - Scarborough Panel,1,2022-11-21,13:30 PM,18:00 PM,Video Conference
+971,2022-2026,Property Standards - Scarborough Panel,2,2023-01-24,13:30 PM,18:00 PM,Video Conference
+972,2022-2026,Property Standards - Scarborough Panel,3,2023-05-16,13:30 PM,18:00 PM,Video Conference
+973,2022-2026,Property Standards - Scarborough Panel,4,2023-06-13,13:30 PM,18:00 PM,Video Conference
+974,2022-2026,Property Standards - Scarborough Panel,5,2023-09-19,13:30 PM,18:00 PM,Video Conference
+975,2022-2026,Property Standards - Scarborough Panel,6,2023-10-17,13:30 PM,18:00 PM,Video Conference
+976,2022-2026,Property Standards - Scarborough Panel,7,2023-11-14,13:30 PM,18:00 PM,Video Conference
+977,2022-2026,Property Standards - Scarborough Panel,8,2023-12-12,13:30 PM,18:00 PM,Video Conference
+978,2022-2026,Property Standards - Scarborough Panel,9,2024-01-25,09:30 AM,18:00 PM,Video Conference
+979,2022-2026,Property Standards - Scarborough Panel,10,2024-02-29,09:30 AM,18:00 PM,Video Conference
+980,2022-2026,Property Standards - Scarborough Panel,11,2024-03-21,09:30 AM,18:00 PM,Video Conference
+981,2022-2026,Property Standards - Scarborough Panel,12,2024-04-18,09:30 AM,18:00 PM,Video Conference
+982,2022-2026,Property Standards - Scarborough Panel,13,2024-05-16,09:30 AM,18:00 PM,Video Conference
+983,2022-2026,Property Standards - Scarborough Panel,14,2024-11-28,09:30 AM,18:00 PM,Video Conference
+984,2022-2026,Property Standards - Scarborough Panel,15,2025-01-16,09:30 AM,18:00 PM,Video Conference
+985,2022-2026,Property Standards - Scarborough Panel,16,2025-02-27,09:30 AM,18:00 PM,Video Conference
+986,2022-2026,Property Standards - Scarborough Panel,17,2025-04-22,09:30 AM,18:00 PM,Video Conference
+987,2022-2026,Property Standards - Scarborough Panel,18,2025-05-16,09:30 AM,18:00 PM,Video Conference
+988,2022-2026,Property Standards - Scarborough Panel,19,2025-06-26,09:30 AM,18:00 PM,Video Conference
+989,2022-2026,Property Standards - Scarborough Panel,20,2025-09-11,09:30 AM,18:00 PM,Video Conference
+990,2022-2026,Property Standards - Scarborough Panel,21,2025-10-09,09:30 AM,18:00 PM,Video Conference
+991,2022-2026,Property Standards - Scarborough Panel,22,2025-11-06,09:30 AM,18:00 PM,Video Conference
+992,2022-2026,Property Standards - Scarborough Panel,23,2025-12-12,09:30 AM,18:00 PM,Video Conference
+993,2022-2026,Property Standards - Scarborough Panel,24,2026-01-23,09:30 AM,18:00 PM,Video Conference
+994,2022-2026,Property Standards - Scarborough Panel,25,2026-02-27,09:30 AM,18:00 PM,Video Conference
+995,2022-2026,Property Standards - Scarborough Panel,26,2026-03-27,09:30 AM,18:00 PM,Video Conference
+996,2022-2026,Property Standards - Scarborough Panel,27,2026-04-24,09:30 AM,18:00 PM,Video Conference
+997,2022-2026,Property Standards - Scarborough Panel,28,2026-05-29,09:30 AM,18:00 PM,Video Conference
+998,2022-2026,Property Standards - Scarborough Panel,29,2026-06-26,09:30 AM,18:00 PM,Video Conference
+999,2022-2026,Property Standards - Scarborough Panel,30,2026-07-31,09:30 AM,18:00 PM,Video Conference
+1000,2022-2026,Property Standards - Scarborough Panel,31,2026-09-25,09:30 AM,18:00 PM,Video Conference
+1001,2022-2026,Property Standards - Scarborough Panel,32,2026-10-30,09:30 AM,18:00 PM,Video Conference
+1002,2022-2026,Property Standards - Toronto and East York Panel,1,2022-11-21,09:30 AM,18:00 PM,Video Conference
+1003,2022-2026,Property Standards - Toronto and East York Panel,2,2022-12-12,09:30 AM,18:00 PM,Video Conference
+1004,2022-2026,Property Standards - Toronto and East York Panel,3,2023-01-23,09:30 AM,18:00 PM,Video Conference
+1005,2022-2026,Property Standards - Toronto and East York Panel,4,2023-02-27,09:30 AM,18:00 PM,Video Conference
+1006,2022-2026,Property Standards - Toronto and East York Panel,5,2023-03-27,09:30 AM,18:00 PM,Video Conference
+1007,2022-2026,Property Standards - Toronto and East York Panel,6,2023-04-24,09:30 AM,18:00 PM,Video Conference
+1008,2022-2026,Property Standards - Toronto and East York Panel,7,2023-05-15,09:30 AM,18:00 PM,Video Conference
+1009,2022-2026,Property Standards - Toronto and East York Panel,8,2023-06-12,09:30 AM,18:00 PM,Video Conference
+1010,2022-2026,Property Standards - Toronto and East York Panel,9,2023-09-18,09:30 AM,18:00 PM,Video Conference
+1011,2022-2026,Property Standards - Toronto and East York Panel,10,2023-10-16,09:30 AM,18:00 PM,Video Conference
+1012,2022-2026,Property Standards - Toronto and East York Panel,11,2023-11-13,09:30 AM,18:00 PM,Video Conference
+1013,2022-2026,Property Standards - Toronto and East York Panel,12,2023-12-11,09:30 AM,18:00 PM,Video Conference
+1014,2022-2026,Property Standards - Toronto and East York Panel,13,2024-01-22,09:30 AM,18:00 PM,Video Conference
+1015,2022-2026,Property Standards - Toronto and East York Panel,14,2024-02-26,09:30 AM,18:00 PM,Video Conference
+1016,2022-2026,Property Standards - Toronto and East York Panel,15,2024-03-18,09:30 AM,18:00 PM,Video Conference
+1017,2022-2026,Property Standards - Toronto and East York Panel,16,2024-04-15,09:30 AM,18:00 PM,Video Conference
+1018,2022-2026,Property Standards - Toronto and East York Panel,17,2024-05-13,09:30 AM,18:00 PM,Video Conference
+1019,2022-2026,Property Standards - Toronto and East York Panel,18,2024-06-10,09:30 AM,18:00 PM,Video Conference
+1020,2022-2026,Property Standards - Toronto and East York Panel,19,2024-07-15,09:30 AM,18:00 PM,Video Conference
+1021,2022-2026,Property Standards - Toronto and East York Panel,20,2024-09-19,09:30 AM,18:00 PM,Video Conference
+1022,2022-2026,Property Standards - Toronto and East York Panel,21,2024-09-23,09:30 AM,18:00 PM,Video Conference
+1023,2022-2026,Property Standards - Toronto and East York Panel,22,2024-10-28,09:30 AM,18:00 PM,Video Conference
+1024,2022-2026,Property Standards - Toronto and East York Panel,23,2024-11-12,09:30 AM,18:00 PM,Video Conference
+1025,2022-2026,Property Standards - Toronto and East York Panel,24,2024-11-25,09:30 AM,18:00 PM,Video Conference
+1026,2022-2026,Property Standards - Toronto and East York Panel,25,2024-12-05,09:30 AM,18:00 PM,Video Conference
+1027,2022-2026,Property Standards - Toronto and East York Panel,26,2025-01-13,09:30 AM,18:00 PM,Video Conference
+1028,2022-2026,Property Standards - Toronto and East York Panel,27,2025-02-24,09:30 AM,18:00 PM,Video Conference
+1029,2022-2026,Property Standards - Toronto and East York Panel,28,2025-03-17,09:30 AM,18:00 PM,Video Conference
+1030,2022-2026,Property Standards - Toronto and East York Panel,29,2025-04-14,09:30 AM,18:00 PM,Video Conference
+1031,2022-2026,Property Standards - Toronto and East York Panel,30,2025-05-12,09:30 AM,18:00 PM,Video Conference
+1032,2022-2026,Property Standards - Toronto and East York Panel,31,2025-06-23,09:30 AM,18:00 PM,Video Conference
+1033,2022-2026,Property Standards - Toronto and East York Panel,32,2025-07-21,09:30 AM,18:00 PM,Video Conference
+1034,2022-2026,Property Standards - Toronto and East York Panel,33,2025-09-08,09:30 AM,18:00 PM,Video Conference
+1035,2022-2026,Property Standards - Toronto and East York Panel,34,2025-10-06,09:30 AM,18:00 PM,Video Conference
+1036,2022-2026,Property Standards - Toronto and East York Panel,35,2025-11-03,09:30 AM,18:00 PM,Video Conference
+1037,2022-2026,Property Standards - Toronto and East York Panel,36,2025-12-08,09:30 AM,18:00 PM,Video Conference
+1038,2022-2026,Property Standards - Toronto and East York Panel,37,2025-12-18,09:30 AM,18:00 PM,Video Conference
+1039,2022-2026,Property Standards - Toronto and East York Panel,38,2026-01-26,09:30 AM,18:00 PM,Video Conference
+1040,2022-2026,Property Standards - Toronto and East York Panel,39,2026-02-26,09:30 AM,18:00 PM,Video Conference
+1041,2022-2026,Property Standards - Toronto and East York Panel,40,2026-03-23,09:30 AM,18:00 PM,Video Conference
+1042,2022-2026,Property Standards - Toronto and East York Panel,41,2026-04-27,09:30 AM,18:00 PM,Video Conference
+1043,2022-2026,Property Standards - Toronto and East York Panel,42,2026-05-25,09:30 AM,18:00 PM,Video Conference
+1044,2022-2026,Property Standards - Toronto and East York Panel,43,2026-06-29,09:30 AM,18:00 PM,Video Conference
+1045,2022-2026,Property Standards - Toronto and East York Panel,44,2026-07-27,09:30 AM,18:00 PM,Video Conference
+1046,2022-2026,Property Standards - Toronto and East York Panel,45,2026-09-28,09:30 AM,18:00 PM,Video Conference
+1047,2022-2026,Property Standards - Toronto and East York Panel,46,2026-10-19,09:30 AM,18:00 PM,Video Conference
+1048,2022-2026,Property Standards Committee,1,2023-05-02,09:30 AM,18:00 PM,Video Conference
+1049,2022-2026,Property Standards Committee,2,2023-11-08,09:30 AM,18:00 PM,Video Conference
+1050,2022-2026,Property Standards Committee,3,2025-11-28,09:30 AM,18:00 PM,Video Conference
+1051,2022-2026,Scarborough Community Council,1,2022-12-01,09:30 AM,18:00 PM,"Council Chamber, Scarborough Civic Centre/Video Conference"
+1052,2022-2026,Scarborough Community Council,2,2023-01-27,09:30 AM,18:00 PM,"Council Chamber, Scarborough Civic Centre/Video Conference"
+1053,2022-2026,Scarborough Community Council,3,2023-02-24,09:30 AM,18:00 PM,"Council Chamber, Scarborough Civic Centre/Video Conference"
+1054,2022-2026,Scarborough Community Council,4,2023-04-05,09:30 AM,18:00 PM,"Council Chamber, Scarborough Civic Centre/Video Conference"
+1055,2022-2026,Scarborough Community Council,5,2023-05-18,09:30 AM,18:00 PM,"Council Chamber, Scarborough Civic Centre/Video Conference"
+1056,2022-2026,Scarborough Community Council,6,2023-06-27,09:30 AM,18:00 PM,"Council Chamber, Scarborough Civic Centre/Video Conference"
+1057,2022-2026,Scarborough Community Council,7,2023-09-08,09:30 AM,18:00 PM,"Council Chamber, Scarborough Civic Centre/Video Conference"
+1058,2022-2026,Scarborough Community Council,8,2023-10-19,09:30 AM,18:00 PM,"Council Chamber, Scarborough Civic Centre/Video Conference"
+1059,2022-2026,Scarborough Community Council,9,2023-11-16,09:30 AM,18:00 PM,"Council Chamber, Scarborough Civic Centre/Video Conference"
+1060,2022-2026,Scarborough Community Council,10,2024-01-19,09:30 AM,18:00 PM,"Council Chamber, Scarborough Civic Centre/Video Conference"
+1061,2022-2026,Scarborough Community Council,11,2024-02-16,09:30 AM,18:00 PM,"Council Chamber, Scarborough Civic Centre/Video Conference"
+1062,2022-2026,Scarborough Community Council,12,2024-04-04,09:30 AM,18:00 PM,"Council Chamber, Scarborough Civic Centre/Video Conference"
+1063,2022-2026,Scarborough Community Council,13,2024-05-06,09:30 AM,18:00 PM,"Council Chamber, Scarborough Civic Centre/Video Conference"
+1064,2022-2026,Scarborough Community Council,14,2024-06-12,09:30 AM,18:00 PM,"Council Chamber, Scarborough Civic Centre/Video Conference"
+1065,2022-2026,Scarborough Community Council,15,2024-07-12,09:30 AM,18:00 PM,"Council Chamber, Scarborough Civic Centre/Video Conference"
+1066,2022-2026,Scarborough Community Council,16,2024-09-19,09:30 AM,18:00 PM,"Council Chamber, Scarborough Civic Centre/Video Conference"
+1067,2022-2026,Scarborough Community Council,17,2024-11-01,09:30 AM,18:00 PM,"Council Chamber, Scarborough Civic Centre/Video Conference"
+1068,2022-2026,Scarborough Community Council,18,2024-12-06,09:30 AM,18:00 PM,"Council Chamber, Scarborough Civic Centre/Video Conference"
+1069,2022-2026,Scarborough Community Council,19,2025-01-14,09:30 AM,18:00 PM,"Council Chamber, Scarborough Civic Centre/Video Conference"
+1070,2022-2026,Scarborough Community Council,20,2025-02-20,09:30 AM,18:00 PM,"Council Chamber, Scarborough Civic Centre/Video Conference"
+1071,2022-2026,Scarborough Community Council,21,2025-04-03,09:30 AM,18:00 PM,"Council Chamber, Scarborough Civic Centre/Video Conference"
+1072,2022-2026,Scarborough Community Council,22,2025-05-01,09:30 AM,18:00 PM,"Council Chamber, Scarborough Civic Centre/Video Conference"
+1073,2022-2026,Scarborough Community Council,23,2025-06-05,10:15 AM,18:00 PM,"Council Chamber, Scarborough Civic Centre/Video Conference"
+1074,2022-2026,Scarborough Community Council,24,2025-07-08,09:30 AM,18:00 PM,"Council Chamber, Scarborough Civic Centre/Video Conference"
+1075,2022-2026,Scarborough Community Council,25,2025-09-18,09:30 AM,18:00 PM,"Council Chamber, Scarborough Civic Centre/Video Conference"
+1076,2022-2026,Scarborough Community Council,26,2025-10-22,09:30 AM,18:00 PM,"Council Chamber, Scarborough Civic Centre/Video Conference"
+1077,2022-2026,Scarborough Community Council,27,2025-11-27,09:30 AM,18:00 PM,"Council Chamber, Scarborough Civic Centre/Video Conference"
+1078,2022-2026,Scarborough Community Council,28,2026-01-13,09:30 AM,18:00 PM,"Council Chamber, Scarborough Civic Centre/Video Conference"
+1079,2022-2026,Scarborough Community Council,29,2026-02-19,09:30 AM,18:00 PM,"Council Chamber, Scarborough Civic Centre/Video Conference"
+1080,2022-2026,Scarborough Community Council,30,2026-04-01,09:30 AM,18:00 PM,"Council Chamber, Scarborough Civic Centre/Video Conference"
+1081,2022-2026,Scarborough Community Council,31,2026-04-30,09:30 AM,18:00 PM,"Council Chamber, Scarborough Civic Centre/Video Conference"
+1082,2022-2026,Scarborough Community Council,32,2026-05-28,09:30 AM,18:00 PM,"Council Chamber, Scarborough Civic Centre/Video Conference"
+1083,2022-2026,Scarborough Community Council,33,2026-07-09,09:30 AM,18:00 PM,"Council Chamber, Scarborough Civic Centre/Video Conference"
+1084,2022-2026,Service Excellence Committee,1,2023-12-18,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1085,2022-2026,Service Excellence Committee,2,2024-03-19,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1086,2022-2026,Service Excellence Committee,3,2024-05-31,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1087,2022-2026,Service Excellence Committee,4,2024-07-19,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1088,2022-2026,Service Excellence Committee,5,2024-09-06,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1089,2022-2026,Service Excellence Committee,6,2024-11-25,11:00 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1090,2022-2026,Service Excellence Committee,7,2025-02-28,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1091,2022-2026,Service Excellence Committee,8,2025-06-23,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1092,2022-2026,Service Excellence Committee,9,2025-09-12,13:30 PM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1093,2022-2026,Service Excellence Committee,10,2025-11-20,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1094,2022-2026,Service Excellence Committee,11,2026-03-23,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1095,2022-2026,Service Excellence Committee,12,2026-05-14,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1096,2022-2026,Service Excellence Committee,13,2026-07-06,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1097,2022-2026,Sign Variance Committee,1,2023-03-31,09:30 AM,18:00 PM,Video Conference
+1098,2022-2026,Sign Variance Committee,2,2023-05-05,09:30 AM,18:00 PM,Video Conference
+1099,2022-2026,Sign Variance Committee,3,2023-06-23,09:30 AM,18:00 PM,Video Conference
+1100,2022-2026,Sign Variance Committee,4,2023-09-08,09:30 AM,18:00 PM,Video Conference
+1101,2022-2026,Sign Variance Committee,5,2023-11-03,09:30 AM,18:00 PM,Video Conference
+1102,2022-2026,Sign Variance Committee,6,2024-02-02,09:30 AM,18:00 PM,Video Conference
+1103,2022-2026,Sign Variance Committee,7,2024-03-01,09:30 AM,18:00 PM,Video Conference
+1104,2022-2026,Sign Variance Committee,8,2024-04-05,09:30 AM,18:00 PM,Video Conference
+1105,2022-2026,Sign Variance Committee,9,2024-05-10,09:30 AM,18:00 PM,Video Conference
+1106,2022-2026,Sign Variance Committee,10,2024-06-07,09:30 AM,18:00 PM,Video Conference
+1107,2022-2026,Sign Variance Committee,11,2024-09-06,09:30 AM,18:00 PM,Video Conference
+1108,2022-2026,Sign Variance Committee,12,2024-10-18,09:30 AM,18:00 PM,Video Conference
+1109,2022-2026,Sign Variance Committee,13,2024-11-15,09:30 AM,18:00 PM,Video Conference
+1110,2022-2026,Sign Variance Committee,14,2025-02-07,09:30 AM,18:00 PM,Video Conference
+1111,2022-2026,Sign Variance Committee,15,2025-03-24,09:30 AM,18:00 PM,Video Conference
+1112,2022-2026,Sign Variance Committee,16,2025-05-02,09:30 AM,18:00 PM,Video Conference
+1113,2022-2026,Sign Variance Committee,17,2025-06-13,09:30 AM,18:00 PM,Video Conference
+1114,2022-2026,Sign Variance Committee,18,2025-09-12,09:30 AM,18:00 PM,Video Conference
+1115,2022-2026,Sign Variance Committee,19,2025-11-28,09:30 AM,18:00 PM,Video Conference
+1116,2022-2026,Sign Variance Committee,20,2026-02-06,09:30 AM,18:00 PM,Video Conference
+1117,2022-2026,Sign Variance Committee,21,2026-03-13,09:30 AM,18:00 PM,Video Conference
+1118,2022-2026,Sign Variance Committee,22,2026-05-08,13:00 PM,18:00 PM,Video Conference
+1119,2022-2026,Sign Variance Committee,23,2026-05-15,09:30 AM,18:00 PM,Video Conference
+1120,2022-2026,Sign Variance Committee,24,2026-06-19,09:30 AM,18:00 PM,Video Conference
+1121,2022-2026,Sign Variance Committee,25,2026-09-18,09:30 AM,18:00 PM,Video Conference
+1122,2022-2026,Sign Variance Committee,26,2026-10-23,09:30 AM,18:00 PM,Video Conference
+1123,2022-2026,Striking Committee,1,2022-11-24,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1124,2022-2026,Striking Committee,2,2023-08-10,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1125,2022-2026,Striking Committee,3,2023-09-29,09:00 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+1126,2022-2026,Striking Committee,4,2023-12-06,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1127,2022-2026,Striking Committee,5,2024-03-08,13:30 PM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1128,2022-2026,Striking Committee,6,2024-05-13,14:00 PM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1129,2022-2026,Striking Committee,7,2024-12-16,11:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1130,2022-2026,Striking Committee,8,2025-04-07,13:30 PM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1131,2022-2026,Striking Committee,9,2025-10-23,10:00 AM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+1132,2022-2026,Striking Committee,10,2026-03-11,09:30 AM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+1133,2022-2026,Subcommittee on Metrolinxs Ontario Line Construction,1,2023-03-22,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1134,2022-2026,Subcommittee on Metrolinxs Ontario Line Construction,2,2023-07-10,10:30 AM,18:00 PM,"Committee Room 2, City Hall"
+1135,2022-2026,TO Live,1,2022-12-05,12:30 PM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1136,2022-2026,TO Live,2,2023-02-15,12:30 PM,18:00 PM,"Meridian Hall, Executive Boardroom, 1 Front St E/Video Conference"
+1137,2022-2026,TO Live,3,2023-04-19,12:30 PM,18:00 PM,"Meridian Hall, Executive Boardroom, 1 Front St E/Video Conference"
+1138,2022-2026,TO Live,4,2023-05-17,12:30 PM,18:00 PM,"Meridian Hall, Executive Boardroom, 1 Front St E/Video Conference"
+1139,2022-2026,TO Live,5,2023-06-28,12:30 PM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+1140,2022-2026,TO Live,6,2023-09-20,12:30 PM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1141,2022-2026,TO Live,7,2023-12-12,12:30 PM,18:00 PM,"Meridian Hall, Executive Boardroom, 1 Front St E/Video Conference"
+1142,2022-2026,TO Live,8,2024-02-15,12:30 PM,18:00 PM,"Meridian Hall, Executive Boardroom, 1 Front St E/Video Conference"
+1143,2022-2026,TO Live,9,2024-04-24,12:30 PM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1144,2022-2026,TO Live,10,2024-06-20,12:30 PM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+1145,2022-2026,TO Live,11,2024-09-12,12:30 PM,18:00 PM,"Meridian Hall, Executive Boardroom, 1 Front St E/Video Conference"
+1146,2022-2026,TO Live,12,2024-11-25,14:30 PM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+1147,2022-2026,TO Live,13,2025-01-30,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+1148,2022-2026,TO Live,14,2025-02-27,12:30 PM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1149,2022-2026,TO Live,15,2025-04-17,12:30 PM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1150,2022-2026,TO Live,16,2025-06-19,12:30 PM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1151,2022-2026,TO Live,17,2025-09-11,12:30 PM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1152,2022-2026,TO Live,18,2025-12-11,12:30 PM,18:00 PM,"Meridian Hall, Executive Boardroom, 1 Front St E/Video Conference"
+1153,2022-2026,TO Live,19,2026-03-24,13:00 PM,18:00 PM,"Meridian Hall, Executive Boardroom, 1 Front St E/Video Conference"
+1154,2022-2026,TO Live,20,2026-06-15,12:30 PM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+1155,2022-2026,TO Live,21,2026-09-10,12:30 PM,18:00 PM,"Meridian Hall, Executive Boardroom, 1 Front St E/Video Conference"
+1156,2022-2026,"TO Live - Environmental, Social and Governance Committee",1,2022-11-21,13:30 PM,18:00 PM,Video Conference
+1157,2022-2026,"TO Live - Environmental, Social and Governance Committee",2,2023-04-17,09:30 AM,18:00 PM,"Meridian Hall, Executive Boardroom, 1 Front St E/Video Conference"
+1158,2022-2026,"TO Live - Environmental, Social and Governance Committee",3,2023-12-06,09:30 AM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+1159,2022-2026,"TO Live - Environmental, Social and Governance Committee",4,2024-06-18,09:30 AM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+1160,2022-2026,"TO Live - Environmental, Social and Governance Committee",5,2024-09-10,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1161,2022-2026,"TO Live - Environmental, Social and Governance Committee",6,2026-09-08,09:30 AM,18:00 PM,"Meridian Hall, Executive Boardroom, 1 Front St E/Video Conference"
+1162,2022-2026,TO Live - Finance and Audit Committee,1,2022-11-25,12:30 PM,18:00 PM,Video Conference
+1163,2022-2026,TO Live - Finance and Audit Committee,2,2023-02-13,12:30 PM,18:00 PM,"Meridian Hall, Executive Boardroom, 1 Front St E/Video Conference"
+1164,2022-2026,TO Live - Finance and Audit Committee,3,2023-04-17,12:30 PM,18:00 PM,"Meridian Hall, Executive Boardroom, 1 Front St E/Video Conference"
+1165,2022-2026,TO Live - Finance and Audit Committee,4,2023-05-15,12:30 PM,18:00 PM,"Meridian Hall, Executive Boardroom, 1 Front St E/Video Conference"
+1166,2022-2026,TO Live - Finance and Audit Committee,5,2023-09-18,12:30 PM,18:00 PM,"Meridian Hall, Executive Boardroom, 1 Front St E/Video Conference"
+1167,2022-2026,TO Live - Finance and Audit Committee,6,2023-12-12,11:00 AM,18:00 PM,"Meridian Hall, Executive Boardroom, 1 Front St E/Video Conference"
+1168,2022-2026,TO Live - Finance and Audit Committee,7,2024-02-12,12:30 PM,18:00 PM,"Meridian Hall, Executive Boardroom, 1 Front St E/Video Conference"
+1169,2022-2026,TO Live - Finance and Audit Committee,8,2024-06-18,12:30 PM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+1170,2022-2026,TO Live - Finance and Audit Committee,9,2024-09-10,12:30 PM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1171,2022-2026,TO Live - Finance and Audit Committee,10,2025-09-09,12:30 PM,15:00 PM,"Meridian Hall, Executive Boardroom, 1 Front St E/Video Conference"
+1172,2022-2026,TO Live - Finance and Audit Committee,11,2025-12-08,12:30 PM,15:00 PM,"Committee Room 2, City Hall/Video Conference"
+1173,2022-2026,TO Live - Finance and Audit Committee,12,2026-03-23,12:30 PM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+1174,2022-2026,TO Live - Finance and Audit Committee,13,2026-06-11,12:30 PM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1175,2022-2026,TO Live - Finance and Audit Committee,14,2026-09-08,12:30 PM,18:00 PM,"Meridian Hall, Executive Boardroom, 1 Front St E/Video Conference"
+1176,2022-2026,TO Live - Human Resources and Stakeholder Relations Committee,1,2023-02-13,09:30 AM,18:00 PM,"Meridian Hall, Executive Boardroom, 1 Front St E/Video Conference"
+1177,2022-2026,TO Live - Human Resources and Stakeholder Relations Committee,2,2023-04-17,15:00 PM,18:00 PM,"Meridian Hall, Executive Boardroom, 1 Front St E/Video Conference"
+1178,2022-2026,TO Live - Human Resources and Stakeholder Relations Committee,3,2023-09-18,15:00 PM,18:00 PM,"Meridian Hall, Executive Boardroom, 1 Front St E/Video Conference"
+1179,2022-2026,TO Live - Human Resources and Stakeholder Relations Committee,4,2023-12-06,15:00 PM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+1180,2022-2026,TO Live - Human Resources and Stakeholder Relations Committee,5,2024-06-18,15:00 PM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+1181,2022-2026,TO Live - Human Resources and Stakeholder Relations Committee,6,2024-09-10,15:00 PM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1182,2022-2026,TO Live - Human Resources and Stakeholder Relations Committee,7,2025-02-25,15:00 PM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1183,2022-2026,TO Live - Human Resources and Stakeholder Relations Committee,8,2025-04-15,15:00 PM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1184,2022-2026,TO Live - Human Resources and Stakeholder Relations Committee,9,2025-06-16,15:00 PM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+1185,2022-2026,TO Live - Human Resources and Stakeholder Relations Committee,10,2025-12-08,15:00 PM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1186,2022-2026,TO Live - Human Resources and Stakeholder Relations Committee,11,2026-03-23,15:00 PM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+1187,2022-2026,TO Live - Human Resources and Stakeholder Relations Committee,12,2026-06-11,15:00 PM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+1188,2022-2026,TO Live - Human Resources and Stakeholder Relations Committee,13,2026-09-08,15:00 PM,18:00 PM,"Meridian Hall, Executive Boardroom, 1 Front St E/Video Conference"
+1189,2022-2026,Toronto Accessibility Advisory Committee,1,2023-06-12,09:30 AM,18:00 PM,Video Conference
+1190,2022-2026,Toronto Accessibility Advisory Committee,2,2023-09-05,09:30 AM,18:00 PM,Video Conference
+1191,2022-2026,Toronto Accessibility Advisory Committee,3,2023-10-16,09:30 AM,18:00 PM,Video Conference
+1192,2022-2026,Toronto Accessibility Advisory Committee,4,2023-11-06,09:30 AM,18:00 PM,Video Conference
+1193,2022-2026,Toronto Accessibility Advisory Committee,5,2024-02-05,09:30 AM,18:00 PM,Video Conference
+1194,2022-2026,Toronto Accessibility Advisory Committee,6,2024-05-06,14:00 PM,18:00 PM,Video Conference
+1195,2022-2026,Toronto Accessibility Advisory Committee,7,2024-06-24,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1196,2022-2026,Toronto Accessibility Advisory Committee,8,2024-09-06,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1197,2022-2026,Toronto Accessibility Advisory Committee,9,2024-10-17,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1198,2022-2026,Toronto Accessibility Advisory Committee,10,2024-12-11,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1199,2022-2026,Toronto Accessibility Advisory Committee,11,2025-05-09,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1200,2022-2026,Toronto Accessibility Advisory Committee,12,2025-06-23,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1201,2022-2026,Toronto Accessibility Advisory Committee,13,2025-09-08,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1202,2022-2026,Toronto Accessibility Advisory Committee,14,2025-10-24,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1203,2022-2026,Toronto Accessibility Advisory Committee,15,2025-12-11,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1204,2022-2026,Toronto Accessibility Advisory Committee,16,2026-02-27,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1205,2022-2026,Toronto Accessibility Advisory Committee,17,2026-05-04,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1206,2022-2026,Toronto Accessibility Advisory Committee,18,2026-06-15,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1207,2022-2026,Toronto Atmospheric Fund,1,2023-02-10,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1208,2022-2026,Toronto Atmospheric Fund,2,2023-04-27,13:30 PM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+1209,2022-2026,Toronto Atmospheric Fund,3,2023-07-14,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1210,2022-2026,Toronto Atmospheric Fund,4,2023-11-21,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1211,2022-2026,Toronto Atmospheric Fund,5,2024-02-12,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1212,2022-2026,Toronto Atmospheric Fund,6,2024-04-26,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1213,2022-2026,Toronto Atmospheric Fund,7,2024-07-18,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1214,2022-2026,Toronto Atmospheric Fund,8,2024-11-21,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1215,2022-2026,Toronto Atmospheric Fund,9,2025-02-18,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+1216,2022-2026,Toronto Atmospheric Fund,10,2025-04-29,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+1217,2022-2026,Toronto Atmospheric Fund,11,2025-07-18,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1218,2022-2026,Toronto Atmospheric Fund,12,2025-11-24,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1219,2022-2026,Toronto Atmospheric Fund,13,2026-02-13,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1220,2022-2026,Toronto Atmospheric Fund,14,2026-04-28,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1221,2022-2026,Toronto Atmospheric Fund,15,2026-07-13,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1222,2022-2026,Toronto Atmospheric Fund,16,2026-11-03,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1223,2022-2026,Toronto Francophone Affairs Advisory Committee,1,2023-12-07,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1224,2022-2026,Toronto Francophone Affairs Advisory Committee,2,2024-04-08,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1225,2022-2026,Toronto Francophone Affairs Advisory Committee,3,2024-10-17,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1226,2022-2026,Toronto Francophone Affairs Advisory Committee,4,2025-02-13,09:30 AM,18:00 PM,Video Conference
+1227,2022-2026,Toronto Francophone Affairs Advisory Committee,5,2025-07-11,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1228,2022-2026,Toronto Francophone Affairs Advisory Committee,6,2025-11-19,09:30 AM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+1229,2022-2026,Toronto Francophone Affairs Advisory Committee,7,2026-02-12,09:30 AM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+1230,2022-2026,Toronto Francophone Affairs Advisory Committee,8,2026-06-18,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1231,2022-2026,Toronto Investment Board,1,2022-12-16,09:00 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1232,2022-2026,Toronto Investment Board,2,2023-03-09,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1233,2022-2026,Toronto Investment Board,3,2023-06-19,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1234,2022-2026,Toronto Investment Board,4,2023-09-29,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1235,2022-2026,Toronto Investment Board,5,2023-12-11,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1236,2022-2026,Toronto Investment Board,6,2024-04-03,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1237,2022-2026,Toronto Investment Board,7,2024-06-20,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1238,2022-2026,Toronto Investment Board,8,2024-09-26,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1239,2022-2026,Toronto Investment Board,9,2024-12-12,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1240,2022-2026,Toronto Investment Board,10,2025-03-17,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1241,2022-2026,Toronto Investment Board,11,2025-06-24,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1242,2022-2026,Toronto Investment Board,12,2025-09-26,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1243,2022-2026,Toronto Investment Board,13,2025-11-25,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+1244,2022-2026,Toronto Investment Board,14,2025-12-12,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+1245,2022-2026,Toronto Investment Board,15,2026-03-23,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+1246,2022-2026,Toronto Investment Board,16,2026-06-22,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+1247,2022-2026,Toronto Investment Board,17,2026-09-25,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1248,2022-2026,Toronto Music Advisory Committee,1,2023-11-22,10:00 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1249,2022-2026,Toronto Music Advisory Committee,2,2024-02-15,10:00 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1250,2022-2026,Toronto Music Advisory Committee,3,2024-05-10,13:30 PM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1251,2022-2026,Toronto Music Advisory Committee,4,2024-09-24,14:00 PM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1252,2022-2026,Toronto Music Advisory Committee,5,2024-11-21,10:00 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1253,2022-2026,Toronto Music Advisory Committee,6,2025-02-18,10:00 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1254,2022-2026,Toronto Music Advisory Committee,7,2025-05-15,14:00 PM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1255,2022-2026,Toronto Music Advisory Committee,8,2025-10-07,14:00 PM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1256,2022-2026,Toronto Music Advisory Committee,9,2025-12-01,10:00 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1257,2022-2026,Toronto Music Advisory Committee,10,2026-02-09,10:00 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1258,2022-2026,Toronto Music Advisory Committee,11,2026-05-25,14:00 PM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1259,2022-2026,Toronto Parking Authority,1,2022-12-12,10:30 AM,18:00 PM,Video Conference
+1260,2022-2026,Toronto Parking Authority,2,2023-03-03,09:30 AM,18:00 PM,Video Conference
+1261,2022-2026,Toronto Parking Authority,3,2023-04-21,09:30 AM,18:00 PM,Video Conference
+1262,2022-2026,Toronto Parking Authority,4,2023-05-25,09:30 AM,18:00 PM,Video Conference
+1263,2022-2026,Toronto Parking Authority,5,2023-07-18,09:30 AM,18:00 PM,Video Conference
+1264,2022-2026,Toronto Parking Authority,6,2023-10-06,09:30 AM,18:00 PM,Video Conference
+1265,2022-2026,Toronto Parking Authority,7,2023-11-23,09:30 AM,18:00 PM,Video Conference
+1266,2022-2026,Toronto Parking Authority,8,2024-03-26,09:30 AM,18:00 PM,Video Conference
+1267,2022-2026,Toronto Parking Authority,9,2024-05-28,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1268,2022-2026,Toronto Parking Authority,10,2024-07-19,09:30 AM,18:00 PM,Video Conference
+1269,2022-2026,Toronto Parking Authority,11,2024-10-18,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1270,2022-2026,Toronto Parking Authority,12,2024-11-29,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1271,2022-2026,Toronto Parking Authority,13,2025-03-04,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1272,2022-2026,Toronto Parking Authority,14,2025-05-15,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1273,2022-2026,Toronto Parking Authority,15,2025-07-17,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1274,2022-2026,Toronto Parking Authority,16,2025-10-16,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+1275,2022-2026,Toronto Parking Authority,17,2025-12-12,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1276,2022-2026,Toronto Parking Authority,18,2026-03-11,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1277,2022-2026,Toronto Parking Authority,19,2026-05-29,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1278,2022-2026,Toronto Parking Authority,20,2026-07-24,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1279,2022-2026,Toronto Parking Authority,21,2026-10-19,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1280,2022-2026,Toronto Parking Authority - Audit and Risk Management Committee,1,2023-03-28,14:30 PM,18:00 PM,Video Conference
+1281,2022-2026,Toronto Parking Authority - Audit and Risk Management Committee,2,2023-05-05,09:30 AM,18:00 PM,Video Conference
+1282,2022-2026,Toronto Parking Authority - Audit and Risk Management Committee,3,2023-09-08,14:00 PM,18:00 PM,Video Conference
+1283,2022-2026,Toronto Parking Authority - Audit and Risk Management Committee,4,2023-11-02,14:00 PM,18:00 PM,Video Conference
+1284,2022-2026,Toronto Parking Authority - Audit and Risk Management Committee,5,2024-04-25,14:00 PM,18:00 PM,Video Conference
+1285,2022-2026,Toronto Parking Authority - Audit and Risk Management Committee,6,2024-06-25,14:00 PM,18:00 PM,Video Conference
+1286,2022-2026,Toronto Parking Authority - Audit and Risk Management Committee,7,2024-09-24,09:30 AM,18:00 PM,Video Conference
+1287,2022-2026,Toronto Parking Authority - Audit and Risk Management Committee,8,2024-11-05,14:00 PM,18:00 PM,Video Conference
+1288,2022-2026,Toronto Parking Authority - Audit and Risk Management Committee,9,2025-04-24,09:30 AM,18:00 PM,Video Conference
+1289,2022-2026,Toronto Parking Authority - Audit and Risk Management Committee,10,2025-06-25,09:30 AM,18:00 PM,Video Conference
+1290,2022-2026,Toronto Parking Authority - Audit and Risk Management Committee,11,2025-09-25,09:30 AM,18:00 PM,Video Conference
+1291,2022-2026,Toronto Parking Authority - Audit and Risk Management Committee,12,2025-11-14,09:30 AM,18:00 PM,Video Conference
+1292,2022-2026,Toronto Preservation Board,1,2022-12-05,09:30 AM,18:00 PM,Video Conference
+1293,2022-2026,Toronto Preservation Board,2,2023-01-06,09:30 AM,18:00 PM,Video Conference
+1294,2022-2026,Toronto Preservation Board,3,2023-02-16,09:30 AM,18:00 PM,Video Conference
+1295,2022-2026,Toronto Preservation Board,4,2023-03-23,09:30 AM,18:00 PM,Video Conference
+1296,2022-2026,Toronto Preservation Board,5,2023-04-24,09:30 AM,18:00 PM,Video Conference
+1297,2022-2026,Toronto Preservation Board,6,2023-05-23,09:30 AM,18:00 PM,Video Conference
+1298,2022-2026,Toronto Preservation Board,7,2023-06-12,09:30 AM,18:00 PM,Video Conference
+1299,2022-2026,Toronto Preservation Board,8,2023-07-13,09:30 AM,18:00 PM,Video Conference
+1300,2022-2026,Toronto Preservation Board,9,2023-09-12,09:30 AM,18:00 PM,Video Conference
+1301,2022-2026,Toronto Preservation Board,10,2023-10-10,09:30 AM,18:00 PM,Video Conference
+1302,2022-2026,Toronto Preservation Board,11,2023-11-06,09:30 AM,18:00 PM,Video Conference
+1303,2022-2026,Toronto Preservation Board,12,2023-12-07,09:30 AM,18:00 PM,Video Conference
+1304,2022-2026,Toronto Preservation Board,13,2024-01-18,09:30 AM,18:00 PM,Video Conference
+1305,2022-2026,Toronto Preservation Board,14,2024-02-15,09:30 AM,18:00 PM,Video Conference
+1306,2022-2026,Toronto Preservation Board,15,2024-03-18,09:30 AM,18:00 PM,Video Conference
+1307,2022-2026,Toronto Preservation Board,16,2024-03-28,09:30 AM,18:00 PM,Video Conference
+1308,2022-2026,Toronto Preservation Board,17,2024-04-24,19:00 PM,21:00 PM,Video Conference
+1309,2022-2026,Toronto Preservation Board,18,2024-05-07,09:30 AM,18:00 PM,Video Conference
+1310,2022-2026,Toronto Preservation Board,19,2024-06-05,09:30 AM,18:00 PM,Video Conference
+1311,2022-2026,Toronto Preservation Board,20,2024-07-04,09:30 AM,18:00 PM,Video Conference
+1312,2022-2026,Toronto Preservation Board,21,2024-08-19,09:30 AM,18:00 PM,Video Conference
+1313,2022-2026,Toronto Preservation Board,22,2024-09-20,09:30 AM,18:00 PM,Video Conference
+1314,2022-2026,Toronto Preservation Board,23,2024-10-17,09:30 AM,18:00 PM,Video Conference
+1315,2022-2026,Toronto Preservation Board,24,2024-11-07,09:30 AM,18:00 PM,Video Conference
+1316,2022-2026,Toronto Preservation Board,25,2024-11-28,09:30 AM,18:00 PM,Video Conference
+1317,2022-2026,Toronto Preservation Board,26,2025-01-08,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1318,2022-2026,Toronto Preservation Board,27,2025-01-31,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1319,2022-2026,Toronto Preservation Board,28,2025-02-12,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+1320,2022-2026,Toronto Preservation Board,29,2025-03-21,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1321,2022-2026,Toronto Preservation Board,30,2025-04-01,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1322,2022-2026,Toronto Preservation Board,31,2025-05-14,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+1323,2022-2026,Toronto Preservation Board,32,2025-05-27,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1324,2022-2026,Toronto Preservation Board,33,2025-06-30,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1325,2022-2026,Toronto Preservation Board,34,2025-07-18,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+1326,2022-2026,Toronto Preservation Board,35,2025-09-22,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1327,2022-2026,Toronto Preservation Board,36,2025-10-16,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1328,2022-2026,Toronto Preservation Board,37,2025-11-18,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1329,2022-2026,Toronto Preservation Board,38,2025-12-10,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1330,2022-2026,Toronto Preservation Board,39,2026-01-19,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+1331,2022-2026,Toronto Preservation Board,40,2026-02-11,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1332,2022-2026,Toronto Preservation Board,41,2026-03-12,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1333,2022-2026,Toronto Preservation Board,42,2026-03-30,09:30 AM,18:00 PM,"Committee Room 3, City Hall/Video Conference"
+1334,2022-2026,Toronto Preservation Board,43,2026-04-27,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1335,2022-2026,Toronto Preservation Board,44,2026-05-13,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1336,2022-2026,Toronto Preservation Board,45,2026-06-08,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1337,2022-2026,Toronto Preservation Board,46,2026-07-06,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1338,2022-2026,Toronto Preservation Board,47,2026-07-22,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1339,2022-2026,Toronto Preservation Board,48,2026-09-09,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1340,2022-2026,Toronto Transit Commission,1,2025-01-27,10:00 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1341,2022-2026,Toronto Transit Commission,2,2025-02-24,10:00 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1342,2022-2026,Toronto Transit Commission,3,2025-04-16,10:00 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1343,2022-2026,Toronto Transit Commission,4,2025-05-14,10:00 AM,18:00 PM,"Council Chamber, City Hall"
+1344,2022-2026,Toronto Transit Commission,5,2025-06-05,07:30 AM,18:00 PM,Video Conference
+1345,2022-2026,Toronto Transit Commission,6,2025-06-23,14:00 PM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1346,2022-2026,Toronto Transit Commission,7,2025-07-17,10:00 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1347,2022-2026,Toronto Transit Commission,8,2025-09-10,10:00 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1348,2022-2026,Toronto Transit Commission,9,2025-10-06,10:00 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1349,2022-2026,Toronto Transit Commission,10,2025-11-03,10:00 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1350,2022-2026,Toronto Transit Commission,11,2025-12-10,11:00 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+1351,2022-2026,Toronto Transit Commission,12,2026-01-07,10:00 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1352,2022-2026,Toronto Transit Commission,13,2026-02-03,09:30 AM,18:00 PM,"Council Chamber, North York Civic Centre/Video Conference"
+1353,2022-2026,Toronto Transit Commission,14,2026-04-16,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1354,2022-2026,Toronto Transit Commission,15,2026-06-03,09:30 AM,18:00 PM,"Council Chamber, Etobicoke Civic Centre"
+1355,2022-2026,Toronto Transit Commission,16,2026-07-22,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1356,2022-2026,"Toronto Transit Commission - Audit, Finance and Risk Management Committee",1,2025-03-24,10:30 AM,18:00 PM,McBrien Building  7th Floor Board Room/Video Conference
+1357,2022-2026,"Toronto Transit Commission - Audit, Finance and Risk Management Committee",2,2025-06-09,12:00 PM,16:00 PM,McBrien Building  7th Floor Board Room/Video Conference
+1358,2022-2026,"Toronto Transit Commission - Audit, Finance and Risk Management Committee",3,2025-09-22,10:00 AM,18:00 PM,McBrien Building  7th Floor Board Room/Video Conference
+1359,2022-2026,"Toronto Transit Commission - Audit, Finance and Risk Management Committee",4,2025-12-01,10:00 AM,18:00 PM,McBrien Building  7th Floor Board Room/Video Conference
+1360,2022-2026,"Toronto Transit Commission - Audit, Finance and Risk Management Committee",5,2026-03-11,09:30 AM,18:00 PM,McBrien Building  7th Floor Board Room/Video Conference
+1361,2022-2026,"Toronto Transit Commission - Audit, Finance and Risk Management Committee",6,2026-05-26,13:30 PM,18:00 PM,McBrien Building  7th Floor Board Room/Video Conference
+1362,2022-2026,"Toronto Transit Commission - People, Culture and Governance Committee",2,2025-07-03,09:00 AM,18:00 PM,Video Conference
+1363,2022-2026,"Toronto Transit Commission - People, Culture and Governance Committee",3,2025-10-16,13:30 PM,18:00 PM,Video Conference
+1364,2022-2026,"Toronto Transit Commission - People, Culture and Governance Committee",4,2025-11-18,09:30 AM,18:00 PM,Video Conference
+1365,2022-2026,"Toronto Transit Commission - People, Culture and Governance Committee",5,2026-01-19,09:30 AM,18:00 PM,McBrien Building  7th Floor Board Room/Video Conference
+1366,2022-2026,"Toronto Transit Commission - People, Culture and Governance Committee",6,2026-03-02,15:30 PM,18:00 PM,Video Conference
+1367,2022-2026,"Toronto Transit Commission - People, Culture and Governance Committee",7,2026-03-30,09:30 AM,18:00 PM,Video Conference
+1368,2022-2026,"Toronto Transit Commission - People, Culture and Governance Committee",8,2026-05-06,09:30 AM,18:00 PM,Video Conference
+1369,2022-2026,"Toronto Transit Commission - People, Culture and Governance Committee",9,2026-05-15,14:00 PM,18:00 PM,Video Conference
+1370,2022-2026,Toronto Transit Commission - Strategic Planning Committee,1,2025-07-10,13:00 PM,18:00 PM,McBrien Building  7th Floor Board Room/Video Conference
+1371,2022-2026,Toronto Transit Commission - Strategic Planning Committee,2,2025-09-04,10:00 AM,18:00 PM,McBrien Building  7th Floor Board Room/Video Conference
+1372,2022-2026,Toronto Transit Commission - Strategic Planning Committee,3,2025-11-25,10:00 AM,18:00 PM,McBrien Building  7th Floor Board Room/Video Conference
+1373,2022-2026,Toronto Transit Commission - Strategic Planning Committee,4,2026-03-31,09:30 AM,18:00 PM,McBrien Building  7th Floor Board Room/Video Conference
+1374,2022-2026,Toronto Zoo,1,2022-12-08,14:00 PM,18:00 PM,Video Conference
+1375,2022-2026,Toronto Zoo,2,2023-02-17,14:30 PM,18:00 PM,Video Conference
+1376,2022-2026,Toronto Zoo,3,2023-04-20,14:00 PM,18:00 PM,Video Conference
+1377,2022-2026,Toronto Zoo,4,2023-06-13,14:00 PM,18:00 PM,Video Conference
+1378,2022-2026,Toronto Zoo,5,2023-09-22,14:00 PM,18:00 PM,"Toronto Zoo Boardroom, 361A Old Finch Avenue/Video Conference "
+1379,2022-2026,Toronto Zoo,6,2023-10-23,14:00 PM,18:00 PM,Video Conference
+1380,2022-2026,Toronto Zoo,7,2023-12-07,14:00 PM,18:00 PM,"Toronto Zoo Boardroom, 361A Old Finch Avenue/Video Conference "
+1381,2022-2026,Toronto Zoo,8,2024-02-09,14:00 PM,18:00 PM,Video Conference
+1382,2022-2026,Toronto Zoo,9,2024-03-28,14:00 PM,18:00 PM,"Toronto Zoo Boardroom, 361A Old Finch Avenue/Video Conference "
+1383,2022-2026,Toronto Zoo,10,2024-05-31,14:00 PM,18:00 PM,Video Conference
+1384,2022-2026,Toronto Zoo,11,2024-07-19,14:00 PM,18:00 PM,"Toronto Zoo Boardroom, 361A Old Finch Avenue/Video Conference "
+1385,2022-2026,Toronto Zoo,12,2024-10-02,14:00 PM,18:00 PM,Video Conference
+1386,2022-2026,Toronto Zoo,13,2024-11-18,14:00 PM,18:00 PM,"Toronto Zoo Boardroom, 361A Old Finch Avenue/Video Conference "
+1387,2022-2026,Toronto Zoo,14,2025-02-28,13:30 PM,18:00 PM,Video Conference
+1388,2022-2026,Toronto Zoo,15,2025-04-04,14:00 PM,18:00 PM,"Toronto Zoo Boardroom, 361A Old Finch Avenue/Video Conference "
+1389,2022-2026,Toronto Zoo,16,2025-06-13,14:00 PM,18:00 PM,Video Conference
+1390,2022-2026,Toronto Zoo,17,2025-07-30,14:00 PM,18:00 PM,"Toronto Zoo Boardroom, 361A Old Finch Avenue/Video Conference "
+1391,2022-2026,Toronto Zoo,18,2025-10-15,14:00 PM,18:00 PM,Video Conference
+1392,2022-2026,Toronto Zoo,19,2025-12-01,14:00 PM,18:00 PM,"Toronto Zoo Boardroom, 361A Old Finch Avenue/Video Conference "
+1393,2022-2026,Toronto Zoo,20,2026-02-25,14:00 PM,18:00 PM,Video Conference
+1394,2022-2026,Toronto Zoo,21,2026-04-29,14:00 PM,18:00 PM,"Toronto Zoo Boardroom, 361A Old Finch Avenue/Video Conference "
+1395,2022-2026,Toronto Zoo,22,2026-06-22,09:30 AM,18:00 PM,Video Conference
+1396,2022-2026,Toronto Zoo,23,2026-09-03,14:00 PM,18:00 PM,"Toronto Zoo Boardroom, 361A Old Finch Avenue/Video Conference "
+1397,2022-2026,Toronto Zoo,24,2026-10-16,14:00 PM,18:00 PM,Video Conference
+1398,2022-2026,Toronto and East York Community Council,1,2022-11-30,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1399,2022-2026,Toronto and East York Community Council,2,2023-01-26,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1400,2022-2026,Toronto and East York Community Council,3,2023-02-23,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1401,2022-2026,Toronto and East York Community Council,4,2023-04-12,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1402,2022-2026,Toronto and East York Community Council,5,2023-05-24,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1403,2022-2026,Toronto and East York Community Council,6,2023-06-23,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1404,2022-2026,Toronto and East York Community Council,6,2023-06-22,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1405,2022-2026,Toronto and East York Community Council,7,2023-09-19,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1406,2022-2026,Toronto and East York Community Council,8,2023-10-18,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1407,2022-2026,Toronto and East York Community Council,9,2023-11-15,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1408,2022-2026,Toronto and East York Community Council,10,2024-01-24,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1409,2022-2026,Toronto and East York Community Council,11,2024-02-21,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1410,2022-2026,Toronto and East York Community Council,12,2024-04-03,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1411,2022-2026,Toronto and East York Community Council,13,2024-05-07,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1412,2022-2026,Toronto and East York Community Council,14,2024-06-11,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1413,2022-2026,Toronto and East York Community Council,15,2024-07-10,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1414,2022-2026,Toronto and East York Community Council,16,2024-09-25,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1415,2022-2026,Toronto and East York Community Council,17,2024-10-24,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1416,2022-2026,Toronto and East York Community Council,18,2024-12-04,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1417,2022-2026,Toronto and East York Community Council,19,2025-01-14,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1418,2022-2026,Toronto and East York Community Council,20,2025-02-20,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1419,2022-2026,Toronto and East York Community Council,21,2025-04-03,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1420,2022-2026,Toronto and East York Community Council,22,2025-05-01,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1421,2022-2026,Toronto and East York Community Council,23,2025-06-05,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1422,2022-2026,Toronto and East York Community Council,24,2025-07-08,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1423,2022-2026,Toronto and East York Community Council,25,2025-09-18,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1424,2022-2026,Toronto and East York Community Council,26,2025-10-22,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+1425,2022-2026,Toronto and East York Community Council,27,2025-11-27,09:30 AM,18:00 PM,"Council Chamber, City Hall/Video Conference"
+1426,2022-2026,Toronto and East York Community Council,28,2026-01-13,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1427,2022-2026,Toronto and East York Community Council,29,2026-02-19,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1428,2022-2026,Toronto and East York Community Council,30,2026-02-27,09:00 AM,18:00 PM,"Committee Room 4, City Hall/Video Conference"
+1429,2022-2026,Toronto and East York Community Council,31,2026-04-01,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1430,2022-2026,Toronto and East York Community Council,32,2026-04-30,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1431,2022-2026,Toronto and East York Community Council,33,2026-05-28,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1432,2022-2026,Toronto and East York Community Council,34,2026-07-08,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1433,2022-2026,Toronto and East York Community Council,34,2026-07-09,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1434,2022-2026,Tribunals Nominating Panel,1,2023-04-21,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1435,2022-2026,"Two-Spirit, Lesbian, Gay, Bisexual, Transgender and Queer Advisory Committee",1,2023-11-30,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1436,2022-2026,"Two-Spirit, Lesbian, Gay, Bisexual, Transgender and Queer Advisory Committee",2,2024-01-31,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1437,2022-2026,"Two-Spirit, Lesbian, Gay, Bisexual, Transgender and Queer Advisory Committee",3,2024-04-16,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1438,2022-2026,"Two-Spirit, Lesbian, Gay, Bisexual, Transgender and Queer Advisory Committee",4,2024-09-23,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1439,2022-2026,"Two-Spirit, Lesbian, Gay, Bisexual, Transgender and Queer Advisory Committee",5,2024-10-15,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1440,2022-2026,"Two-Spirit, Lesbian, Gay, Bisexual, Transgender and Queer Advisory Committee",6,2025-02-18,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1441,2022-2026,"Two-Spirit, Lesbian, Gay, Bisexual, Transgender and Queer Advisory Committee",7,2025-04-29,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1442,2022-2026,"Two-Spirit, Lesbian, Gay, Bisexual, Transgender and Queer Advisory Committee",8,2025-07-15,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1443,2022-2026,"Two-Spirit, Lesbian, Gay, Bisexual, Transgender and Queer Advisory Committee",9,2025-10-14,09:30 AM,18:00 PM,"Committee Room 2, City Hall/Video Conference"
+1444,2022-2026,"Two-Spirit, Lesbian, Gay, Bisexual, Transgender and Queer Advisory Committee",10,2026-01-28,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1445,2022-2026,"Two-Spirit, Lesbian, Gay, Bisexual, Transgender and Queer Advisory Committee",11,2026-05-13,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"
+1446,2022-2026,"Two-Spirit, Lesbian, Gay, Bisexual, Transgender and Queer Advisory Committee",12,2026-07-07,09:30 AM,18:00 PM,"Committee Room 1, City Hall/Video Conference"

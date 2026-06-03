@@ -36,6 +36,22 @@ export interface BlueskyPost {
   likeCount?: number;
   repostCount?: number;
   replyCount?: number;
+  platform?: 'bluesky' | 'twitter';
+  twitterId?: string;
+}
+
+export interface VideoSegment {
+  id: string;
+  youtubeUrl: string;
+  startTime: string;  // ISO — when the stream actually started (e.g. 9:30 AM EDT)
+  label: string;      // "Day 1", "Day 2", "Evening Session"
+}
+
+export interface SessionMetadata {
+  meetingTitle?: string;
+  agendaUrl?: string;
+  previewUrl?: string;
+  videoSegments?: VideoSegment[];
 }
 
 export function parsePostUrl(url: string): { handle: string; rkey: string } | null {
@@ -50,6 +66,56 @@ export async function resolveHandle(handle: string): Promise<string> {
   );
   if (!r.ok) throw new Error(`Handle resolve failed (${r.status}): ${await r.text()}`);
   return (await r.json()).did as string;
+}
+
+// Fetches a complete historical thread by chaining getPostThread calls.
+// The API silently caps each response at ~10 nodes regardless of depth=1000,
+// so we re-fetch from the deepest post we found each iteration until stable.
+// Use this for historical imports; live threads use fetchThreadPosts instead.
+export async function fetchHistoricalThread(rootUri: string, authorDid: string): Promise<BlueskyPost[]> {
+  const allPosts = new Map<string, BlueskyPost>();
+  const visited = new Set<string>();
+
+  async function fetchFrom(uri: string): Promise<string | null> {
+    if (visited.has(uri)) return null;
+    visited.add(uri);
+
+    const r = await fetch(
+      `https://public.api.bsky.app/xrpc/app.bsky.feed.getPostThread?uri=${encodeURIComponent(uri)}&depth=1000&parentHeight=0`
+    );
+    if (!r.ok) return null;
+    const data = await r.json();
+
+    let deepest: string | null = null;
+    let deepestTime = 0;
+
+    function walk(node: { post?: BlueskyPost; replies?: unknown[] }) {
+      if (node.post && node.post.author?.did === authorDid) {
+        const parentDid = node.post.record?.reply?.parent?.uri?.split('/')[2];
+        if (!parentDid || parentDid === authorDid) {
+          allPosts.set(node.post.uri, node.post);
+          const t = new Date(node.post.indexedAt).getTime();
+          if (t > deepestTime) { deepestTime = t; deepest = node.post.uri; }
+        }
+      }
+      for (const reply of node.replies ?? []) {
+        walk(reply as { post?: BlueskyPost; replies?: unknown[] });
+      }
+    }
+
+    walk(data.thread ?? {});
+    return deepest;
+  }
+
+  let current: string | null = rootUri;
+  // Each iteration yields ~10 posts; 100 iterations covers ~1000-post threads
+  for (let i = 0; i < 100 && current; i++) {
+    const newDeepest = await fetchFrom(current);
+    if (!newDeepest || newDeepest === current) break;
+    current = newDeepest;
+  }
+
+  return Array.from(allPosts.values()).sort((a, b) => a.indexedAt.localeCompare(b.indexedAt));
 }
 
 export async function fetchThreadPosts(rootUri: string, authorDid: string): Promise<BlueskyPost[]> {
@@ -97,6 +163,12 @@ export async function fetchThreadPosts(rootUri: string, authorDid: string): Prom
 
       const replyRoot = post.record?.reply?.root?.uri;
       if (replyRoot === rootUri && post.author?.did === authorDid) {
+        // Skip replies to other users — parent DID is encoded in the AT URI
+        // (at://{did}/app.bsky.feed.post/{rkey}). Keep only replies to Matt's
+        // own posts so off-topic asides don't appear in the coverage feed.
+        const parentDid = post.record.reply!.parent.uri.split('/')[2];
+        if (parentDid !== authorDid) continue;
+
         if (!posts.find(p => p.uri === post.uri)) posts.push(post);
       }
     }
@@ -122,4 +194,106 @@ export function formatTime(ts: string): string {
     minute: '2-digit',
     hour12: true,
   });
+}
+
+export function extractYoutubeVideoId(url: string): string | null {
+  const patterns = [
+    /youtu\.be\/([a-zA-Z0-9_-]{11})/,
+    /[?&]v=([a-zA-Z0-9_-]{11})/,
+    /youtube\.com\/live\/([a-zA-Z0-9_-]{11})/,
+    /youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/,
+  ];
+  for (const pattern of patterns) {
+    const m = url.match(pattern);
+    if (m) return m[1]!;
+  }
+  return null;
+}
+
+export function formatYoutubeOffset(seconds: number): string {
+  const h = Math.floor(seconds / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  const s = seconds % 60;
+  if (h > 0) return `${h}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+  return `${m}:${String(s).padStart(2, '0')}`;
+}
+
+export function getYoutubeTimestampUrl(
+  post: BlueskyPost,
+  segments: VideoSegment[],
+): { url: string; offsetSeconds: number; segment: VideoSegment } | null {
+  if (!segments.length) return null;
+
+  const postTime = new Date(post.indexedAt).getTime();
+  const sorted = [...segments].sort(
+    (a, b) => new Date(a.startTime).getTime() - new Date(b.startTime).getTime(),
+  );
+
+  // Use the most recent segment whose startTime is before this post;
+  // fall back to the first segment if the post predates all segments.
+  let active = sorted[0]!;
+  for (const seg of sorted) {
+    if (new Date(seg.startTime).getTime() <= postTime) active = seg;
+  }
+
+  const segStart = new Date(active.startTime).getTime();
+  const offsetSeconds = Math.max(0, Math.floor((postTime - segStart) / 1000) - 60);
+  const videoId = extractYoutubeVideoId(active.youtubeUrl);
+  if (!videoId) return null;
+
+  return {
+    url: `https://www.youtube.com/watch?v=${videoId}&t=${offsetSeconds}`,
+    offsetSeconds,
+    segment: active,
+  };
+}
+
+// Scans posts (in chronological order) for YouTube links posted by the thread author.
+// Returns detected segments with sensible defaults for label + startTime.
+// Toronto is EDT (UTC-4) for council meetings; 9:30 AM EDT = 13:30 UTC, 6:30 PM EDT = 22:30 UTC.
+export function detectVideoSegments(posts: BlueskyPost[]): VideoSegment[] {
+  const seen = new Set<string>();
+  const segments: VideoSegment[] = [];
+  let dayCount = 0;
+  let eveningCount = 0;
+
+  const sorted = [...posts].sort(
+    (a, b) => new Date(a.indexedAt).getTime() - new Date(b.indexedAt).getTime(),
+  );
+
+  for (const post of sorted) {
+    for (const facet of post.record?.facets ?? []) {
+      for (const feature of facet.features) {
+        if (feature.$type !== 'app.bsky.richtext.facet#link') continue;
+        const uri = (feature as BlueskyFacetLink).uri;
+        const videoId = extractYoutubeVideoId(uri);
+        if (!videoId || seen.has(videoId)) continue;
+        seen.add(videoId);
+
+        const postDate = new Date(post.indexedAt);
+        const utcHour = postDate.getUTCHours();
+        // UTC date string for building the default start time
+        const dateStr = post.indexedAt.substring(0, 10);
+
+        const isEvening = utcHour >= 18; // 18:00 UTC ≈ 2 PM EDT — safe threshold
+        let startTime: string;
+        let label: string;
+
+        if (isEvening) {
+          startTime = `${dateStr}T22:30:00.000Z`; // 6:30 PM EDT default
+          eveningCount++;
+          label = eveningCount > 1 ? `Evening Session ${eveningCount}` : 'Evening Session';
+        } else {
+          startTime = `${dateStr}T13:30:00.000Z`; // 9:30 AM EDT default
+          dayCount++;
+          label = `Day ${dayCount}`;
+        }
+
+        const id = `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 7)}`;
+        segments.push({ id, youtubeUrl: uri, startTime, label });
+      }
+    }
+  }
+
+  return segments;
 }

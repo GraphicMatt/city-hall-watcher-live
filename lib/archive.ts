@@ -44,6 +44,7 @@ export async function snapshotSession(session: ActiveSession): Promise<string> {
     startedAt: session.startedAt,
     endedAt: new Date().toISOString(),
     postCount: posts.length,
+    metadata: session.metadata,
   });
 
   return slug;

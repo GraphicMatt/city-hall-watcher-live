@@ -52,5 +52,5 @@ export default async function Home() {
     );
   }
 
-  return <LivePoller rootUri={session.rootUri} authorDid={session.authorDid} />;
+  return <LivePoller rootUri={session.rootUri} authorDid={session.authorDid} metadata={session.metadata} />;
 }

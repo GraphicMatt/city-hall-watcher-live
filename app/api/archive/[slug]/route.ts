@@ -1,6 +1,17 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { deleteArchiveEntry, getArchiveIndex } from '@/lib/kv';
+import { deleteArchiveEntry, getArchiveIndex, updateArchiveEntry } from '@/lib/kv';
+
+// PATCH: update archive entry metadata (admin only, protected by proxy)
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: Promise<{ slug: string }> }
+) {
+  const { slug } = await params;
+  const { metadata } = await request.json();
+  await updateArchiveEntry(slug, { metadata });
+  return NextResponse.json({ ok: true });
+}
 
 // DELETE: remove an archived session (admin only, protected by proxy)
 export async function DELETE(

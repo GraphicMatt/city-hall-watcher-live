@@ -1,4 +1,6 @@
-import type { BlueskyPost } from './bluesky';
+import type { BlueskyPost, SessionMetadata } from './bluesky';
+export type { SessionMetadata } from './bluesky';
+export type { VideoSegment } from './bluesky';
 import { readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
 
@@ -9,6 +11,7 @@ export interface ActiveSession {
   startedAt: string;
   status: 'live' | 'ended';
   archivedSlug?: string;
+  metadata?: SessionMetadata;
 }
 
 export interface ArchiveEntry {
@@ -17,6 +20,7 @@ export interface ArchiveEntry {
   startedAt: string;
   endedAt: string;
   postCount: number;
+  metadata?: SessionMetadata;
 }
 
 const SESSION_KEY = 'session:active';
@@ -132,6 +136,17 @@ export async function setArchivePosts(slug: string, posts: BlueskyPost[]): Promi
     return;
   }
   storeSet(key, JSON.stringify(posts));
+}
+
+export async function updateArchiveEntry(slug: string, updates: Partial<ArchiveEntry>): Promise<void> {
+  const index = await getArchiveIndex();
+  const updated = index.map(e => (e.slug === slug ? { ...e, ...updates } : e));
+  if (isKvConfigured()) {
+    const { kv } = await import('@vercel/kv');
+    await kv.set(ARCHIVE_INDEX_KEY, JSON.stringify(updated));
+    return;
+  }
+  storeSet(ARCHIVE_INDEX_KEY, JSON.stringify(updated));
 }
 
 export async function deleteArchiveEntry(slug: string): Promise<void> {

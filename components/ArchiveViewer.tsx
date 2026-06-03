@@ -1,9 +1,12 @@
 'use client';
 
-import { useState } from 'react';
-import type { BlueskyPost } from '@/lib/bluesky';
+import { useState, useEffect, useCallback } from 'react';
+import type { BlueskyPost, SessionMetadata } from '@/lib/bluesky';
 import PostList from './PostList';
 import type { SortOrder } from './PostList';
+import MetadataBar from './MetadataBar';
+import UnreadBanner from './UnreadBanner';
+import { getLastRead, setLastRead, markAllRead } from '@/lib/lastRead';
 
 interface ArchiveViewerProps {
   posts: BlueskyPost[];
@@ -11,12 +14,60 @@ interface ArchiveViewerProps {
   postCount: number;
   startedAt?: string;
   slug: string;
+  metadata?: SessionMetadata;
 }
 
 const EMPTY_URIS = new Set<string>();
 
-export default function ArchiveViewer({ posts, label, postCount, startedAt, slug }: ArchiveViewerProps) {
+export default function ArchiveViewer({ posts, label, postCount, startedAt, slug, metadata }: ArchiveViewerProps) {
   const [order, setOrder] = useState<SortOrder>('oldest');
+  const [lastReadAt, setLastReadAt] = useState<string | null>(null);
+
+  // Load stored read position on mount (no auto-baseline — archives track reading progress)
+  useEffect(() => {
+    const stored = getLastRead(slug);
+    if (stored) setLastReadAt(stored);
+  }, [slug]);
+
+  const unreadCount = lastReadAt
+    ? posts.filter(p => p.indexedAt > lastReadAt).length
+    : 0;
+
+  const firstUnreadUri = lastReadAt
+    ? [...posts]
+        .sort((a, b) => a.indexedAt.localeCompare(b.indexedAt))
+        .find(p => p.indexedAt > lastReadAt)?.uri ?? null
+    : null;
+
+  const handlePostSeen = useCallback((indexedAt: string) => {
+    setLastReadAt(prev => {
+      if (!prev || indexedAt > prev) {
+        setLastRead(slug, indexedAt);
+        return indexedAt;
+      }
+      return prev;
+    });
+  }, [slug]);
+
+  function handleJump() {
+    if (order !== 'oldest') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (firstUnreadUri) {
+      const els = document.querySelectorAll('[data-post-uri]');
+      for (const el of els) {
+        if (el.getAttribute('data-post-uri') === firstUnreadUri) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          break;
+        }
+      }
+    }
+  }
+
+  function handleMarkRead() {
+    markAllRead(slug, posts);
+    const newest = posts.reduce((a, b) => (a.indexedAt > b.indexedAt ? a : b), posts[0]!);
+    setLastReadAt(newest.indexedAt);
+  }
 
   const dateStr = startedAt
     ? new Date(startedAt).toLocaleDateString('en-CA', { dateStyle: 'long' })
@@ -35,6 +86,9 @@ export default function ArchiveViewer({ posts, label, postCount, startedAt, slug
           Archived
         </span>
       </header>
+
+      {metadata && Object.values(metadata).some(Boolean) && <MetadataBar metadata={metadata} />}
+      <UnreadBanner count={unreadCount} order={order} onJump={handleJump} onMarkRead={handleMarkRead} />
 
       <main className="max-w-[640px] mx-auto px-4 py-6 pb-12">
         <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
@@ -66,7 +120,15 @@ export default function ArchiveViewer({ posts, label, postCount, startedAt, slug
             </a>
           </div>
         </div>
-        <PostList posts={posts} newUris={EMPTY_URIS} order={order} slug={slug} />
+        <PostList
+          posts={posts}
+          newUris={EMPTY_URIS}
+          order={order}
+          slug={slug}
+          videoSegments={metadata?.videoSegments}
+          firstUnreadUri={firstUnreadUri}
+          onPostSeen={handlePostSeen}
+        />
       </main>
     </>
   );

@@ -45,6 +45,7 @@ export default async function ArchivePage({ params }: Props) {
       postCount={posts.length}
       startedAt={entry?.startedAt}
       slug={slug}
+      metadata={entry?.metadata}
     />
   );
 }

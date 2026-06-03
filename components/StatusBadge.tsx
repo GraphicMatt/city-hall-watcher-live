@@ -1,4 +1,4 @@
-export type StatusType = 'ready' | 'connecting' | 'live' | 'error';
+export type StatusType = 'ready' | 'connecting' | 'live' | 'error' | 'ended';
 
 interface StatusBadgeProps {
   status: StatusType;
@@ -9,6 +9,7 @@ const config: Record<StatusType, { label: string; className: string; pulse: bool
   connecting: { label: 'Connecting…',                  className: 'bg-[#f0f0ea] text-[#666] dark:bg-[#2a2a2a] dark:text-[#999]', pulse: true  },
   live:       { label: 'Live',                         className: 'bg-[#e6f4ea] text-[#2a7a3a] dark:bg-[#1a3a22] dark:text-[#4caf6a]', pulse: true },
   error:      { label: 'Connection error — retrying',  className: 'bg-[#fdecea] text-[#c0392b] dark:bg-[#3a1a1a] dark:text-[#f08080]', pulse: false },
+  ended:      { label: 'Coverage ended',               className: 'bg-[#fff8e6] text-[#8a6000] dark:bg-[#2a2000] dark:text-[#f0b840]', pulse: false },
 };
 
 export default function StatusBadge({ status }: StatusBadgeProps) {
