@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import type { ActiveSession, ArchiveEntry } from '@/lib/kv';
 import type { SessionMetadata } from '@/lib/bluesky';
 import MetadataEditor from '@/components/MetadataEditor';
+import AdminPastSessions from '@/components/AdminPastSessions';
 
 interface CandidateThread {
   rootUri: string;
@@ -50,9 +51,7 @@ export default function AdminPage() {
   const [sessionError, setSessionError] = useState('');
   const [loading, setLoading] = useState(false);
   const [endError, setEndError] = useState('');
-  const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
-  const [deleting, setDeleting] = useState<string | null>(null);
-  const [expandedMeta, setExpandedMeta] = useState<string | null>(null); // slug or 'session'
+  const [sessionMetaExpanded, setSessionMetaExpanded] = useState(false);
 
   // Bluesky history import state
   const today = new Date().toISOString().substring(0, 10);
@@ -224,17 +223,6 @@ export default function AdminPage() {
       setEndError('Network error — try again.');
     } finally {
       setLoading(false);
-    }
-  }
-
-  async function handleDeleteArchive(slug: string) {
-    setDeleting(slug);
-    try {
-      await fetch(`/api/archive/${slug}`, { method: 'DELETE' });
-      await fetchArchiveIndex();
-    } finally {
-      setDeleting(null);
-      setConfirmDelete(null);
     }
   }
 
@@ -456,12 +444,12 @@ export default function AdminPage() {
           {session && (
             <div className="mt-4 pt-4 border-t border-[#f0f0ea] dark:border-[#222]">
               <button
-                onClick={() => setExpandedMeta(v => v === 'session' ? null : 'session')}
+                onClick={() => setSessionMetaExpanded(v => !v)}
                 className="text-xs font-medium text-[#888] uppercase tracking-wide hover:text-[#333] dark:hover:text-[#ccc] transition-colors"
               >
-                Meeting details {expandedMeta === 'session' ? '▲' : '▼'}
+                Meeting details {sessionMetaExpanded ? '▲' : '▼'}
               </button>
-              {expandedMeta === 'session' && (
+              {sessionMetaExpanded && (
                 <div className="mt-3">
                   <MetadataEditor
                     initialMetadata={session.metadata}
@@ -521,71 +509,13 @@ export default function AdminPage() {
 
         {/* Past sessions */}
         {archiveIndex.length > 0 && (
-          <div className="bg-white dark:bg-[#1a1a1a] border border-[#e0e0d8] dark:border-[#2a2a2a] rounded-xl p-5">
-            <p className="text-xs font-medium text-[#888] uppercase tracking-wide mb-3">Past sessions</p>
-            <div className="flex flex-col gap-2">
-              {archiveIndex.map(entry => (
-                <div key={entry.slug}>
-                  <div className="flex items-center justify-between gap-4">
-                    <div>
-                      <a
-                        href={`/${entry.slug}`}
-                        className="text-sm text-[#1a6bbf] dark:text-[#5a9fd4] hover:underline"
-                      >
-                        {entry.label}
-                      </a>
-                      <span className="text-xs text-[#aaa] dark:text-[#555] ml-2">
-                        {entry.postCount} posts
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-3 flex-shrink-0">
-                      <button
-                        onClick={() => setExpandedMeta(v => v === entry.slug ? null : entry.slug)}
-                        className="text-xs text-[#aaa] dark:text-[#555] hover:text-[#333] dark:hover:text-[#ccc] transition-colors"
-                      >
-                        {expandedMeta === entry.slug ? 'Done' : 'Edit'}
-                      </button>
-                      {confirmDelete === entry.slug ? (
-                        <>
-                          <button
-                            onClick={() => handleDeleteArchive(entry.slug)}
-                            disabled={deleting === entry.slug}
-                            className="text-xs text-[#c0392b] dark:text-[#f08080] hover:underline disabled:opacity-50"
-                          >
-                            {deleting === entry.slug ? 'Deleting…' : 'Confirm delete'}
-                          </button>
-                          <button
-                            onClick={() => setConfirmDelete(null)}
-                            className="text-xs text-[#aaa] hover:text-[#555] dark:hover:text-[#ccc]"
-                          >
-                            Cancel
-                          </button>
-                        </>
-                      ) : (
-                        <button
-                          onClick={() => setConfirmDelete(entry.slug)}
-                          className="text-xs text-[#ccc] dark:text-[#444] hover:text-[#c0392b] dark:hover:text-[#f08080] transition-colors"
-                        >
-                          Delete
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                  {expandedMeta === entry.slug && (
-                    <div className="mt-3 pt-3 border-t border-[#f0f0ea] dark:border-[#222]">
-                      <MetadataEditor
-                        slug={entry.slug}
-                        initialMetadata={entry.metadata}
-                        onSaved={updated => {
-                          setArchiveIndex(idx => idx.map(e => e.slug === entry.slug ? { ...e, metadata: updated } : e));
-                        }}
-                      />
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
+          <AdminPastSessions
+            entries={archiveIndex}
+            onMetaSaved={(slug, updated) =>
+              setArchiveIndex(idx => idx.map(e => e.slug === slug ? { ...e, metadata: updated } : e))
+            }
+            onDelete={slug => setArchiveIndex(idx => idx.filter(e => e.slug !== slug))}
+          />
         )}
 
         {/* Import Bluesky History */}
