@@ -145,3 +145,17 @@ export function getMeetingByKey(meetingKey: string): CouncilMeeting | null {
   const meetings = loadCouncilMeetings();
   return meetings.find(m => `${m.term}||${m.mtgNum}` === meetingKey) ?? null;
 }
+
+// Returns the next council meeting date on or after `onOrAfter` (YYYY-MM-DD, Toronto tz).
+// For multi-day meetings, returns the first date of the meeting that hasn't passed yet.
+export function getNextMeetingDate(
+  onOrAfter: string,
+): { meeting: CouncilMeeting; date: string } | null {
+  const meetings = loadCouncilMeetings();
+  for (const meeting of meetings) {
+    for (const date of meeting.dates) {
+      if (date >= onOrAfter) return { meeting, date };
+    }
+  }
+  return null;
+}
