@@ -248,9 +248,33 @@ export function getYoutubeTimestampUrl(
   };
 }
 
+// Convert a Toronto local time on a given date to a UTC ISO string.
+// Probes at noon UTC (well clear of any 2 AM DST transition) to find the
+// exact UTC offset in effect on that date, then applies it to the target time.
+function torontoTimeToISO(dateStr: string, localHour: number, localMinute: number): string {
+  const probe = new Date(`${dateStr}T12:00:00.000Z`);
+  const parts = new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'America/Toronto',
+    hour: '2-digit',
+    hour12: false,
+  }).formatToParts(probe);
+  const torontoHourAtNoon = parseInt(parts.find(p => p.type === 'hour')?.value ?? '12', 10);
+  // offsetHours is negative west of UTC (e.g. -4 EDT, -5 EST)
+  const offsetHours = torontoHourAtNoon - 12;
+  return new Date(Date.UTC(
+    parseInt(dateStr.slice(0, 4), 10),
+    parseInt(dateStr.slice(5, 7), 10) - 1,
+    parseInt(dateStr.slice(8, 10), 10),
+    localHour - offsetHours,
+    localMinute,
+    0, 0,
+  )).toISOString();
+}
+
 // Scans posts (in chronological order) for YouTube links posted by the thread author.
 // Returns detected segments with sensible defaults for label + startTime.
-// Toronto is EDT (UTC-4) for council meetings; 9:30 AM EDT = 13:30 UTC, 6:30 PM EDT = 22:30 UTC.
+// Default times are 9:30 AM and 6:30 PM Toronto local, converted to UTC correctly
+// for whichever offset (EDT/EST) is in effect on the meeting date.
 export function detectVideoSegments(posts: BlueskyPost[]): VideoSegment[] {
   const seen = new Set<string>();
   const segments: VideoSegment[] = [];
@@ -275,16 +299,16 @@ export function detectVideoSegments(posts: BlueskyPost[]): VideoSegment[] {
         // UTC date string for building the default start time
         const dateStr = post.indexedAt.substring(0, 10);
 
-        const isEvening = utcHour >= 18; // 18:00 UTC ≈ 2 PM EDT — safe threshold
+        const isEvening = utcHour >= 18; // 18:00 UTC ≈ 1–2 PM Toronto — safe threshold
         let startTime: string;
         let label: string;
 
         if (isEvening) {
-          startTime = `${dateStr}T22:30:00.000Z`; // 6:30 PM EDT default
+          startTime = torontoTimeToISO(dateStr, 18, 30); // 6:30 PM Toronto local
           eveningCount++;
           label = eveningCount > 1 ? `Evening Session ${eveningCount}` : 'Evening Session';
         } else {
-          startTime = `${dateStr}T13:30:00.000Z`; // 9:30 AM EDT default
+          startTime = torontoTimeToISO(dateStr, 9, 30); // 9:30 AM Toronto local
           dayCount++;
           label = `Day ${dayCount}`;
         }

@@ -1,4 +1,4 @@
-import type { BlueskyPost, BlueskyImage } from './bluesky';
+import type { BlueskyPost, BlueskyImage, BlueskyFacet } from './bluesky';
 
 export interface ProcessedTweet {
   id_str: string;
@@ -26,12 +26,39 @@ export function expandTcoUrls(text: string, urls?: { url: string; expanded_url: 
   return result;
 }
 
+// Build Bluesky-style facets from a tweet's URL entities so linkifyText can
+// render them as clickable links (same path as native Bluesky posts).
+function buildFacetsFromUrls(text: string, urls: { url: string; expanded_url: string }[]): BlueskyFacet[] {
+  const encoder = new TextEncoder();
+  const facets: BlueskyFacet[] = [];
+
+  for (const { expanded_url } of urls) {
+    const idx = text.indexOf(expanded_url);
+    if (idx === -1) continue;
+    const byteStart = encoder.encode(text.slice(0, idx)).length;
+    const byteEnd = byteStart + encoder.encode(expanded_url).length;
+    facets.push({
+      index: { byteStart, byteEnd },
+      features: [{ $type: 'app.bsky.richtext.facet#link', uri: expanded_url }],
+    });
+  }
+
+  return facets.sort((a, b) => a.index.byteStart - b.index.byteStart);
+}
+
 export function normalizeTwitterPost(tweet: ProcessedTweet): BlueskyPost {
   const images: BlueskyImage[] = (tweet.media_urls ?? []).map(url => ({
     thumb: `${url}?format=jpg&name=small`,
     fullsize: `${url}?format=jpg&name=large`,
     alt: '',
   }));
+
+  // Expand known t.co links, then strip any remaining ones (media entity URLs —
+  // they're redundant because images are shown via the embed, not as inline links).
+  const expandedText = expandTcoUrls(tweet.full_text, tweet.urls);
+  const text = expandedText.replace(/\s*https:\/\/t\.co\/\S+/g, '').trim();
+
+  const facets = buildFacetsFromUrls(text, tweet.urls ?? []);
 
   return {
     uri: `twitter://${tweet.id_str}`,
@@ -42,7 +69,8 @@ export function normalizeTwitterPost(tweet: ProcessedTweet): BlueskyPost {
       displayName: 'Matt Elliott',
     },
     record: {
-      text: expandTcoUrls(tweet.full_text, tweet.urls),
+      text,
+      ...(facets.length > 0 ? { facets } : {}),
     },
     embed: images.length > 0 ? {
       $type: 'app.bsky.embed.images#view',

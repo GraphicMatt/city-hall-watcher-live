@@ -53,7 +53,11 @@ export default async function PostPage({ params }: Props) {
   const entry = index.find(e => e.slug === slug);
   const label = entry?.label ?? slug;
 
-  const bskyUrl = `https://bsky.app/profile/${post.author.handle}/post/${postId}`;
+  const isTwitter = post.platform === 'twitter';
+  const externalUrl = isTwitter && post.twitterId
+    ? `https://twitter.com/GraphicMatt/status/${post.twitterId}`
+    : `https://bsky.app/profile/${post.author.handle}/post/${postId}`;
+  const externalLabel = isTwitter ? 'View on X →' : 'View on Bluesky →';
   const videoSegments = entry?.metadata?.videoSegments;
   const ytResult = videoSegments?.length ? getYoutubeTimestampUrl(post, videoSegments) : null;
 
@@ -92,12 +96,12 @@ export default async function PostPage({ params }: Props) {
             </a>
           )}
           <a
-            href={bskyUrl}
+            href={externalUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-[#1a6bbf] dark:hover:text-[#5a9fd4] hover:underline transition-colors"
           >
-            View on Bluesky →
+            {externalLabel}
           </a>
           <a
             href={`/${slug}`}

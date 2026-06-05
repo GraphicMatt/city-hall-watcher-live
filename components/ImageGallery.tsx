@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import type { BlueskyImage } from '@/lib/bluesky';
 
 interface ImageGalleryProps {
@@ -8,18 +8,38 @@ interface ImageGalleryProps {
 }
 
 export default function ImageGallery({ images }: ImageGalleryProps) {
-  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
-  const [lightboxAlt, setLightboxAlt] = useState('');
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+
+  const isOpen = lightboxIndex !== null;
+  const total = images.length;
+
+  const prev = useCallback(() => {
+    setLightboxIndex(i => i !== null ? (i - 1 + total) % total : null);
+  }, [total]);
+
+  const next = useCallback(() => {
+    setLightboxIndex(i => i !== null ? (i + 1) % total : null);
+  }, [total]);
+
+  const close = useCallback(() => setLightboxIndex(null), []);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    function onKey(e: KeyboardEvent) {
+      if (e.key === 'ArrowLeft') prev();
+      else if (e.key === 'ArrowRight') next();
+      else if (e.key === 'Escape') close();
+    }
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [isOpen, prev, next, close]);
 
   if (!images.length) return null;
 
   const count = Math.min(images.length, 4);
   const visible = images.slice(0, count);
-
-  const gridClass =
-    count === 1 ? 'grid-cols-1' :
-    count === 2 ? 'grid-cols-2' :
-    'grid-cols-2';
+  const gridClass = count === 1 ? 'grid-cols-1' : 'grid-cols-2';
+  const current = lightboxIndex !== null ? images[lightboxIndex] : null;
 
   return (
     <>
@@ -28,7 +48,7 @@ export default function ImageGallery({ images }: ImageGalleryProps) {
           <div
             key={i}
             className={`cursor-zoom-in overflow-hidden rounded-md border border-[#e0e0d8] dark:border-[#2a2a2a] bg-[#f0f0eb] dark:bg-[#111] ${count === 1 ? 'flex items-center justify-center' : `aspect-[16/10] ${count === 3 && i === 0 ? 'col-span-2' : ''}`}`}
-            onClick={() => { setLightboxSrc(img.fullsize || img.thumb); setLightboxAlt(img.alt || ''); }}
+            onClick={() => setLightboxIndex(i)}
           >
             <img
               src={img.thumb || img.fullsize}
@@ -40,23 +60,56 @@ export default function ImageGallery({ images }: ImageGalleryProps) {
         ))}
       </div>
 
-      {lightboxSrc && (
+      {current && (
         <div
-          className="fixed inset-0 bg-black/88 z-50 flex items-center justify-center cursor-zoom-out"
-          onClick={() => setLightboxSrc(null)}
+          className="fixed inset-0 bg-black/88 z-50 flex items-center justify-center"
+          onClick={close}
         >
+          {/* Close */}
           <button
             className="fixed top-4 right-5 text-white text-3xl leading-none opacity-70 hover:opacity-100 bg-transparent border-none px-2 py-1 cursor-pointer"
-            onClick={() => setLightboxSrc(null)}
+            onClick={close}
+            aria-label="Close"
           >
             ✕
           </button>
+
+          {/* Prev */}
+          {total > 1 && (
+            <button
+              className="fixed left-3 top-1/2 -translate-y-1/2 text-white text-5xl leading-none opacity-60 hover:opacity-100 bg-transparent border-none px-3 py-2 cursor-pointer select-none"
+              onClick={e => { e.stopPropagation(); prev(); }}
+              aria-label="Previous image"
+            >
+              ‹
+            </button>
+          )}
+
+          {/* Image */}
           <img
-            src={lightboxSrc}
-            alt={lightboxAlt}
-            className="max-w-[92vw] max-h-[92vh] object-contain rounded"
+            src={current.fullsize || current.thumb}
+            alt={current.alt || ''}
+            className="max-w-[88vw] max-h-[88vh] object-contain rounded cursor-default"
             onClick={e => e.stopPropagation()}
           />
+
+          {/* Next */}
+          {total > 1 && (
+            <button
+              className="fixed right-3 top-1/2 -translate-y-1/2 text-white text-5xl leading-none opacity-60 hover:opacity-100 bg-transparent border-none px-3 py-2 cursor-pointer select-none"
+              onClick={e => { e.stopPropagation(); next(); }}
+              aria-label="Next image"
+            >
+              ›
+            </button>
+          )}
+
+          {/* Counter */}
+          {total > 1 && (
+            <div className="fixed bottom-5 left-1/2 -translate-x-1/2 text-white/60 text-xs tabular-nums">
+              {lightboxIndex! + 1} / {total}
+            </div>
+          )}
         </div>
       )}
     </>

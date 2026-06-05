@@ -78,7 +78,12 @@ export default function ArchiveViewer({ posts, label, postCount, startedAt, slug
       <header className="bg-white dark:bg-[#1a1a1a] border-b border-[#e0e0d8] dark:border-[#2a2a2a] px-6 py-3.5 flex items-center justify-between sticky top-0 z-10">
         <div>
           <h1 className="text-sm font-semibold tracking-tight text-[#1a1a1a] dark:text-[#e8e8e0]">
-            CHW Live <span className="text-[#888] font-normal">/ {label}</span>
+            CHW Live{' '}
+            <span className="text-[#888] font-normal">
+              /{' '}
+              <a href="/archive" className="hover:underline">Archive</a>
+              {' '}/ {label}
+            </span>
           </h1>
           {dateStr && <p className="text-xs text-[#aaa] dark:text-[#555] mt-0.5">{dateStr}</p>}
         </div>
@@ -106,12 +111,6 @@ export default function ArchiveViewer({ posts, label, postCount, startedAt, slug
               <option value="most-liked">Most liked</option>
               <option value="most-reposted">Most reposted</option>
             </select>
-            <a
-              href="/archive"
-              className="text-xs text-[#999] dark:text-[#555] hover:text-[#333] dark:hover:text-[#aaa] underline"
-            >
-              All sessions
-            </a>
             <a
               href="/"
               className="text-xs text-[#999] dark:text-[#555] hover:text-[#333] dark:hover:text-[#aaa] underline"

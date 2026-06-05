@@ -9,9 +9,40 @@ interface PostCardProps {
   videoSegments?: VideoSegment[];
 }
 
+// Regex URL linkifier used as a fallback for Twitter posts that pre-date
+// facet generation, and to strip residual t.co media links.
+function linkifyPlainUrls(text: string): React.ReactNode[] {
+  const urlRegex = /https?:\/\/\S+/g;
+  const nodes: React.ReactNode[] = [];
+  let last = 0;
+  let match: RegExpExecArray | null;
+  while ((match = urlRegex.exec(text)) !== null) {
+    if (match.index > last) nodes.push(text.slice(last, match.index));
+    const url = match[0]!;
+    nodes.push(
+      <a key={match.index} href={url} target="_blank" rel="noopener noreferrer"
+         className="text-[#1a6bbf] dark:text-[#5a9fd4] hover:underline">
+        {url}
+      </a>
+    );
+    last = match.index + url.length;
+  }
+  if (last < text.length) nodes.push(text.slice(last));
+  return nodes.length > 0 ? nodes : [text];
+}
+
 function linkifyText(post: BlueskyPost): React.ReactNode[] {
   const text = post.record?.text || '';
   const facets = post.record?.facets || [];
+
+  // Twitter posts stored before facet generation: linkify via regex and strip
+  // any residual t.co media links (image is already shown in the embed).
+  if (post.platform === 'twitter' && !facets.length) {
+    const hasImages = getImages(post).length > 0;
+    const cleaned = hasImages ? text.replace(/\s*https:\/\/t\.co\/\S+/g, '').trim() : text;
+    return linkifyPlainUrls(cleaned);
+  }
+
   if (!facets.length) return [text];
 
   const encoder = new TextEncoder();
