@@ -1,5 +1,6 @@
 import type { BlueskyPost, BlueskyFacetLink, VideoSegment } from '@/lib/bluesky';
 import { getImages, formatTime, getYoutubeTimestampUrl, formatYoutubeOffset } from '@/lib/bluesky';
+import { decodeHtmlEntities } from '@/lib/twitter';
 import ImageGallery from './ImageGallery';
 
 interface PostCardProps {
@@ -32,7 +33,11 @@ function linkifyPlainUrls(text: string): React.ReactNode[] {
 }
 
 function linkifyText(post: BlueskyPost): React.ReactNode[] {
-  const text = post.record?.text || '';
+  // Decode HTML entities for Twitter posts — the archive stores &amp; etc. in raw
+  // tweet text. Already-imported posts in KV may still have encoded entities, so
+  // we decode at render time as well as at import time.
+  const rawText = post.record?.text || '';
+  const text = post.platform === 'twitter' ? decodeHtmlEntities(rawText) : rawText;
   const facets = post.record?.facets || [];
 
   // Twitter posts stored before facet generation: linkify via regex and strip

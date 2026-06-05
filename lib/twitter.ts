@@ -17,6 +17,20 @@ export function parseTwitterDate(created_at: string): Date {
   return new Date(created_at);
 }
 
+// Twitter's archive HTML-encodes certain characters in tweet text.
+// Decode the common ones so they render correctly in the UI.
+export function decodeHtmlEntities(text: string): string {
+  return text
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&apos;/g, "'")
+    .replace(/&#x27;/g, "'")
+    .replace(/&nbsp;/g, ' ');
+}
+
 export function expandTcoUrls(text: string, urls?: { url: string; expanded_url: string }[]): string {
   if (!urls || urls.length === 0) return text;
   let result = text;
@@ -53,10 +67,11 @@ export function normalizeTwitterPost(tweet: ProcessedTweet): BlueskyPost {
     alt: '',
   }));
 
-  // Expand known t.co links, then strip any remaining ones (media entity URLs —
-  // they're redundant because images are shown via the embed, not as inline links).
+  // Expand known t.co links, strip remaining media t.co links, then decode
+  // HTML entities that Twitter stores in raw tweet text (&amp; → &, etc.).
   const expandedText = expandTcoUrls(tweet.full_text, tweet.urls);
-  const text = expandedText.replace(/\s*https:\/\/t\.co\/\S+/g, '').trim();
+  const strippedText = expandedText.replace(/\s*https:\/\/t\.co\/\S+/g, '').trim();
+  const text = decodeHtmlEntities(strippedText);
 
   const facets = buildFacetsFromUrls(text, tweet.urls ?? []);
 

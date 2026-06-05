@@ -17,12 +17,20 @@ export default async function ArchiveIndexPage() {
         <h1 className="text-sm font-semibold tracking-tight text-[#1a1a1a] dark:text-[#e8e8e0]">
           CHW Live <span className="text-[#888] font-normal">/ Past coverage</span>
         </h1>
-        <a
-          href="/"
-          className="text-xs text-[#888] hover:text-[#333] dark:hover:text-[#ccc] underline"
-        >
-          ← Live
-        </a>
+        <div className="flex items-center gap-4">
+          <a
+            href="/search"
+            className="text-xs text-[#888] hover:text-[#333] dark:hover:text-[#ccc] underline"
+          >
+            Search
+          </a>
+          <a
+            href="/"
+            className="text-xs text-[#888] hover:text-[#333] dark:hover:text-[#ccc] underline"
+          >
+            ← Live
+          </a>
+        </div>
       </header>
 
       <main className="max-w-[860px] mx-auto px-4 py-8 pb-12">
