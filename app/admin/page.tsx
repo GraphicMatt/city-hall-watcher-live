@@ -717,7 +717,12 @@ export default function AdminPage() {
                 return (
                   <div key={meeting.meetingKey} className="border border-[#f0f0ea] dark:border-[#222] rounded-lg overflow-hidden">
                     <button
-                      onClick={() => setExpandedTwitterMeeting(v => v === meeting.meetingKey ? null : meeting.meetingKey)}
+                      onClick={() => {
+                        if (expandedTwitterMeeting !== meeting.meetingKey) {
+                          initMeetingThreadSelection(meeting.meetingKey, meeting.threads);
+                        }
+                        setExpandedTwitterMeeting(v => v === meeting.meetingKey ? null : meeting.meetingKey);
+                      }}
                       className="w-full text-left px-3 py-2.5 flex items-center justify-between hover:bg-[#fafaf8] dark:hover:bg-[#111] transition-colors"
                     >
                       <div className="flex items-center gap-2 min-w-0">
@@ -732,8 +737,6 @@ export default function AdminPage() {
                       <span className="text-xs text-[#aaa] ml-2">{isExpanded ? '▲' : '▼'}</span>
                     </button>
                     {isExpanded && (() => {
-                      // Initialise thread-level selection the first time this meeting expands
-                      initMeetingThreadSelection(meeting.meetingKey, meeting.threads);
                       const checkedThreadIds = selectedMeetingThreads.get(meeting.meetingKey) ?? new Set<string>();
                       const checkedCount = checkedThreadIds.size;
                       const checkedTweetCount = meeting.threads
