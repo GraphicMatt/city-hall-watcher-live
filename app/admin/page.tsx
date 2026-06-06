@@ -77,6 +77,8 @@ export default function AdminPage() {
   const [expandedTwitterThread, setExpandedTwitterThread] = useState<string | null>(null);
   // key: `meetingKey::threadRootId` → Set of selected tweet id_strs (all selected by default)
   const [selectedTweets, setSelectedTweets] = useState<Map<string, Set<string>>>(new Map());
+  // key: meetingKey → Set of rootTweetIds selected for merge (threads ≥5 tweets pre-selected)
+  const [selectedMeetingThreads, setSelectedMeetingThreads] = useState<Map<string, Set<string>>>(new Map());
 
   // Derived booleans — declared early so they can be used in effects below
   const isLive = session?.status === 'live';
@@ -291,6 +293,33 @@ export default function AdminPage() {
     }
   }
 
+  // Pre-select threads with ≥5 tweets when a meeting is first expanded.
+  // Threads below that threshold are likely stray posts, not coverage.
+  const THREAD_PRESELECT_THRESHOLD = 5;
+
+  function initMeetingThreadSelection(meetingKey: string, threads: ProposedThread[]) {
+    setSelectedMeetingThreads(prev => {
+      if (prev.has(meetingKey)) return prev;
+      const next = new Map(prev);
+      next.set(meetingKey, new Set(
+        threads
+          .filter(t => t.tweetCount >= THREAD_PRESELECT_THRESHOLD)
+          .map(t => t.rootTweetId)
+      ));
+      return next;
+    });
+  }
+
+  function toggleMeetingThread(meetingKey: string, rootTweetId: string) {
+    setSelectedMeetingThreads(prev => {
+      const next = new Map(prev);
+      const set = new Set(prev.get(meetingKey) ?? []);
+      if (set.has(rootTweetId)) { set.delete(rootTweetId); } else { set.add(rootTweetId); }
+      next.set(meetingKey, set);
+      return next;
+    });
+  }
+
   function initTweetSelection(key: string, tweets: TweetPreview[]) {
     setSelectedTweets(prev => {
       if (prev.has(key)) return prev;
@@ -341,10 +370,14 @@ export default function AdminPage() {
     }
   }
 
-  async function handleTwitterMergeImport(meeting: ProposedMeeting) {
+  async function handleTwitterMergeSelected(meeting: ProposedMeeting, selectedThreadIds: Set<string>) {
     const key = `${meeting.meetingKey}::merged`;
-    // Combine all threads chronologically and import as one archive entry
-    const allTweets = meeting.threads
+    const threadsToMerge = meeting.threads.filter(t => selectedThreadIds.has(t.rootTweetId));
+    if (threadsToMerge.length < 2) {
+      setTwitterError('Select at least two threads to merge.');
+      return;
+    }
+    const allTweets = threadsToMerge
       .flatMap(t => t.tweets)
       .sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
     setTwitterConfirming(prev => new Set(prev).add(key));
@@ -698,18 +731,26 @@ export default function AdminPage() {
                       </div>
                       <span className="text-xs text-[#aaa] ml-2">{isExpanded ? '▲' : '▼'}</span>
                     </button>
-                    {isExpanded && (
-                      <div className="px-3 pb-3 flex flex-col gap-2 border-t border-[#f0f0ea] dark:border-[#222]">
-                        {/* Merge banner — shown when the meeting has multiple broken threads */}
-                        {meeting.threads.length > 1 && !meeting.alreadyArchived && (() => {
-                          const mergedKey = `${meeting.meetingKey}::merged`;
-                          const mergedSlug = twitterImported.get(mergedKey);
-                          const isMerging = twitterConfirming.has(mergedKey);
-                          const totalTweets = meeting.threads.reduce((s, t) => s + t.tweetCount, 0);
-                          return (
+                    {isExpanded && (() => {
+                      // Initialise thread-level selection the first time this meeting expands
+                      initMeetingThreadSelection(meeting.meetingKey, meeting.threads);
+                      const checkedThreadIds = selectedMeetingThreads.get(meeting.meetingKey) ?? new Set<string>();
+                      const checkedCount = checkedThreadIds.size;
+                      const checkedTweetCount = meeting.threads
+                        .filter(t => checkedThreadIds.has(t.rootTweetId))
+                        .reduce((s, t) => s + t.tweetCount, 0);
+                      const mergedKey = `${meeting.meetingKey}::merged`;
+                      const mergedSlug = twitterImported.get(mergedKey);
+                      const isMerging = twitterConfirming.has(mergedKey);
+
+                      return (
+                        <div className="px-3 pb-3 flex flex-col gap-2 border-t border-[#f0f0ea] dark:border-[#222]">
+
+                          {/* Dynamic merge banner — only shown when ≥2 threads are checked */}
+                          {meeting.threads.length > 1 && !meeting.alreadyArchived && checkedCount >= 2 && (
                             <div className="mt-2 p-2.5 bg-[#fff8e6] dark:bg-[#2a2000] border border-[#f0d070]/40 dark:border-[#6a5000]/40 rounded-lg flex items-center justify-between gap-3">
                               <p className="text-xs text-[#8a6000] dark:text-[#f0b840]">
-                                {meeting.threads.length} separate threads detected — import as one combined archive?
+                                {checkedCount} threads selected · {checkedTweetCount} tweets
                               </p>
                               {mergedSlug ? (
                                 <a href={`/${mergedSlug}`} className="text-xs font-medium text-[#1a6bbf] dark:text-[#5a9fd4] hover:underline flex-shrink-0">
@@ -717,96 +758,110 @@ export default function AdminPage() {
                                 </a>
                               ) : (
                                 <button
-                                  onClick={() => handleTwitterMergeImport(meeting)}
+                                  onClick={() => handleTwitterMergeSelected(meeting, checkedThreadIds)}
                                   disabled={isMerging}
                                   className="text-xs font-medium px-2.5 py-1 rounded bg-[#8a6000] dark:bg-[#f0b840] text-white dark:text-[#111] hover:bg-[#6a4800] dark:hover:bg-[#ffd060] disabled:opacity-50 flex-shrink-0 whitespace-nowrap"
                                 >
-                                  {isMerging ? 'Merging…' : `Merge all ${totalTweets} tweets`}
+                                  {isMerging ? 'Merging…' : 'Merge selected'}
                                 </button>
                               )}
                             </div>
-                          );
-                        })()}
-                        {meeting.threads.map(thread => {
-                          const key = `${meeting.meetingKey}::${thread.rootTweetId}`;
-                          const importedSlug = twitterImported.get(key);
-                          const isConfirming = twitterConfirming.has(key);
-                          const isThreadExpanded = expandedTwitterThread === key;
-                          const selected = selectedTweets.get(key);
-                          const selectedCount = selected ? selected.size : thread.tweetCount;
-                          return (
-                            <div key={thread.rootTweetId} className="pt-2">
-                              <div className="flex items-start justify-between gap-2">
-                                <div className="flex-1 min-w-0">
-                                  <button
-                                    onClick={() => {
-                                      if (!isThreadExpanded) initTweetSelection(key, thread.tweets);
-                                      setExpandedTwitterThread(v => v === key ? null : key);
-                                    }}
-                                    className="text-left w-full"
-                                  >
-                                    <p className="text-xs text-[#666] dark:text-[#888] break-words">{thread.rootText}&hellip;</p>
-                                    <p className="text-xs text-[#aaa] dark:text-[#555] mt-0.5">
-                                      {isThreadExpanded
-                                        ? `${selectedCount} of ${thread.tweetCount} selected`
-                                        : `${thread.tweetCount} tweet${thread.tweetCount !== 1 ? 's' : ''}`
-                                      } · {new Date(thread.rootDate).toLocaleDateString('en-CA')} {isThreadExpanded ? '▲' : '▼'}
-                                    </p>
-                                  </button>
-                                </div>
-                                <div className="flex-shrink-0">
-                                  {importedSlug ? (
-                                    <a href={`/${importedSlug}`} className="text-xs text-[#1a6bbf] dark:text-[#5a9fd4] hover:underline">
-                                      Imported →
-                                    </a>
-                                  ) : (
-                                    <button
-                                      onClick={() => handleTwitterConfirm(meeting, thread)}
-                                      disabled={isConfirming || selectedCount === 0}
-                                      className="text-xs font-medium px-2.5 py-1 rounded bg-[#1a1a1a] dark:bg-[#e8e8e0] text-white dark:text-[#111] hover:bg-[#333] disabled:opacity-50"
-                                    >
-                                      {isConfirming ? 'Importing…' : selectedCount < thread.tweetCount ? `Import (${selectedCount})` : 'Import'}
-                                    </button>
+                          )}
+
+                          {meeting.threads.map(thread => {
+                            const key = `${meeting.meetingKey}::${thread.rootTweetId}`;
+                            const importedSlug = twitterImported.get(key);
+                            const isConfirming = twitterConfirming.has(key);
+                            const isThreadExpanded = expandedTwitterThread === key;
+                            const selected = selectedTweets.get(key);
+                            const selectedCount = selected ? selected.size : thread.tweetCount;
+                            const isThreadChecked = checkedThreadIds.has(thread.rootTweetId);
+                            return (
+                              <div key={thread.rootTweetId} className="pt-2">
+                                <div className="flex items-start gap-2">
+                                  {/* Thread-level checkbox — controls merge selection */}
+                                  {meeting.threads.length > 1 && !meeting.alreadyArchived && !mergedSlug && (
+                                    <input
+                                      type="checkbox"
+                                      checked={isThreadChecked}
+                                      onChange={() => toggleMeetingThread(meeting.meetingKey, thread.rootTweetId)}
+                                      className="mt-1 flex-shrink-0 cursor-pointer"
+                                      title="Include in merge"
+                                    />
                                   )}
-                                </div>
-                              </div>
-                              {isThreadExpanded && (
-                                <div className="mt-2 flex flex-col gap-0.5 max-h-64 overflow-y-auto border border-[#f0f0ea] dark:border-[#222] rounded p-2">
-                                  <div className="flex gap-2 mb-1">
-                                    <button
-                                      onClick={() => setSelectedTweets(prev => { const n = new Map(prev); n.set(key, new Set(thread.tweets.map(t => t.id_str))); return n; })}
-                                      className="text-xs text-[#888] hover:text-[#333] dark:hover:text-[#ccc]"
-                                    >Select all</button>
-                                    <button
-                                      onClick={() => setSelectedTweets(prev => { const n = new Map(prev); n.set(key, new Set()); return n; })}
-                                      className="text-xs text-[#888] hover:text-[#333] dark:hover:text-[#ccc]"
-                                    >Deselect all</button>
+                                  <div className="flex-1 min-w-0 flex items-start justify-between gap-2">
+                                    <div className="flex-1 min-w-0">
+                                      <button
+                                        onClick={() => {
+                                          if (!isThreadExpanded) initTweetSelection(key, thread.tweets);
+                                          setExpandedTwitterThread(v => v === key ? null : key);
+                                        }}
+                                        className="text-left w-full"
+                                      >
+                                        <p className="text-xs text-[#666] dark:text-[#888] break-words">{thread.rootText}&hellip;</p>
+                                        <p className="text-xs text-[#aaa] dark:text-[#555] mt-0.5">
+                                          {isThreadExpanded
+                                            ? `${selectedCount} of ${thread.tweetCount} selected`
+                                            : `${thread.tweetCount} tweet${thread.tweetCount !== 1 ? 's' : ''}`
+                                          } · {new Date(thread.rootDate).toLocaleDateString('en-CA')} {isThreadExpanded ? '▲' : '▼'}
+                                        </p>
+                                      </button>
+                                    </div>
+                                    <div className="flex-shrink-0">
+                                      {importedSlug ? (
+                                        <a href={`/${importedSlug}`} className="text-xs text-[#1a6bbf] dark:text-[#5a9fd4] hover:underline">
+                                          Imported →
+                                        </a>
+                                      ) : (
+                                        <button
+                                          onClick={() => handleTwitterConfirm(meeting, thread)}
+                                          disabled={isConfirming || selectedCount === 0}
+                                          className="text-xs font-medium px-2.5 py-1 rounded bg-[#1a1a1a] dark:bg-[#e8e8e0] text-white dark:text-[#111] hover:bg-[#333] disabled:opacity-50"
+                                        >
+                                          {isConfirming ? 'Importing…' : selectedCount < thread.tweetCount ? `Import (${selectedCount})` : 'Import'}
+                                        </button>
+                                      )}
+                                    </div>
                                   </div>
-                                  {thread.tweets.map(tweet => {
-                                    const isChecked = !selected || selected.has(tweet.id_str);
-                                    const time = new Date(tweet.created_at).toLocaleTimeString('en-CA', { hour: '2-digit', minute: '2-digit', timeZone: 'America/Toronto' });
-                                    return (
-                                      <label key={tweet.id_str} className="flex items-start gap-2 py-1 cursor-pointer hover:bg-[#fafaf8] dark:hover:bg-[#111] rounded px-1">
-                                        <input
-                                          type="checkbox"
-                                          checked={isChecked}
-                                          onChange={() => toggleTweet(key, tweet.id_str)}
-                                          className="mt-0.5 flex-shrink-0"
-                                        />
-                                        <span className={`text-xs break-words flex-1 ${isChecked ? 'text-[#333] dark:text-[#ccc]' : 'text-[#bbb] dark:text-[#444] line-through'}`}>
-                                          <span className="text-[#aaa] dark:text-[#555] mr-1">{time}</span>
-                                          {tweet.full_text}
-                                        </span>
-                                      </label>
-                                    );
-                                  })}
                                 </div>
-                              )}
-                            </div>
-                          );
-                        })}
-                      </div>
-                    )}
+                                {isThreadExpanded && (
+                                  <div className="mt-2 flex flex-col gap-0.5 max-h-64 overflow-y-auto border border-[#f0f0ea] dark:border-[#222] rounded p-2">
+                                    <div className="flex gap-2 mb-1">
+                                      <button
+                                        onClick={() => setSelectedTweets(prev => { const n = new Map(prev); n.set(key, new Set(thread.tweets.map(t => t.id_str))); return n; })}
+                                        className="text-xs text-[#888] hover:text-[#333] dark:hover:text-[#ccc]"
+                                      >Select all</button>
+                                      <button
+                                        onClick={() => setSelectedTweets(prev => { const n = new Map(prev); n.set(key, new Set()); return n; })}
+                                        className="text-xs text-[#888] hover:text-[#333] dark:hover:text-[#ccc]"
+                                      >Deselect all</button>
+                                    </div>
+                                    {thread.tweets.map(tweet => {
+                                      const isChecked = !selected || selected.has(tweet.id_str);
+                                      const time = new Date(tweet.created_at).toLocaleTimeString('en-CA', { hour: '2-digit', minute: '2-digit', timeZone: 'America/Toronto' });
+                                      return (
+                                        <label key={tweet.id_str} className="flex items-start gap-2 py-1 cursor-pointer hover:bg-[#fafaf8] dark:hover:bg-[#111] rounded px-1">
+                                          <input
+                                            type="checkbox"
+                                            checked={isChecked}
+                                            onChange={() => toggleTweet(key, tweet.id_str)}
+                                            className="mt-0.5 flex-shrink-0"
+                                          />
+                                          <span className={`text-xs break-words flex-1 ${isChecked ? 'text-[#333] dark:text-[#ccc]' : 'text-[#bbb] dark:text-[#444] line-through'}`}>
+                                            <span className="text-[#aaa] dark:text-[#555] mr-1">{time}</span>
+                                            {tweet.full_text}
+                                          </span>
+                                        </label>
+                                      );
+                                    })}
+                                  </div>
+                                )}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      );
+                    })()}
                   </div>
                 );
               })}
