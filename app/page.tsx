@@ -10,7 +10,7 @@ export const dynamic = 'force-dynamic';
 // ── Types ──────────────────────────────────────────────────────────────────
 
 interface QuoteResult {
-  quote: string;
+  text: string;      // full post text — includes attribution context around the quote
   slug: string;
   postId: string;
   sessionLabel: string;
@@ -45,12 +45,13 @@ async function findRandomQuote(sessions: ArchiveEntry[]): Promise<QuoteResult | 
       const q = match[1].trim();
       if (q.split(/\s+/).length >= 6) {
         candidates.push({
-          quote: q,
+          text,   // full decoded post text — gives attribution context
           slug: post._slug,
           postId: post.uri.split('/').pop()!,
           sessionLabel: post._label,
           indexedAt: post.indexedAt,
         });
+        break; // one candidate per post is enough — avoids duplicates when a post has multiple quotes
       }
     }
   }
@@ -221,11 +222,11 @@ export default async function Home() {
               From past coverage
             </h2>
             <a
-              href={`/${quote.slug}/${quote.postId}`}
+              href={`/${quote.slug}#post-${quote.postId}`}
               className="group block border-l-[3px] border-[#d4b896] dark:border-[#5a3e22] bg-[#faf8f4] dark:bg-[#1c1a14] rounded-r-[10px] px-5 py-4 hover:border-[#b8956e] dark:hover:border-[#7a5a3a] transition-colors"
             >
-              <p className="text-sm italic leading-[1.7] text-[#333] dark:text-[#ccc]">
-                &ldquo;{quote.quote}&rdquo;
+              <p className="text-sm leading-[1.65] text-[#333] dark:text-[#ccc] whitespace-pre-wrap break-words">
+                {quote.text}
               </p>
               <p className="text-xs text-[#aaa] dark:text-[#555] mt-2.5 group-hover:text-[#888] dark:group-hover:text-[#777] transition-colors">
                 {quote.sessionLabel} · {formatTime(quote.indexedAt)}, {formatShortDate(quote.indexedAt)} →

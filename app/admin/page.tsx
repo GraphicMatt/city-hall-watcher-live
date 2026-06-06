@@ -341,6 +341,33 @@ export default function AdminPage() {
     }
   }
 
+  async function handleTwitterMergeImport(meeting: ProposedMeeting) {
+    const key = `${meeting.meetingKey}::merged`;
+    // Combine all threads chronologically and import as one archive entry
+    const allTweets = meeting.threads
+      .flatMap(t => t.tweets)
+      .sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
+    setTwitterConfirming(prev => new Set(prev).add(key));
+    try {
+      const r = await fetch('/api/archive/import/twitter/confirm', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ meetingKey: meeting.meetingKey, tweets: allTweets }),
+      });
+      const data = await r.json();
+      if (r.ok && data.slug) {
+        setTwitterImported(prev => new Map(prev).set(key, data.slug));
+        await fetchArchiveIndex();
+      } else {
+        setTwitterError(data.error || 'Merge import failed.');
+      }
+    } catch {
+      setTwitterError('Network error — try again.');
+    } finally {
+      setTwitterConfirming(prev => { const s = new Set(prev); s.delete(key); return s; });
+    }
+  }
+
   async function handleLogout() {
     await fetch('/api/auth', { method: 'DELETE' });
     setAdminState('login');
@@ -673,6 +700,33 @@ export default function AdminPage() {
                     </button>
                     {isExpanded && (
                       <div className="px-3 pb-3 flex flex-col gap-2 border-t border-[#f0f0ea] dark:border-[#222]">
+                        {/* Merge banner — shown when the meeting has multiple broken threads */}
+                        {meeting.threads.length > 1 && !meeting.alreadyArchived && (() => {
+                          const mergedKey = `${meeting.meetingKey}::merged`;
+                          const mergedSlug = twitterImported.get(mergedKey);
+                          const isMerging = twitterConfirming.has(mergedKey);
+                          const totalTweets = meeting.threads.reduce((s, t) => s + t.tweetCount, 0);
+                          return (
+                            <div className="mt-2 p-2.5 bg-[#fff8e6] dark:bg-[#2a2000] border border-[#f0d070]/40 dark:border-[#6a5000]/40 rounded-lg flex items-center justify-between gap-3">
+                              <p className="text-xs text-[#8a6000] dark:text-[#f0b840]">
+                                {meeting.threads.length} separate threads detected — import as one combined archive?
+                              </p>
+                              {mergedSlug ? (
+                                <a href={`/${mergedSlug}`} className="text-xs font-medium text-[#1a6bbf] dark:text-[#5a9fd4] hover:underline flex-shrink-0">
+                                  Merged →
+                                </a>
+                              ) : (
+                                <button
+                                  onClick={() => handleTwitterMergeImport(meeting)}
+                                  disabled={isMerging}
+                                  className="text-xs font-medium px-2.5 py-1 rounded bg-[#8a6000] dark:bg-[#f0b840] text-white dark:text-[#111] hover:bg-[#6a4800] dark:hover:bg-[#ffd060] disabled:opacity-50 flex-shrink-0 whitespace-nowrap"
+                                >
+                                  {isMerging ? 'Merging…' : `Merge all ${totalTweets} tweets`}
+                                </button>
+                              )}
+                            </div>
+                          );
+                        })()}
                         {meeting.threads.map(thread => {
                           const key = `${meeting.meetingKey}::${thread.rootTweetId}`;
                           const importedSlug = twitterImported.get(key);

@@ -75,7 +75,7 @@ export default async function PostPage({ params }: Props) {
           </span>
         </h1>
         <a
-          href={`/${slug}`}
+          href={`/${slug}#post-${postId}`}
           className="text-xs text-[#888] hover:text-[#333] dark:hover:text-[#ccc] underline flex-shrink-0"
         >
           ← Full thread
@@ -104,7 +104,7 @@ export default async function PostPage({ params }: Props) {
             {externalLabel}
           </a>
           <a
-            href={`/${slug}`}
+            href={`/${slug}#post-${postId}`}
             className="hover:text-[#333] dark:hover:text-[#aaa] hover:underline transition-colors"
           >
             ← Back to {label}
