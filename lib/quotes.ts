@@ -13,7 +13,13 @@ export interface QuoteCandidate {
   indexedAt: string;
 }
 
-const QUOTE_RE = /"([^"]{25,250})"/g;
+// Matches quote-shaped spans delimited by either straight ("...") or curly
+// (“...”) quotation marks — Twitter-era posts overwhelmingly used curly quotes
+// (likely auto-converted by iOS/Twitter clients), while Bluesky-era posts lean
+// straight. Accepting either opening delimiter paired with either closing
+// delimiter, while disallowing quote characters inside the captured span,
+// catches both eras without over-matching across separate quoted spans.
+const QUOTE_RE = /["“]([^"“”]{25,250})["”]/g;
 
 // Scans a session's posts for quote-shaped text and returns one candidate per
 // matching post (first match only — avoids duplicates from multi-quote posts).
