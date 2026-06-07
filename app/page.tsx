@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
-import { getActiveSession, getArchiveIndex, getArchivePosts } from '@/lib/kv';
+import { getActiveSession, getArchiveIndex, getQuotesIndex } from '@/lib/kv';
 import { getNextMeetingDate } from '@/lib/councilDates';
-import { decodeHtmlEntities } from '@/lib/twitter';
 import LivePoller from '@/components/LivePoller';
 import type { ArchiveEntry } from '@/lib/kv';
 
@@ -19,45 +18,27 @@ interface QuoteResult {
 
 // ── Helpers ────────────────────────────────────────────────────────────────
 
-const QUOTE_RE = /"([^"]{25,250})"/g;
-
-async function findRandomQuote(sessions: ArchiveEntry[]): Promise<QuoteResult | null> {
-  const allPosts = (
-    await Promise.all(
-      sessions.map(async entry => {
-        const posts = await getArchivePosts(entry.slug);
-        return (posts ?? []).map(p => ({
-          ...p,
-          _slug: entry.slug,
-          _label: entry.metadata?.meetingTitle || entry.label,
-        }));
-      })
-    )
-  ).flat();
-
-  const candidates: QuoteResult[] = [];
-
-  for (const post of allPosts) {
-    const text = decodeHtmlEntities(post.record?.text || '');
-    QUOTE_RE.lastIndex = 0;
-    let match: RegExpExecArray | null;
-    while ((match = QUOTE_RE.exec(text)) !== null) {
-      const q = match[1].trim();
-      if (q.split(/\s+/).length >= 6) {
-        candidates.push({
-          text,   // full decoded post text — gives attribution context
-          slug: post._slug,
-          postId: post.uri.split('/').pop()!,
-          sessionLabel: post._label,
-          indexedAt: post.indexedAt,
-        });
-        break; // one candidate per post is enough — avoids duplicates when a post has multiple quotes
-      }
-    }
-  }
-
+// Picks a random entry from the precomputed quotes index (see lib/quotes.ts +
+// lib/importArchive.ts) and resolves its session label from the already-loaded
+// archive index. This replaced a live scan that fetched ~8 full session post
+// arrays from KV and regex-scanned every post on every page load — at ~12k
+// archived posts that was slow enough to occasionally time out under
+// concurrent refreshes. The index read is a single small KV fetch.
+async function pickRandomQuote(index: ArchiveEntry[]): Promise<QuoteResult | null> {
+  const candidates = await getQuotesIndex();
   if (!candidates.length) return null;
-  return candidates[Math.floor(Math.random() * candidates.length)]!;
+
+  const picked = candidates[Math.floor(Math.random() * candidates.length)]!;
+  const entry = index.find(e => e.slug === picked.slug);
+  const sessionLabel = entry?.metadata?.meetingTitle || entry?.label || picked.slug;
+
+  return {
+    text: picked.text,
+    slug: picked.slug,
+    postId: picked.postId,
+    sessionLabel,
+    indexedAt: picked.indexedAt,
+  };
 }
 
 function todayToronto(): string {
@@ -124,10 +105,8 @@ export default async function Home() {
   const sortedByDate = [...index].sort((a, b) => b.startedAt.localeCompare(a.startedAt));
   const recentSessions = sortedByDate.slice(0, 3);
 
-  // Random quote: try up to 8 random sessions
-  const sessionsForQuote = [...index].sort(() => Math.random() - 0.5).slice(0, 8);
   const [quote, nextMeetingInfo] = await Promise.all([
-    findRandomQuote(sessionsForQuote),
+    pickRandomQuote(index),
     Promise.resolve(getNextMeetingDate(todayToronto())),
   ]);
 

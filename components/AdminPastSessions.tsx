@@ -43,6 +43,8 @@ export default function AdminPastSessions({ entries, onMetaSaved, onDelete }: Pr
   const [expandedMeta, setExpandedMeta] = useState<string | null>(null);
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
   const [deleting, setDeleting] = useState<string | null>(null);
+  const [patching, setPatching] = useState<string | null>(null);
+  const [patchResult, setPatchResult] = useState<Map<string, string>>(new Map());
 
   const { years, terms } = useMemo(() => {
     const yearSet = new Set<number>();
@@ -92,6 +94,23 @@ export default function AdminPastSessions({ entries, onMetaSaved, onDelete }: Pr
     setYearFilter('');
   }
 
+  async function handlePatchQuotes(slug: string) {
+    setPatching(slug);
+    setPatchResult(prev => { const m = new Map(prev); m.delete(slug); return m; });
+    try {
+      const r = await fetch(`/api/archive/${slug}/patch-quotes`, { method: 'POST' });
+      const data = await r.json();
+      const msg = r.ok
+        ? (data.patched > 0 ? `Added ${data.patched} quote-tweet card${data.patched !== 1 ? 's' : ''}` : 'No quote tweets found')
+        : (data.error || 'Patch failed');
+      setPatchResult(prev => new Map(prev).set(slug, msg));
+    } catch {
+      setPatchResult(prev => new Map(prev).set(slug, 'Network error — try again'));
+    } finally {
+      setPatching(null);
+    }
+  }
+
   async function handleDelete(slug: string) {
     setDeleting(slug);
     try {
@@ -108,6 +127,9 @@ export default function AdminPastSessions({ entries, onMetaSaved, onDelete }: Pr
     const isExpanded = expandedMeta === entry.slug;
     const isConfirming = confirmDelete === entry.slug;
     const isDeleting = deleting === entry.slug;
+    const isPatching = patching === entry.slug;
+    const patchMsg = patchResult.get(entry.slug);
+    const isTwitterImport = entry.metadata?.importSource === 'twitter';
 
     return (
       <div key={entry.slug} className="py-2.5 border-b border-[#f0f0ea] dark:border-[#222] last:border-0">
@@ -124,6 +146,21 @@ export default function AdminPastSessions({ entries, onMetaSaved, onDelete }: Pr
               <span className="mx-1.5 text-[#ddd] dark:text-[#333]">·</span>
               {entry.postCount} {entry.postCount === 1 ? 'post' : 'posts'}
             </p>
+            {isTwitterImport && (
+              <p className="mt-1">
+                {patchMsg ? (
+                  <span className="text-xs text-[#aaa] dark:text-[#555]">{patchMsg}</span>
+                ) : (
+                  <button
+                    onClick={() => handlePatchQuotes(entry.slug)}
+                    disabled={isPatching}
+                    className="text-xs text-[#aaa] dark:text-[#555] hover:text-[#1a6bbf] dark:hover:text-[#5a9fd4] underline disabled:opacity-50"
+                  >
+                    {isPatching ? 'Checking for quote tweets…' : 'Patch quote tweets'}
+                  </button>
+                )}
+              </p>
+            )}
           </div>
           <div className="flex items-center gap-3 flex-shrink-0 pt-0.5">
             <button

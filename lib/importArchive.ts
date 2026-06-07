@@ -1,6 +1,7 @@
 import type { BlueskyPost, SessionMetadata } from './bluesky';
 import { generateSlug, generateLabel } from './archive';
-import { getArchiveIndex, appendArchiveEntry, setArchivePosts } from './kv';
+import { getArchiveIndex, appendArchiveEntry, setArchivePosts, appendQuoteCandidates } from './kv';
+import { extractQuoteCandidates } from './quotes';
 
 export async function importToArchive(opts: {
   posts: BlueskyPost[];
@@ -35,6 +36,10 @@ export async function importToArchive(opts: {
       ...(meetingTitle ? { meetingTitle } : {}),
     },
   });
+
+  // Append this session's quote-shaped posts to the precomputed quotes index
+  // (powers the home page's random-quote feature without a live archive scan).
+  await appendQuoteCandidates(extractQuoteCandidates(posts, slug));
 
   return slug;
 }

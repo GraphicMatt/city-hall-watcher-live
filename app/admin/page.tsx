@@ -79,6 +79,15 @@ export default function AdminPage() {
   const [selectedTweets, setSelectedTweets] = useState<Map<string, Set<string>>>(new Map());
   // key: meetingKey → Set of rootTweetIds selected for merge (threads ≥5 tweets pre-selected)
   const [selectedMeetingThreads, setSelectedMeetingThreads] = useState<Map<string, Set<string>>>(new Map());
+  // One-time migration: backfill `importSource: 'twitter'` onto older Twitter
+  // imports so the "Patch quote tweets" action appears for them in Past Sessions.
+  const [migratingTwitterSource, setMigratingTwitterSource] = useState(false);
+  const [migrateTwitterResult, setMigrateTwitterResult] = useState<string | null>(null);
+
+  // One-time (and re-runnable) backfill: build the precomputed quotes index
+  // that powers the "From Past Coverage" random quote on the home page.
+  const [buildingQuotesIndex, setBuildingQuotesIndex] = useState(false);
+  const [buildQuotesIndexResult, setBuildQuotesIndexResult] = useState<string | null>(null);
 
   // Derived booleans — declared early so they can be used in effects below
   const isLive = session?.status === 'live';
@@ -401,6 +410,49 @@ export default function AdminPage() {
     }
   }
 
+  async function handleMigrateTwitterSource() {
+    setMigratingTwitterSource(true);
+    setMigrateTwitterResult(null);
+    try {
+      const r = await fetch('/api/archive/migrate-twitter-source', { method: 'POST' });
+      const data = await r.json();
+      if (r.ok) {
+        setMigrateTwitterResult(
+          data.tagged > 0
+            ? `Tagged ${data.tagged} session${data.tagged !== 1 ? 's' : ''} — refresh to see "Patch quote tweets" on them.`
+            : 'No untagged Twitter imports found — nothing to do.'
+        );
+        await fetchArchiveIndex();
+      } else {
+        setMigrateTwitterResult(data.error || 'Migration failed.');
+      }
+    } catch {
+      setMigrateTwitterResult('Network error — try again.');
+    } finally {
+      setMigratingTwitterSource(false);
+    }
+  }
+
+  async function handleBuildQuotesIndex() {
+    setBuildingQuotesIndex(true);
+    setBuildQuotesIndexResult(null);
+    try {
+      const r = await fetch('/api/archive/build-quotes-index', { method: 'POST' });
+      const data = await r.json();
+      if (r.ok) {
+        setBuildQuotesIndexResult(
+          `Scanned ${data.sessionsScanned} session${data.sessionsScanned !== 1 ? 's' : ''} — found ${data.candidatesFound} quote${data.candidatesFound !== 1 ? 's' : ''}.`
+        );
+      } else {
+        setBuildQuotesIndexResult(data.error || 'Build failed.');
+      }
+    } catch {
+      setBuildQuotesIndexResult('Network error — try again.');
+    } finally {
+      setBuildingQuotesIndex(false);
+    }
+  }
+
   async function handleLogout() {
     await fetch('/api/auth', { method: 'DELETE' });
     setAdminState('login');
@@ -682,6 +734,24 @@ export default function AdminPage() {
                 Analyzes the preprocessed Twitter archive and matches tweets to City Council meeting dates.
                 Run <code className="bg-[#f5f5f0] dark:bg-[#222] px-1 rounded">scripts/preprocess-tweets.ts</code> first if you haven&apos;t already.
               </p>
+
+              {/* One-time migration: tag older Twitter imports so "Patch quote tweets" appears for them */}
+              <div className="p-2.5 bg-[#fafaf8] dark:bg-[#111] border border-[#f0f0ea] dark:border-[#222] rounded-lg flex items-center justify-between gap-3 flex-wrap">
+                <p className="text-xs text-[#888] dark:text-[#555]">
+                  One-time: tag older Twitter imports so quote-tweet patching is available for them
+                  {migrateTwitterResult && (
+                    <span className="block mt-0.5 text-[#aaa] dark:text-[#555]">{migrateTwitterResult}</span>
+                  )}
+                </p>
+                <button
+                  onClick={handleMigrateTwitterSource}
+                  disabled={migratingTwitterSource}
+                  className="text-xs font-medium px-2.5 py-1 rounded bg-[#1a1a1a] dark:bg-[#e8e8e0] text-white dark:text-[#111] hover:bg-[#333] disabled:opacity-50 flex-shrink-0 whitespace-nowrap"
+                >
+                  {migratingTwitterSource ? 'Tagging…' : 'Tag older imports'}
+                </button>
+              </div>
+
               <div className="flex items-center gap-2 flex-wrap">
                 <select
                   value={twitterTerm}
@@ -870,6 +940,28 @@ export default function AdminPage() {
               })}
             </div>
           )}
+        </div>
+
+        {/* Site maintenance */}
+        <div className="bg-white dark:bg-[#1a1a1a] border border-[#e0e0d8] dark:border-[#2a2a2a] rounded-xl p-5">
+          <p className="text-xs font-medium text-[#888] uppercase tracking-wide mb-4">Site maintenance</p>
+          <div className="p-2.5 bg-[#fafaf8] dark:bg-[#111] border border-[#f0f0ea] dark:border-[#222] rounded-lg flex items-center justify-between gap-3 flex-wrap">
+            <p className="text-xs text-[#888] dark:text-[#555]">
+              Rebuild the &quot;From Past Coverage&quot; quote index — speeds up the homepage&apos;s random
+              quote feature by precomputing matches instead of scanning the archive on every load.
+              New imports are added automatically; re-run this after large backfills or if quotes seem stale.
+              {buildQuotesIndexResult && (
+                <span className="block mt-0.5 text-[#aaa] dark:text-[#555]">{buildQuotesIndexResult}</span>
+              )}
+            </p>
+            <button
+              onClick={handleBuildQuotesIndex}
+              disabled={buildingQuotesIndex}
+              className="text-xs font-medium px-2.5 py-1 rounded bg-[#1a1a1a] dark:bg-[#e8e8e0] text-white dark:text-[#111] hover:bg-[#333] disabled:opacity-50 flex-shrink-0 whitespace-nowrap"
+            >
+              {buildingQuotesIndex ? 'Building…' : 'Rebuild quotes index'}
+            </button>
+          </div>
         </div>
 
       </main>

@@ -106,6 +106,22 @@ export default function PostCard({ post, isNew, slug, videoSegments }: PostCardP
         {linkifyText(post)}
       </p>
       {images.length > 0 && <ImageGallery images={images} />}
+      {post.quotedPost && (
+        <a
+          href={post.quotedPost.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-2.5 block border border-[#e0e0d8] dark:border-[#2a2a2a] rounded-lg px-3.5 py-3 hover:border-[#bbb] dark:hover:border-[#444] transition-colors"
+        >
+          <p className="text-xs font-medium text-[#1a1a1a] dark:text-[#e8e8e0]">
+            {post.quotedPost.authorName}
+            <span className="font-normal text-[#aaa] dark:text-[#555] ml-1.5">@{post.quotedPost.authorHandle}</span>
+          </p>
+          <p className="text-xs leading-[1.55] text-[#666] dark:text-[#999] whitespace-pre-wrap break-words mt-1">
+            {post.quotedPost.text}
+          </p>
+        </a>
+      )}
       <div className="flex items-center justify-between mt-[7px]">
         <a
           href={permalinkUrl ?? bskyUrl}

@@ -1,6 +1,7 @@
 import type { BlueskyPost, SessionMetadata } from './bluesky';
 export type { SessionMetadata } from './bluesky';
 export type { VideoSegment } from './bluesky';
+import type { QuoteCandidate } from './quotes';
 import { readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
 
@@ -25,6 +26,7 @@ export interface ArchiveEntry {
 
 const SESSION_KEY = 'session:active';
 const ARCHIVE_INDEX_KEY = 'archive:index';
+const QUOTES_INDEX_KEY = 'quotes:index';
 
 // --- Local file store (used when Vercel KV env vars are not set) ---
 
@@ -147,6 +149,44 @@ export async function updateArchiveEntry(slug: string, updates: Partial<ArchiveE
     return;
   }
   storeSet(ARCHIVE_INDEX_KEY, JSON.stringify(updated));
+}
+
+// --- Quotes index ---
+//
+// Precomputed lookup of "quote-shaped" post excerpts, used by the home page's
+// random-quote feature. Built incrementally at import time (see
+// importToArchive) plus a one-time backfill migration for older sessions —
+// this avoids fetching and regex-scanning full session post arrays on every
+// `force-dynamic` page load (previously the dominant cost on the home page).
+
+export async function getQuotesIndex(): Promise<QuoteCandidate[]> {
+  if (isKvConfigured()) {
+    const { kv } = await import('@vercel/kv');
+    return (await kv.get<QuoteCandidate[]>(QUOTES_INDEX_KEY)) ?? [];
+  }
+  const raw = storeGet(QUOTES_INDEX_KEY);
+  return raw ? (JSON.parse(raw) as QuoteCandidate[]) : [];
+}
+
+export async function setQuotesIndex(candidates: QuoteCandidate[]): Promise<void> {
+  if (isKvConfigured()) {
+    const { kv } = await import('@vercel/kv');
+    await kv.set(QUOTES_INDEX_KEY, JSON.stringify(candidates));
+    return;
+  }
+  storeSet(QUOTES_INDEX_KEY, JSON.stringify(candidates));
+}
+
+// Appends newly-found candidates to the index, deduplicating by slug+postId so
+// re-imports (e.g. a Twitter thread merge that replaces an existing archive)
+// don't pile up duplicate entries over time.
+export async function appendQuoteCandidates(newCandidates: QuoteCandidate[]): Promise<void> {
+  if (newCandidates.length === 0) return;
+  const existing = await getQuotesIndex();
+  const seen = new Set(existing.map(c => `${c.slug}::${c.postId}`));
+  const toAdd = newCandidates.filter(c => !seen.has(`${c.slug}::${c.postId}`));
+  if (toAdd.length === 0) return;
+  await setQuotesIndex([...existing, ...toAdd]);
 }
 
 export async function deleteArchiveEntry(slug: string): Promise<void> {

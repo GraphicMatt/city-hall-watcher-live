@@ -14,6 +14,15 @@ export interface BlueskyFacet {
   features: Array<BlueskyFacetLink | { $type: string }>;
 }
 
+// A quote-tweet's content, fetched via Twitter's public oEmbed endpoint and
+// stored inline so it renders without further network requests.
+export interface QuotedPost {
+  url: string;
+  authorHandle: string;
+  authorName: string;
+  text: string;
+}
+
 export interface BlueskyPostRecord {
   text: string;
   facets?: BlueskyFacet[];
@@ -38,6 +47,7 @@ export interface BlueskyPost {
   replyCount?: number;
   platform?: 'bluesky' | 'twitter';
   twitterId?: string;
+  quotedPost?: QuotedPost;
 }
 
 export interface VideoSegment {
@@ -52,6 +62,9 @@ export interface SessionMetadata {
   agendaUrl?: string;
   previewUrl?: string;
   videoSegments?: VideoSegment[];
+  // Which import pipeline produced this session — lets the admin UI surface
+  // Twitter-specific maintenance actions (e.g. patching in quote-tweet cards).
+  importSource?: 'twitter' | 'bluesky';
 }
 
 export function parsePostUrl(url: string): { handle: string; rkey: string } | null {

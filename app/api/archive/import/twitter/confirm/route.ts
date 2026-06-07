@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { getMeetingByKey } from '@/lib/councilDates';
-import { normalizeTwitterPost, parseTwitterDate } from '@/lib/twitter';
+import { normalizeTwitterPost, parseTwitterDate, detectQuoteTweetUrl, fetchQuotedPost } from '@/lib/twitter';
 import type { ProcessedTweet } from '@/lib/twitter';
 import { importToArchive } from '@/lib/importArchive';
 import type { SessionMetadata } from '@/lib/kv';
@@ -34,8 +34,29 @@ export async function POST(request: NextRequest) {
     .map(t => normalizeTwitterPost(t))
     .sort((a, b) => a.indexedAt.localeCompare(b.indexedAt));
 
+  // Quote tweets: the archive only stores a link to the quoted tweet, not its
+  // content. Fetch the author + text via Twitter's public oEmbed endpoint and
+  // store it inline so it renders as a card, similar to the original Twitter UI.
+  // Keyed by tweet id since `posts` gets re-sorted above.
+  const tweetById = new Map(tweets.map(t => [t.id_str, t]));
+  await Promise.all(
+    posts.map(async post => {
+      const tweet = post.twitterId ? tweetById.get(post.twitterId) : undefined;
+      if (!tweet) return;
+      const quotedUrl = detectQuoteTweetUrl(tweet);
+      if (!quotedUrl) return;
+      const quotedPost = await fetchQuotedPost(quotedUrl);
+      if (quotedPost) post.quotedPost = quotedPost;
+    })
+  );
+
   const date = parseTwitterDate(tweets[0]!.created_at);
 
-  const slug = await importToArchive({ posts, date, meetingTitle, metadata });
+  const slug = await importToArchive({
+    posts,
+    date,
+    meetingTitle,
+    metadata: { ...metadata, importSource: 'twitter' },
+  });
   return NextResponse.json({ ok: true, slug });
 }
