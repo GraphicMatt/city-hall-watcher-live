@@ -89,6 +89,12 @@ export default function AdminPage() {
   const [buildingQuotesIndex, setBuildingQuotesIndex] = useState(false);
   const [buildQuotesIndexResult, setBuildQuotesIndexResult] = useState<string | null>(null);
 
+  // One-off editorial fix: update @neville_park's pronouns (she/her → they/them)
+  // in four July 7, 2014 posts to reflect their current identity.
+  // Remove this state, handler, route, and button once it's been run.
+  const [fixingPronouns, setFixingPronouns] = useState(false);
+  const [fixPronounsResult, setFixPronounsResult] = useState<string | null>(null);
+
   // Derived booleans — declared early so they can be used in effects below
   const isLive = session?.status === 'live';
   const isEnded = session?.status === 'ended';
@@ -450,6 +456,27 @@ export default function AdminPage() {
       setBuildQuotesIndexResult('Network error — try again.');
     } finally {
       setBuildingQuotesIndex(false);
+    }
+  }
+
+  async function handleFixPronouns() {
+    setFixingPronouns(true);
+    setFixPronounsResult(null);
+    try {
+      const r = await fetch('/api/archive/july-7-2014-pronoun-fix', { method: 'POST' });
+      const data = await r.json();
+      if (r.ok) {
+        const parts = [`${data.patched} updated`];
+        if (data.alreadyDone > 0) parts.push(`${data.alreadyDone} already done`);
+        if (data.unexpectedText > 0) parts.push(`${data.unexpectedText} unexpected text — left untouched`);
+        setFixPronounsResult(parts.join(' · '));
+      } else {
+        setFixPronounsResult(data.error || 'Fix failed.');
+      }
+    } catch {
+      setFixPronounsResult('Network error — try again.');
+    } finally {
+      setFixingPronouns(false);
     }
   }
 
@@ -960,6 +987,24 @@ export default function AdminPage() {
               className="text-xs font-medium px-2.5 py-1 rounded bg-[#1a1a1a] dark:bg-[#e8e8e0] text-white dark:text-[#111] hover:bg-[#333] disabled:opacity-50 flex-shrink-0 whitespace-nowrap"
             >
               {buildingQuotesIndex ? 'Building…' : 'Rebuild quotes index'}
+            </button>
+          </div>
+
+          {/* One-off editorial fix — remove this block + its route once run */}
+          <div className="mt-3 p-2.5 bg-[#fafaf8] dark:bg-[#111] border border-[#f0f0ea] dark:border-[#222] rounded-lg flex items-center justify-between gap-3 flex-wrap">
+            <p className="text-xs text-[#888] dark:text-[#555]">
+              One-off: update @neville_park&apos;s pronouns (she/her → they/them) in four July 7, 2014
+              posts to reflect their current identity. Safe to click more than once. Remove this once run.
+              {fixPronounsResult && (
+                <span className="block mt-0.5 text-[#aaa] dark:text-[#555]">{fixPronounsResult}</span>
+              )}
+            </p>
+            <button
+              onClick={handleFixPronouns}
+              disabled={fixingPronouns}
+              className="text-xs font-medium px-2.5 py-1 rounded bg-[#1a1a1a] dark:bg-[#e8e8e0] text-white dark:text-[#111] hover:bg-[#333] disabled:opacity-50 flex-shrink-0 whitespace-nowrap"
+            >
+              {fixingPronouns ? 'Updating…' : 'Fix pronouns (July 7, 2014)'}
             </button>
           </div>
         </div>
