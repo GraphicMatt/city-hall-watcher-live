@@ -13,23 +13,50 @@ function escapeRegex(s: string) {
   return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-/** Return a short window of text around the first match. */
-function getSnippet(text: string, query: string, contextBefore = 80, contextAfter = 120): string {
-  const idx = text.toLowerCase().indexOf(query.toLowerCase());
-  if (idx === -1) return text.length > 200 ? text.slice(0, 200) + '…' : text;
-  const start = Math.max(0, idx - contextBefore);
-  const end = Math.min(text.length, idx + query.length + contextAfter);
+// Split the raw query into individual lowercase terms, filtering out
+// single-character tokens (too noisy). Each term must independently appear
+// in the post for it to be considered a match (AND logic).
+function parseTerms(raw: string): string[] {
+  return raw.toLowerCase().split(/\s+/).filter(t => t.length >= 2);
+}
+
+// Count total occurrences of all terms in a string — used for relevance scoring.
+function countOccurrences(lower: string, terms: string[]): number {
+  return terms.reduce((total, t) => {
+    let count = 0, i = 0;
+    while ((i = lower.indexOf(t, i)) !== -1) { count++; i++; }
+    return total + count;
+  }, 0);
+}
+
+// Return a short window of text anchored on the earliest-appearing term.
+// With multiple terms, the snippet for "Bradford cars" will start at whichever
+// of those words appears first in the post, keeping both in view.
+function getSnippet(text: string, terms: string[], contextBefore = 80, contextAfter = 120): string {
+  const lower = text.toLowerCase();
+  let anchor = -1;
+  for (const t of terms) {
+    const idx = lower.indexOf(t);
+    if (idx !== -1 && (anchor === -1 || idx < anchor)) anchor = idx;
+  }
+  if (anchor === -1) anchor = 0;
+  const start = Math.max(0, anchor - contextBefore);
+  const end = Math.min(text.length, anchor + contextAfter);
   return (start > 0 ? '…' : '') + text.slice(start, end) + (end < text.length ? '…' : '');
 }
 
-/** Wrap every occurrence of query in the snippet with a <mark>. */
-function Highlighted({ text, query }: { text: string; query: string }) {
-  if (!query.trim()) return <>{text}</>;
-  const parts = text.split(new RegExp(`(${escapeRegex(query)})`, 'gi'));
+// Wrap every occurrence of any search term in the snippet with a <mark>.
+// Each term is highlighted independently, so "Bradford cars" highlights both
+// words wherever they appear rather than requiring them to be adjacent.
+function Highlighted({ text, terms }: { text: string; terms: string[] }) {
+  if (!terms.length) return <>{text}</>;
+  const pattern = terms.map(escapeRegex).join('|');
+  const parts = text.split(new RegExp(`(${pattern})`, 'gi'));
+  const lowerTerms = new Set(terms);
   return (
     <>
       {parts.map((part, i) =>
-        part.toLowerCase() === query.toLowerCase() ? (
+        lowerTerms.has(part.toLowerCase()) ? (
           <mark
             key={i}
             className="bg-[#fef3c7] dark:bg-[#3a2800] text-[#92400e] dark:text-[#fcd34d] rounded-[3px] px-0.5 not-italic"
@@ -102,15 +129,25 @@ export default function SearchClient({ initialQuery = '' }: { initialQuery?: str
     inputRef.current?.focus();
   }, []);
 
-  // Run search
+  // Parse the debounced query into individual terms once, so both the
+  // matching and rendering passes use the exact same set of tokens.
+  const terms = useMemo(() => parseTerms(debouncedQuery), [debouncedQuery]);
+
+  // Run search: require ALL terms to appear (AND logic), then rank by total
+  // term frequency (more occurrences = more relevant), break ties by recency.
   const results = useMemo<CorpusPost[] | null>(() => {
-    if (!corpus || debouncedQuery.length < MIN_QUERY_LEN) return null;
-    const lower = debouncedQuery.toLowerCase();
-    return corpus
-      .filter(p => p.text.toLowerCase().includes(lower))
-      .sort((a, b) => b.indexedAt.localeCompare(a.indexedAt))
-      .slice(0, MAX_RESULTS);
-  }, [corpus, debouncedQuery]);
+    if (!corpus || debouncedQuery.length < MIN_QUERY_LEN || terms.length === 0) return null;
+    const matched = corpus.filter(p => {
+      const lower = p.text.toLowerCase();
+      return terms.every(t => lower.includes(t));
+    });
+    matched.sort((a, b) => {
+      const diff = countOccurrences(b.text.toLowerCase(), terms)
+                 - countOccurrences(a.text.toLowerCase(), terms);
+      return diff !== 0 ? diff : b.indexedAt.localeCompare(a.indexedAt);
+    });
+    return matched.slice(0, MAX_RESULTS);
+  }, [corpus, debouncedQuery, terms]);
 
   const sessionCount = useMemo(
     () => (corpus ? new Set(corpus.map(p => p.slug)).size : 0),
@@ -198,7 +235,7 @@ export default function SearchClient({ initialQuery = '' }: { initialQuery?: str
             </p>
             <div className="flex flex-col gap-2">
               {results.map(post => {
-                const snippet = getSnippet(post.text, debouncedQuery);
+                const snippet = getSnippet(post.text, terms);
                 return (
                   <a
                     key={`${post.slug}/${post.postId}`}
@@ -216,7 +253,7 @@ export default function SearchClient({ initialQuery = '' }: { initialQuery?: str
                     </div>
                     {/* Snippet */}
                     <p className="text-sm text-[#333] dark:text-[#ccc] leading-[1.65] break-words">
-                      <Highlighted text={snippet} query={debouncedQuery} />
+                      <Highlighted text={snippet} terms={terms} />
                     </p>
                   </a>
                 );
