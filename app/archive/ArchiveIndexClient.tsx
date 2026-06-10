@@ -14,7 +14,6 @@ function getTerm(year: number): string {
 }
 
 function getYear(isoString: string): number {
-  // Use Toronto timezone so the year matches the meeting date
   return parseInt(
     new Date(isoString).toLocaleDateString('en-CA', { year: 'numeric', timeZone: 'America/Toronto' }),
     10
@@ -31,7 +30,7 @@ function formatDate(isoString: string): string {
 }
 
 const SELECT_CLASS =
-  'text-xs text-[#666] dark:text-[#888] bg-white dark:bg-[#1a1a1a] border border-[#e0e0d8] dark:border-[#2a2a2a] rounded-md px-2.5 py-1.5 cursor-pointer hover:border-[#bbb] dark:hover:border-[#444] outline-none transition-colors';
+  'text-xs text-chw-secondary bg-white border border-border rounded-lg px-2.5 py-1.5 cursor-pointer hover:border-chw-secondary outline-none transition-colors';
 
 interface Props {
   entries: ArchiveEntry[];
@@ -126,7 +125,7 @@ export default function ArchiveIndexClient({ entries }: Props) {
       </div>
 
       {filtered.length === 0 && (
-        <p className="text-sm text-[#999] dark:text-[#555] text-center py-12">
+        <p className="text-sm text-chw-tertiary text-center py-12">
           No sessions match the selected filters.
         </p>
       )}
@@ -137,11 +136,17 @@ export default function ArchiveIndexClient({ entries }: Props) {
         return (
           <div key={year} className="mb-8">
             <div className="flex items-center gap-3 mb-3">
-              <h2 className="text-xs font-semibold text-[#aaa] dark:text-[#555] uppercase tracking-wider flex-shrink-0">
+              <h2
+                className="uppercase flex-shrink-0"
+                style={{ fontSize: '12px', fontWeight: 600, letterSpacing: '1.44px', color: 'rgb(117, 115, 106)' }}
+              >
                 {year}
               </h2>
-              <div className="flex-1 h-px bg-[#e8e8e0] dark:bg-[#252525]" />
-              <span className="text-xs text-[#ccc] dark:text-[#444] flex-shrink-0">
+              <div className="flex-1 h-px bg-border" />
+              <span
+                className="flex-shrink-0"
+                style={{ fontSize: '12px', color: 'rgb(117, 115, 106)' }}
+              >
                 {group.length} {group.length === 1 ? 'session' : 'sessions'}
               </span>
             </div>
@@ -169,14 +174,24 @@ function ArchiveCard({ entry }: { entry: ArchiveEntry }) {
   return (
     <a
       href={`/${entry.slug}`}
-      className="bg-white dark:bg-[#1a1a1a] border border-[#e0e0d8] dark:border-[#2a2a2a] rounded-[10px] px-4 py-3.5 flex flex-col gap-0.5 hover:border-[#bbb] dark:hover:border-[#444] transition-colors group"
+      className="flex flex-col gap-1 hover:opacity-90 transition-opacity group"
+      style={{
+        background: 'rgb(255, 255, 255)',
+        borderRadius: '12px',
+        boxShadow: 'rgba(20, 20, 15, 0.04) 0px 1px 2px 0px',
+        padding: '14px 16px',
+      }}
     >
-      <p className="text-sm font-medium text-[#1a1a1a] dark:text-[#e8e8e0] group-hover:text-[#1a6bbf] dark:group-hover:text-[#5a9fd4] transition-colors leading-snug">
+      <p
+        className="leading-snug"
+        style={{ fontSize: '15px', fontWeight: 600, color: 'rgb(27, 26, 23)' }}
+      >
         {title}
       </p>
-      <p className="text-xs text-[#aaa] dark:text-[#555] mt-0.5">{dateStr}</p>
-      <p className="text-xs text-[#ccc] dark:text-[#444] mt-0.5">
-        {entry.postCount} {entry.postCount === 1 ? 'post' : 'posts'}
+      <p style={{ fontSize: '12px', color: 'rgb(154, 152, 142)' }}>{dateStr}</p>
+      <p style={{ fontSize: '12px', color: 'rgb(117, 115, 106)', marginTop: '2px' }}>
+        {entry.postCount} {entry.postCount === 1 ? 'post' : 'posts'}{' '}
+        <span style={{ color: 'rgb(39, 68, 144)', fontSize: '15px' }}>→</span>
       </p>
     </a>
   );

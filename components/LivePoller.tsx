@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { fetchThreadPosts } from '@/lib/bluesky';
 import type { BlueskyPost, SessionMetadata } from '@/lib/bluesky';
+import SiteHeader from './SiteHeader';
 import StatusBadge from './StatusBadge';
 import type { StatusType } from './StatusBadge';
 import PostList from './PostList';
@@ -10,6 +11,7 @@ import type { SortOrder } from './PostList';
 import MetadataBar from './MetadataBar';
 import UnreadBanner from './UnreadBanner';
 import { getLastRead, setLastRead, markAllRead } from '@/lib/lastRead';
+import { scrollToPost } from '@/lib/scroll';
 
 const POLL_INTERVAL = 45_000;
 const SESSION_CHECK_INTERVAL = 5 * 60_000; // 5 minutes
@@ -27,6 +29,11 @@ export default function LivePoller({ rootUri, authorDid, metadata }: LivePollerP
   const [lastUpdated, setLastUpdated] = useState('');
   const [order, setOrder] = useState<SortOrder>('newest');
   const [lastReadAt, setLastReadAt] = useState<string | null>(null);
+  // Frozen snapshot of lastReadAt taken once when the page loads (or after
+  // "Mark read"). Drives the "New" divider and the unread count so they don't
+  // creep forward and cause a jumpy re-scroll as the reader scrolls past
+  // each post — only a fresh page load or explicit "Mark read" moves it.
+  const [baselineReadAt, setBaselineReadAt] = useState<string | null>(null);
   const [coverageEnded, setCoverageEnded] = useState(false);
   const [archivedSlug, setArchivedSlug] = useState<string | null>(null);
 
@@ -60,8 +67,10 @@ export default function LivePoller({ rootUri, authorDid, metadata }: LivePollerP
           const newest = fetched.reduce((a, b) => (a.indexedAt > b.indexedAt ? a : b));
           setLastRead(storageKey, newest.indexedAt);
           setLastReadAt(newest.indexedAt);
+          setBaselineReadAt(newest.indexedAt);
         } else {
           setLastReadAt(stored);
+          setBaselineReadAt(stored);
         }
       }
     } catch (e) {
@@ -112,15 +121,16 @@ export default function LivePoller({ rootUri, authorDid, metadata }: LivePollerP
 
   const postCount = posts.length;
 
-  // Unread tracking
-  const unreadCount = lastReadAt
-    ? posts.filter(p => p.indexedAt > lastReadAt).length
+  // Unread tracking — based on the frozen baseline so the divider/badge
+  // don't shift as the reader scrolls (see baselineReadAt above).
+  const unreadCount = baselineReadAt
+    ? posts.filter(p => p.indexedAt > baselineReadAt).length
     : 0;
 
-  const firstUnreadUri = lastReadAt
+  const firstUnreadUri = baselineReadAt
     ? [...posts]
         .sort((a, b) => a.indexedAt.localeCompare(b.indexedAt))
-        .find(p => p.indexedAt > lastReadAt)?.uri ?? null
+        .find(p => p.indexedAt > baselineReadAt)?.uri ?? null
     : null;
 
   const handlePostSeen = useCallback((indexedAt: string) => {
@@ -137,13 +147,7 @@ export default function LivePoller({ rootUri, authorDid, metadata }: LivePollerP
     if (order !== 'oldest') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (firstUnreadUri) {
-      const els = document.querySelectorAll('[data-post-uri]');
-      for (const el of els) {
-        if (el.getAttribute('data-post-uri') === firstUnreadUri) {
-          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          break;
-        }
-      }
+      scrollToPost(firstUnreadUri);
     }
   }
 
@@ -151,28 +155,24 @@ export default function LivePoller({ rootUri, authorDid, metadata }: LivePollerP
     markAllRead(storageKey, posts);
     const newest = posts.reduce((a, b) => (a.indexedAt > b.indexedAt ? a : b), posts[0]!);
     setLastReadAt(newest.indexedAt);
+    setBaselineReadAt(newest.indexedAt);
   }
 
   return (
     <>
-      <header className="bg-white dark:bg-[#1a1a1a] border-b border-[#e0e0d8] dark:border-[#2a2a2a] px-6 py-3.5 flex items-center justify-between sticky top-0 z-10">
-        <h1 className="text-sm font-semibold tracking-tight text-[#1a1a1a] dark:text-[#e8e8e0]">
-          CHW Live <span className="text-[#888] font-normal">/ Toronto City Council</span>
-        </h1>
-        <StatusBadge status={status} />
-      </header>
+      <SiteHeader right={<StatusBadge status={status} />} />
 
       {metadata && Object.values(metadata).some(Boolean) && <MetadataBar metadata={metadata} />}
 
       {coverageEnded && (
-        <div className="bg-[#fff8e6] dark:bg-[#2a2000] border-b border-[#f0d070]/40 dark:border-[#6a5000]/40 px-6 py-3 text-sm text-[#8a6000] dark:text-[#f0b840]">
-          <span className="font-medium">Coverage has ended.</span>{' '}
+        <div className="border-b border-border bg-bg-secondary px-5 py-3 text-sm text-chw-secondary">
+          <span className="font-medium text-chw-text">Coverage has ended.</span>{' '}
           {archivedSlug ? (
             <>
               This session has been archived.{' '}
               <a
                 href={`/archive/${archivedSlug}`}
-                className="underline hover:text-[#5a3a00] dark:hover:text-[#ffd060]"
+                className="underline hover:text-chw-text transition-colors"
               >
                 View the full archive →
               </a>
@@ -187,14 +187,17 @@ export default function LivePoller({ rootUri, authorDid, metadata }: LivePollerP
 
       <main className="max-w-[640px] mx-auto px-4 py-6 pb-12">
         <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
-          <div className="flex items-center gap-3 text-xs text-[#999] dark:text-[#555]">
+          <div
+            className="flex items-center gap-3 text-[11px] text-chw-tertiary font-mono"
+            style={{ fontFamily: 'var(--font-plex)' }}
+          >
             {postCount > 0 && <span>{postCount} {postCount === 1 ? 'post' : 'posts'}</span>}
             {lastUpdated && <span>Updated {lastUpdated}</span>}
           </div>
           <select
             value={order}
             onChange={e => setOrder(e.target.value as SortOrder)}
-            className="text-xs text-[#999] dark:text-[#555] bg-transparent border-none cursor-pointer p-0 hover:text-[#333] dark:hover:text-[#aaa] outline-none"
+            className="text-xs text-chw-tertiary bg-transparent border-none cursor-pointer p-0 hover:text-chw-text outline-none transition-colors"
           >
             <option value="newest">Newest first</option>
             <option value="oldest">Oldest first</option>

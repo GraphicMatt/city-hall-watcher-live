@@ -1,8 +1,21 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getArchivePosts, getArchiveIndex } from '@/lib/kv';
-import { getImages, formatTime, getYoutubeTimestampUrl, formatYoutubeOffset } from '@/lib/bluesky';
+import { getImages, getYoutubeTimestampUrl, formatYoutubeOffset } from '@/lib/bluesky';
 import PostCard from '@/components/PostCard';
+import SiteHeader from '@/components/SiteHeader';
+
+function formatPostDate(iso: string): string {
+  return new Date(iso).toLocaleString('en-CA', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true,
+    timeZone: 'America/Toronto',
+  });
+}
 
 interface Props {
   params: Promise<{ slug: string; postId: string }>;
@@ -30,11 +43,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title,
     description,
     openGraph: {
+      type: 'article',
       title,
       description,
       url: `https://live.cityhallwatcher.com/${slug}/${postId}`,
       siteName: 'CHW Live',
       ...(ogImage ? { images: [{ url: ogImage }] } : {}),
+    },
+    twitter: {
+      card: ogImage ? 'summary_large_image' : 'summary',
+      title,
+      description,
+      ...(ogImage ? { images: [ogImage] } : {}),
     },
   };
 }
@@ -63,52 +83,56 @@ export default async function PostPage({ params }: Props) {
 
   return (
     <>
-      <header className="bg-white dark:bg-[#1a1a1a] border-b border-[#e0e0d8] dark:border-[#2a2a2a] px-6 py-3.5 flex items-center justify-between sticky top-0 z-10">
-        <h1 className="text-sm font-semibold tracking-tight text-[#1a1a1a] dark:text-[#e8e8e0]">
-          CHW Live{' '}
-          <span className="text-[#888] font-normal">
-            /{' '}
-            <a href={`/${slug}`} className="hover:underline">
-              {label}
-            </a>
-            {' '}/ {formatTime(post.indexedAt)}
-          </span>
-        </h1>
-        <a
-          href={`/${slug}#post-${postId}`}
-          className="text-xs text-[#888] hover:text-[#333] dark:hover:text-[#ccc] underline flex-shrink-0"
-        >
-          ← Full thread
-        </a>
-      </header>
+      <SiteHeader subtitle={label} />
 
-      <main className="max-w-[640px] mx-auto px-4 py-8 pb-12">
-        <PostCard post={post} isNew={false} />
-        <div className="mt-4 flex items-center gap-4 text-xs text-[#aaa] dark:text-[#555]">
-          {ytResult && (
-            <a
-              href={ytResult.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-[#c0392b] dark:hover:text-[#f08080] hover:underline transition-colors"
-            >
-              ▶ Watch — {ytResult.segment.label} at {formatYoutubeOffset(ytResult.offsetSeconds)}
-            </a>
-          )}
-          <a
-            href={externalUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-[#1a6bbf] dark:hover:text-[#5a9fd4] hover:underline transition-colors"
-          >
-            {externalLabel}
-          </a>
+      <main className="max-w-[640px] mx-auto px-4 py-6 pb-12">
+        {/* Context bar */}
+        <div className="flex items-center justify-between mb-4 gap-3">
           <a
             href={`/${slug}#post-${postId}`}
-            className="hover:text-[#333] dark:hover:text-[#aaa] hover:underline transition-colors"
+            className="hover:underline truncate"
+            style={{ fontSize: '13px', fontWeight: 600, color: 'rgb(39, 68, 144)' }}
+          >
+            ← {label}
+          </a>
+          <span style={{ fontSize: '12px', color: 'rgb(154, 152, 142)', flexShrink: 0 }}>
+            {formatPostDate(post.indexedAt)}
+          </span>
+        </div>
+
+        <PostCard post={post} isNew={false} />
+
+        {/* Footer links */}
+        <div
+          className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 mt-4"
+          style={{ fontSize: '12.5px', color: 'rgb(117, 115, 106)' }}
+        >
+          <a
+            href={`/${slug}#post-${postId}`}
+            className="hover:text-brand-blue hover:underline transition-colors"
           >
             ← Back to {label}
           </a>
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+            {ytResult && (
+              <a
+                href={ytResult.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-live-red hover:underline transition-colors"
+              >
+                ▶ Watch — {ytResult.segment.label} at {formatYoutubeOffset(ytResult.offsetSeconds)}
+              </a>
+            )}
+            <a
+              href={externalUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-brand-blue hover:underline transition-colors"
+            >
+              {externalLabel}
+            </a>
+          </div>
         </div>
       </main>
     </>

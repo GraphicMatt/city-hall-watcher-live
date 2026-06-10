@@ -65,13 +65,13 @@ export default function PostList({
   }
 
   return (
-    <div ref={listRef} className="flex flex-col gap-2.5">
+    <div ref={listRef} className="flex flex-col gap-3">
       {sorted.map(post => {
         const showDivider = order === 'oldest' && firstUnreadUri === post.uri;
         return (
           <div key={post.uri} id={`post-${post.uri.split('/').pop()}`} data-indexed-at={post.indexedAt} data-post-uri={post.uri} className="scroll-mt-16">
             {showDivider && (
-              <div className="flex items-center gap-3 py-2">
+              <div data-unread-marker className="flex items-center gap-3 py-2">
                 <div className="flex-1 h-px bg-[#1a6bbf]/25 dark:bg-[#5a9fd4]/25" />
                 <span className="text-[11px] font-medium text-[#1a6bbf] dark:text-[#5a9fd4] tracking-wide uppercase">
                   New

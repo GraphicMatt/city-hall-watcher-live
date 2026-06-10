@@ -10,10 +10,15 @@ export default function MetadataBar({ metadata }: MetadataBarProps) {
   if (!meetingTitle && !hasLinks) return null;
 
   return (
-    <div className="bg-[#fafaf8] dark:bg-[#141414] border-b border-[#e0e0d8] dark:border-[#2a2a2a] px-6 py-2.5">
+    <div className="border-b border-border bg-bg-secondary px-5 py-3">
       <div className="max-w-[640px] mx-auto flex items-center justify-between gap-4 flex-wrap">
         {meetingTitle && (
-          <p className="text-xs font-medium text-[#555] dark:text-[#888] shrink-0">{meetingTitle}</p>
+          <p
+            className="text-sm font-semibold text-chw-text shrink-0"
+            style={{ fontFamily: 'var(--font-schibsted)' }}
+          >
+            {meetingTitle}
+          </p>
         )}
         {hasLinks && (
           <div className="flex items-center gap-4 flex-wrap">
@@ -22,9 +27,9 @@ export default function MetadataBar({ metadata }: MetadataBarProps) {
                 href={agendaUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs text-[#888] dark:text-[#555] hover:text-[#333] dark:hover:text-[#aaa] hover:underline transition-colors"
+                className="text-xs text-chw-secondary hover:text-chw-text hover:underline transition-colors"
               >
-                📋 Agenda
+                Agenda
               </a>
             )}
             {previewUrl && (
@@ -32,9 +37,9 @@ export default function MetadataBar({ metadata }: MetadataBarProps) {
                 href={previewUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs text-[#888] dark:text-[#555] hover:text-[#333] dark:hover:text-[#aaa] hover:underline transition-colors"
+                className="text-xs text-chw-secondary hover:text-chw-text hover:underline transition-colors"
               >
-                📰 Preview
+                Preview
               </a>
             )}
             {videoSegments?.map(seg => (
@@ -43,9 +48,9 @@ export default function MetadataBar({ metadata }: MetadataBarProps) {
                 href={seg.youtubeUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs text-[#888] dark:text-[#555] hover:text-[#333] dark:hover:text-[#aaa] hover:underline transition-colors"
+                className="text-xs text-chw-secondary hover:text-chw-text hover:underline transition-colors"
               >
-                📺 {seg.label}
+                ▶ {seg.label}
               </a>
             ))}
           </div>

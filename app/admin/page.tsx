@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import SiteHeader from '@/components/SiteHeader';
 import type { ActiveSession, ArchiveEntry } from '@/lib/kv';
 import type { SessionMetadata } from '@/lib/bluesky';
 import MetadataEditor from '@/components/MetadataEditor';
@@ -524,24 +525,23 @@ export default function AdminPage() {
     );
   }
 
+  const AdminHeaderRight = (
+    <div className="flex items-center gap-4">
+      <a href="/" className="text-xs text-white/60 hover:text-white transition-colors">
+        Public view →
+      </a>
+      <button
+        onClick={handleLogout}
+        className="text-xs text-white/60 hover:text-white transition-colors bg-none border-none cursor-pointer p-0"
+      >
+        Sign out
+      </button>
+    </div>
+  );
+
   return (
-    <div className="min-h-screen bg-[#f5f5f0] dark:bg-[#111]">
-      <header className="bg-white dark:bg-[#1a1a1a] border-b border-[#e0e0d8] dark:border-[#2a2a2a] px-6 py-3.5 flex items-center justify-between sticky top-0 z-10">
-        <h1 className="text-sm font-semibold text-[#1a1a1a] dark:text-[#e8e8e0]">
-          CHW Live <span className="text-[#888] font-normal">/ Admin</span>
-        </h1>
-        <div className="flex items-center gap-4">
-          <a href="/" className="text-xs text-[#888] hover:text-[#333] dark:hover:text-[#ccc] underline">
-            Public view →
-          </a>
-          <button
-            onClick={handleLogout}
-            className="text-xs text-[#888] hover:text-[#333] dark:hover:text-[#ccc] underline bg-none border-none cursor-pointer p-0"
-          >
-            Sign out
-          </button>
-        </div>
-      </header>
+    <div className="min-h-screen bg-bg">
+      <SiteHeader right={AdminHeaderRight} showNav={false} />
 
       <main className="max-w-[560px] mx-auto px-4 py-8 flex flex-col gap-5">
 

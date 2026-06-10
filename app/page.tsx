@@ -1,7 +1,10 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import { getActiveSession, getArchiveIndex, getQuotesIndex } from '@/lib/kv';
 import { getNextMeetingDate } from '@/lib/councilDates';
 import LivePoller from '@/components/LivePoller';
+import SiteHeader from '@/components/SiteHeader';
+import StatusBadge from '@/components/StatusBadge';
 import type { ArchiveEntry } from '@/lib/kv';
 
 export const dynamic = 'force-dynamic';
@@ -9,7 +12,7 @@ export const dynamic = 'force-dynamic';
 // ── Types ──────────────────────────────────────────────────────────────────
 
 interface QuoteResult {
-  text: string;      // full post text — includes attribution context around the quote
+  text: string;
   slug: string;
   postId: string;
   sessionLabel: string;
@@ -18,54 +21,37 @@ interface QuoteResult {
 
 // ── Helpers ────────────────────────────────────────────────────────────────
 
-// Picks a random entry from the precomputed quotes index (see lib/quotes.ts +
-// lib/importArchive.ts) and resolves its session label from the already-loaded
-// archive index. This replaced a live scan that fetched ~8 full session post
-// arrays from KV and regex-scanned every post on every page load — at ~12k
-// archived posts that was slow enough to occasionally time out under
-// concurrent refreshes. The index read is a single small KV fetch.
 async function pickRandomQuote(index: ArchiveEntry[]): Promise<QuoteResult | null> {
   const candidates = await getQuotesIndex();
   if (!candidates.length) return null;
-
   const picked = candidates[Math.floor(Math.random() * candidates.length)]!;
   const entry = index.find(e => e.slug === picked.slug);
   const sessionLabel = entry?.metadata?.meetingTitle || entry?.label || picked.slug;
-
-  return {
-    text: picked.text,
-    slug: picked.slug,
-    postId: picked.postId,
-    sessionLabel,
-    indexedAt: picked.indexedAt,
-  };
+  return { text: picked.text, slug: picked.slug, postId: picked.postId, sessionLabel, indexedAt: picked.indexedAt };
 }
 
 function todayToronto(): string {
   return new Intl.DateTimeFormat('en-CA', {
-    timeZone: 'America/Toronto',
-    year: 'numeric', month: '2-digit', day: '2-digit',
+    timeZone: 'America/Toronto', year: 'numeric', month: '2-digit', day: '2-digit',
   }).format(new Date());
-}
-
-function formatLongDate(isoOrDate: string): string {
-  return new Date(isoOrDate + (isoOrDate.length === 10 ? 'T12:00:00Z' : '')).toLocaleDateString('en-CA', {
-    weekday: 'long', month: 'long', day: 'numeric', year: 'numeric',
-    timeZone: 'America/Toronto',
-  });
 }
 
 function formatShortDate(iso: string): string {
   return new Date(iso).toLocaleDateString('en-CA', {
-    month: 'long', day: 'numeric', year: 'numeric',
-    timeZone: 'America/Toronto',
+    month: 'short', day: 'numeric', year: 'numeric', timeZone: 'America/Toronto',
+  });
+}
+
+// "Wed Jun 24" format for the chip
+function formatNextMeetingChip(isoOrDate: string): string {
+  return new Date(isoOrDate + (isoOrDate.length === 10 ? 'T12:00:00Z' : '')).toLocaleDateString('en-CA', {
+    weekday: 'short', month: 'short', day: 'numeric', timeZone: 'America/Toronto',
   });
 }
 
 function formatTime(iso: string): string {
   return new Date(iso).toLocaleTimeString('en-CA', {
-    hour: '2-digit', minute: '2-digit', hour12: true,
-    timeZone: 'America/Toronto',
+    hour: '2-digit', minute: '2-digit', hour12: true, timeZone: 'America/Toronto',
   });
 }
 
@@ -74,18 +60,24 @@ function formatTime(iso: string): string {
 export async function generateMetadata(): Promise<Metadata> {
   const session = await getActiveSession();
   const isLive = session?.status === 'live';
+  const title = isLive ? 'Live — CHW Live' : 'CHW Live — Toronto City Council';
+  const ogTitle = isLive ? 'CHW Live — Toronto City Council (Live)' : 'CHW Live — Toronto City Council';
+  const description = isLive
+    ? 'Live coverage of a Toronto City Council meeting by Matt Elliott. Auto-updating.'
+    : 'Live coverage of Toronto City Council meetings by Matt Elliott.';
   return {
-    title: isLive ? 'Live — CHW Live' : 'CHW Live — Toronto City Council',
-    description: isLive
-      ? 'Live coverage of a Toronto City Council meeting by Matt Elliott. Auto-updating.'
-      : 'Live coverage of Toronto City Council meetings by Matt Elliott.',
+    title,
+    description,
     openGraph: {
-      title: isLive ? 'CHW Live — Toronto City Council (Live)' : 'CHW Live — Toronto City Council',
-      description: isLive
-        ? 'Live coverage of a Toronto City Council meeting by Matt Elliott. Auto-updating.'
-        : 'Live coverage of Toronto City Council meetings by Matt Elliott.',
+      title: ogTitle,
+      description,
       url: 'https://live.cityhallwatcher.com',
       siteName: 'CHW Live',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: ogTitle,
+      description,
     },
   };
 }
@@ -95,15 +87,14 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function Home() {
   const session = await getActiveSession();
 
-  // ── Live coverage — existing behaviour, untouched ─────────────────────
   if (session?.status === 'live') {
     return <LivePoller rootUri={session.rootUri} authorDid={session.authorDid} metadata={session.metadata} />;
   }
 
-  // ── Idle state — fetch all supplementary data in parallel ─────────────
   const index = await getArchiveIndex();
   const sortedByDate = [...index].sort((a, b) => b.startedAt.localeCompare(a.startedAt));
   const recentSessions = sortedByDate.slice(0, 3);
+  const totalPosts = index.reduce((s, e) => s + e.postCount, 0);
 
   const [quote, nextMeetingInfo] = await Promise.all([
     pickRandomQuote(index),
@@ -114,58 +105,124 @@ export default async function Home() {
 
   return (
     <>
-      <header className="bg-white dark:bg-[#1a1a1a] border-b border-[#e0e0d8] dark:border-[#2a2a2a] px-6 py-3.5 flex items-center justify-between sticky top-0 z-10">
-        <h1 className="text-sm font-semibold tracking-tight text-[#1a1a1a] dark:text-[#e8e8e0]">
-          CHW Live <span className="text-[#888] font-normal">/ Toronto City Council</span>
-        </h1>
-        <span className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full bg-[#f0f0ea] text-[#666] dark:bg-[#2a2a2a] dark:text-[#999]">
-          <span className="w-[7px] h-[7px] rounded-full bg-current" />
-          No coverage
-        </span>
-      </header>
+      <SiteHeader right={<StatusBadge status="ready" />} />
 
-      <main className="max-w-[640px] mx-auto px-4 py-8 pb-16 flex flex-col gap-10">
+      <main className="max-w-[640px] mx-auto px-4 pt-12 pb-20 flex flex-col gap-10">
 
-        {/* Intro */}
-        <div>
-          <p className="text-sm text-[#999] dark:text-[#555]">No live coverage right now.</p>
-          <p className="text-xs text-[#bbb] dark:text-[#444] mt-1">
-            Check back during a Toronto City Council meeting.
+        {/* ── Hero — centered ──────────────────────────────────────────── */}
+        <div className="text-center">
+          {/* "— OFF AIR —" label */}
+          <p
+            className="uppercase mb-5"
+            style={{ fontSize: '12px', fontWeight: 600, letterSpacing: '1.92px', color: 'rgb(154, 152, 142)' }}
+          >
+            — Off Air —
           </p>
+
+          <h2
+            className="text-chw-text"
+            style={{ fontSize: '32px', fontWeight: 800, letterSpacing: '-0.64px', lineHeight: '35.84px' }}
+          >
+            The chamber is quiet.
+          </h2>
+
+          <p
+            className="mx-auto mt-4"
+            style={{ fontSize: '16px', lineHeight: '24.8px', color: 'rgb(117, 115, 106)', maxWidth: '420px' }}
+          >
+            No live coverage right now.
+          </p>
+
+          {/* Next meeting chip */}
+          {nextMeetingInfo && (
+            <div className="flex justify-center" style={{ marginTop: '20px' }}>
+              {isToday ? (
+                <span className="inline-flex items-center gap-2 text-sm font-medium text-live-red">
+                  <span className="w-2 h-2 rounded-full bg-live-red animate-pulse" />
+                  City Council meets today
+                </span>
+              ) : (
+                <span
+                  className="inline-flex items-center gap-2 rounded-full"
+                  style={{
+                    background: 'rgb(234, 238, 249)',
+                    height: '34px',
+                    padding: '7px 14px 7px 8px',
+                  }}
+                >
+                  {/* CHW logo icon */}
+                  <Image
+                    src="/chw-logo.png"
+                    alt=""
+                    width={18}
+                    height={18}
+                    style={{ borderRadius: '4px', flexShrink: 0 }}
+                  />
+                  <span style={{ fontSize: '13.5px', fontWeight: 600, color: 'rgb(27, 47, 102)' }}>
+                    Next meeting
+                  </span>
+                  <span style={{ fontSize: '13px', color: 'rgb(39, 68, 144)' }}>
+                    {formatNextMeetingChip(nextMeetingInfo.date)}
+                  </span>
+                </span>
+              )}
+            </div>
+          )}
         </div>
 
         {/* ── Recent coverage ───────────────────────────────────────────── */}
         {recentSessions.length > 0 && (
           <section>
+            {/* Section header */}
             <div className="flex items-baseline justify-between mb-3">
-              <h2 className="text-xs font-semibold text-[#888] dark:text-[#555] uppercase tracking-wide">
-                Recent coverage
-              </h2>
+              <h3
+                className="uppercase"
+                style={{ fontSize: '12px', fontWeight: 600, letterSpacing: '1.44px', color: 'rgb(117, 115, 106)' }}
+              >
+                Recent Coverage
+              </h3>
               <a
                 href="/archive"
-                className="text-xs text-[#aaa] dark:text-[#555] hover:text-[#333] dark:hover:text-[#aaa] underline"
+                style={{ fontSize: '13px', fontWeight: 600, color: 'rgb(39, 68, 144)' }}
+                className="hover:underline"
               >
                 All {index.length} sessions →
               </a>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-              {recentSessions.map(entry => {
+
+            {/* Single white card containing all session rows */}
+            <div
+              className="overflow-hidden"
+              style={{ background: 'rgb(255, 255, 255)', borderRadius: '12px' }}
+            >
+              {recentSessions.map((entry, i) => {
                 const title = entry.metadata?.meetingTitle || entry.label;
                 return (
                   <a
                     key={entry.slug}
                     href={`/${entry.slug}`}
-                    className="group bg-white dark:bg-[#1a1a1a] border border-[#e0e0d8] dark:border-[#2a2a2a] rounded-[10px] px-4 py-3.5 flex flex-col gap-0.5 hover:border-[#bbb] dark:hover:border-[#444] transition-colors"
+                    className="flex items-center justify-between hover:bg-bg-secondary transition-colors"
+                    style={{
+                      padding: '14px 16px',
+                      borderTop: i > 0 ? '1px solid rgb(236, 234, 225)' : 'none',
+                    }}
                   >
-                    <p className="text-sm font-medium text-[#1a1a1a] dark:text-[#e8e8e0] group-hover:text-[#1a6bbf] dark:group-hover:text-[#5a9fd4] transition-colors leading-snug">
-                      {title}
-                    </p>
-                    <p className="text-xs text-[#aaa] dark:text-[#555] mt-0.5">
-                      {formatShortDate(entry.startedAt)}
-                    </p>
-                    <p className="text-xs text-[#ccc] dark:text-[#444] mt-0.5">
-                      {entry.postCount} {entry.postCount === 1 ? 'post' : 'posts'}
-                    </p>
+                    {/* Left: title + date */}
+                    <div>
+                      <p style={{ fontSize: '15px', fontWeight: 600, color: 'rgb(27, 26, 23)' }}>
+                        {title}
+                      </p>
+                      <p style={{ fontSize: '12px', color: 'rgb(154, 152, 142)', marginTop: '3px' }}>
+                        {formatShortDate(entry.startedAt)}
+                      </p>
+                    </div>
+                    {/* Right: post count + arrow */}
+                    <div className="flex items-center gap-2 flex-shrink-0 ml-4">
+                      <span style={{ fontSize: '12px', color: 'rgb(117, 115, 106)' }}>
+                        {entry.postCount} posts
+                      </span>
+                      <span style={{ fontSize: '15px', color: 'rgb(39, 68, 144)' }}>→</span>
+                    </div>
                   </a>
                 );
               })}
@@ -175,65 +232,70 @@ export default async function Home() {
 
         {/* ── Search ───────────────────────────────────────────────────── */}
         <section>
-          <h2 className="text-xs font-semibold text-[#888] dark:text-[#555] uppercase tracking-wide mb-3">
-            Search past coverage
-          </h2>
+          <h3
+            className="uppercase mb-3"
+            style={{ fontSize: '12px', fontWeight: 600, letterSpacing: '1.44px', color: 'rgb(117, 115, 106)' }}
+          >
+            Search Past Coverage
+          </h3>
           <form action="/search" method="get" className="flex gap-2">
             <input
               type="search"
               name="q"
-              placeholder={`Search ${index.length > 0 ? `${index.reduce((s, e) => s + e.postCount, 0).toLocaleString()} posts` : 'past coverage'}…`}
-              className="flex-1 text-sm px-4 py-2.5 border border-[#d0d0c8] dark:border-[#333] rounded-xl bg-white dark:bg-[#1a1a1a] text-[#1a1a1a] dark:text-[#e8e8e0] placeholder-[#bbb] dark:placeholder-[#444] outline-none focus:border-[#888] dark:focus:border-[#555] transition-colors"
+              placeholder={totalPosts > 0 ? `Search ${totalPosts.toLocaleString()} posts…` : 'Search past coverage…'}
+              className="flex-1 border border-border rounded-xl bg-white text-chw-text placeholder:text-chw-tertiary outline-none focus:border-chw-secondary transition-colors"
+              style={{ fontSize: '15px', padding: '0 16px', height: '48px' }}
             />
             <button
               type="submit"
-              className="px-4 py-2.5 text-sm font-medium rounded-xl bg-[#1a1a1a] dark:bg-[#e8e8e0] text-white dark:text-[#111] hover:bg-[#333] dark:hover:bg-white transition-colors flex-shrink-0"
+              className="bg-brand-blue text-white hover:bg-deep-blue transition-colors flex-shrink-0 font-semibold"
+              style={{ fontSize: '15px', fontWeight: 600, height: '48px', padding: '0 22px', borderRadius: '10px' }}
             >
               Search
             </button>
           </form>
         </section>
 
-        {/* ── Random quote ─────────────────────────────────────────────── */}
+        {/* ── From the archives ────────────────────────────────────────── */}
         {quote && (
           <section>
-            <h2 className="text-xs font-semibold text-[#888] dark:text-[#555] uppercase tracking-wide mb-3">
-              From past coverage
-            </h2>
+            <h3
+              className="uppercase"
+              style={{ fontSize: '12px', fontWeight: 600, letterSpacing: '1.44px', color: 'rgb(117, 115, 106)', marginBottom: '10px' }}
+            >
+              From the Archives
+            </h3>
             <a
               href={`/${quote.slug}#post-${quote.postId}`}
-              className="group block border-l-[3px] border-[#d4b896] dark:border-[#5a3e22] bg-[#faf8f4] dark:bg-[#1c1a14] rounded-r-[10px] px-5 py-4 hover:border-[#b8956e] dark:hover:border-[#7a5a3a] transition-colors"
+              className="block hover:opacity-90 transition-opacity"
+              style={{
+                background: 'rgb(255, 255, 255)',
+                borderRadius: '12px',
+                padding: '20px 22px',
+                borderTop: '1px solid rgb(228, 225, 215)',
+                borderRight: '1px solid rgb(228, 225, 215)',
+                borderBottom: '1px solid rgb(228, 225, 215)',
+                borderLeft: '3px solid rgb(185, 138, 46)',
+                boxShadow: 'rgba(20, 20, 15, 0.04) 0px 1px 2px 0px',
+              }}
             >
-              <p className="text-sm leading-[1.65] text-[#333] dark:text-[#ccc] whitespace-pre-wrap break-words">
+              <p
+                className="whitespace-pre-wrap break-words"
+                style={{
+                  fontSize: '19px',
+                  fontWeight: 400,
+                  letterSpacing: '-0.19px',
+                  color: 'rgb(64, 62, 56)',
+                  lineHeight: '27.55px',
+                  marginBottom: '14px',
+                }}
+              >
                 {quote.text}
               </p>
-              <p className="text-xs text-[#aaa] dark:text-[#555] mt-2.5 group-hover:text-[#888] dark:group-hover:text-[#777] transition-colors">
+              <p style={{ fontSize: '12px', color: 'rgb(117, 115, 106)' }}>
                 {quote.sessionLabel} · {formatTime(quote.indexedAt)}, {formatShortDate(quote.indexedAt)} →
               </p>
             </a>
-          </section>
-        )}
-
-        {/* ── Next meeting ─────────────────────────────────────────────── */}
-        {nextMeetingInfo && (
-          <section className="border-t border-[#f0f0ea] dark:border-[#222] pt-6">
-            <p className="text-xs text-[#bbb] dark:text-[#444]">
-              {isToday ? (
-                <>
-                  <span className="font-medium text-[#2a7a3a] dark:text-[#4caf6a]">
-                    City Council meets today
-                  </span>
-                  {' '}— {formatLongDate(nextMeetingInfo.date)}
-                </>
-              ) : (
-                <>
-                  Next City Council meeting:{' '}
-                  <span className="text-[#888] dark:text-[#555]">
-                    {formatLongDate(nextMeetingInfo.date)}
-                  </span>
-                </>
-              )}
-            </p>
           </section>
         )}
 

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import type { CorpusPost } from '@/lib/search';
+import SiteHeader from '@/components/SiteHeader';
 
 const MAX_RESULTS = 50;
 const DEBOUNCE_MS = 200;
@@ -29,20 +30,17 @@ function countOccurrences(lower: string, terms: string[]): number {
   }, 0);
 }
 
-// Return a short window of text anchored on the earliest-appearing term.
-// With multiple terms, the snippet for "Bradford cars" will start at whichever
-// of those words appears first in the post, keeping both in view.
-function getSnippet(text: string, terms: string[], contextBefore = 80, contextAfter = 120): string {
-  const lower = text.toLowerCase();
-  let anchor = -1;
-  for (const t of terms) {
-    const idx = lower.indexOf(t);
-    if (idx !== -1 && (anchor === -1 || idx < anchor)) anchor = idx;
-  }
-  if (anchor === -1) anchor = 0;
-  const start = Math.max(0, anchor - contextBefore);
-  const end = Math.min(text.length, anchor + contextAfter);
-  return (start > 0 ? '…' : '') + text.slice(start, end) + (end < text.length ? '…' : '');
+// Count occurrences of each term as a *standalone word* (word-boundary match).
+// Used to push posts like "...about cars near Bradford..." above posts that
+// only happen to contain a term as a substring of a longer word, e.g.
+// searching "car" shouldn't rank "...motion CARRIES..." above an actual
+// mention of "car"/"cars".
+function countWholeWordOccurrences(lower: string, terms: string[]): number {
+  return terms.reduce((total, t) => {
+    const re = new RegExp(`\\b${escapeRegex(t)}\\b`, 'g');
+    const matches = lower.match(re);
+    return total + (matches ? matches.length : 0);
+  }, 0);
 }
 
 // Wrap every occurrence of any search term in the snippet with a <mark>.
@@ -59,7 +57,8 @@ function Highlighted({ text, terms }: { text: string; terms: string[] }) {
         lowerTerms.has(part.toLowerCase()) ? (
           <mark
             key={i}
-            className="bg-[#fef3c7] dark:bg-[#3a2800] text-[#92400e] dark:text-[#fcd34d] rounded-[3px] px-0.5 not-italic"
+            className="bg-archive-gold/20 rounded-[3px] px-0.5 not-italic"
+            style={{ color: 'rgb(27, 26, 23)' }}
           >
             {part}
           </mark>
@@ -141,9 +140,14 @@ export default function SearchClient({ initialQuery = '' }: { initialQuery?: str
       const lower = p.text.toLowerCase();
       return terms.every(t => lower.includes(t));
     });
+    // Rank whole-word matches well above incidental substring matches (e.g.
+    // "car" inside "CARRIES"), then by raw occurrence count, then by recency.
     matched.sort((a, b) => {
-      const diff = countOccurrences(b.text.toLowerCase(), terms)
-                 - countOccurrences(a.text.toLowerCase(), terms);
+      const aLower = a.text.toLowerCase();
+      const bLower = b.text.toLowerCase();
+      const scoreA = countWholeWordOccurrences(aLower, terms) * 5 + countOccurrences(aLower, terms);
+      const scoreB = countWholeWordOccurrences(bLower, terms) * 5 + countOccurrences(bLower, terms);
+      const diff = scoreB - scoreA;
       return diff !== 0 ? diff : b.indexedAt.localeCompare(a.indexedAt);
     });
     return matched.slice(0, MAX_RESULTS);
@@ -158,22 +162,7 @@ export default function SearchClient({ initialQuery = '' }: { initialQuery?: str
 
   return (
     <>
-      <header className="bg-white dark:bg-[#1a1a1a] border-b border-[#e0e0d8] dark:border-[#2a2a2a] px-6 py-3.5 flex items-center justify-between sticky top-0 z-10">
-        <h1 className="text-sm font-semibold tracking-tight text-[#1a1a1a] dark:text-[#e8e8e0]">
-          CHW Live{' '}
-          <span className="text-[#888] font-normal">
-            /{' '}
-            <a href="/archive" className="hover:underline">Archive</a>
-            {' '}/ Search
-          </span>
-        </h1>
-        <a
-          href="/"
-          className="text-xs text-[#888] hover:text-[#333] dark:hover:text-[#ccc] underline flex-shrink-0"
-        >
-          ← Live
-        </a>
-      </header>
+      <SiteHeader />
 
       <main className="max-w-[640px] mx-auto px-4 py-8 pb-16">
 
@@ -186,12 +175,13 @@ export default function SearchClient({ initialQuery = '' }: { initialQuery?: str
             onChange={e => setQuery(e.target.value)}
             placeholder={corpus ? `Search ${corpus.length.toLocaleString()} posts…` : 'Loading…'}
             disabled={!corpus && !loadError}
-            className="w-full text-sm px-4 py-3 pr-10 border border-[#d0d0c8] dark:border-[#333] rounded-xl bg-white dark:bg-[#1a1a1a] text-[#1a1a1a] dark:text-[#e8e8e0] placeholder-[#bbb] dark:placeholder-[#444] outline-none focus:border-[#888] dark:focus:border-[#555] transition-colors disabled:opacity-50"
+            className="w-full border border-border rounded-xl bg-white text-chw-text placeholder:text-chw-tertiary outline-none focus:border-chw-secondary transition-colors disabled:opacity-50"
+            style={{ fontSize: '15px', padding: '0 40px 0 16px', height: '48px' }}
           />
           {query && (
             <button
               onClick={handleClear}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-[#bbb] hover:text-[#888] dark:hover:text-[#aaa] text-lg leading-none"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-chw-tertiary hover:text-chw-secondary text-lg leading-none"
               aria-label="Clear search"
             >
               ×
@@ -201,67 +191,80 @@ export default function SearchClient({ initialQuery = '' }: { initialQuery?: str
 
         {/* Loading / error */}
         {!corpus && !loadError && (
-          <p className="text-sm text-[#999] dark:text-[#555] text-center py-12">
+          <p className="text-sm text-chw-tertiary text-center py-12">
             Loading search index…
           </p>
         )}
         {loadError && (
-          <p className="text-sm text-[#c0392b] dark:text-[#f08080] text-center py-12">
+          <p className="text-sm text-live-red text-center py-12">
             Could not load search index — try refreshing.
           </p>
         )}
 
         {/* Idle state */}
         {corpus && debouncedQuery.length < MIN_QUERY_LEN && (
-          <p className="text-xs text-[#bbb] dark:text-[#444] text-center py-8">
+          <p className="text-center py-8" style={{ fontSize: '12px', color: 'rgb(154, 152, 142)' }}>
             {corpus.length.toLocaleString()} posts indexed across {sessionCount} sessions
           </p>
         )}
 
         {/* No results */}
         {results?.length === 0 && (
-          <p className="text-sm text-[#999] dark:text-[#555] text-center py-12">
-            No posts found for <span className="font-medium text-[#666] dark:text-[#888]">&ldquo;{debouncedQuery}&rdquo;</span>
+          <p className="text-sm text-chw-tertiary text-center py-12">
+            No posts found for <span className="font-medium text-chw-secondary">&ldquo;{debouncedQuery}&rdquo;</span>
           </p>
         )}
 
         {/* Results */}
         {results && results.length > 0 && (
           <>
-            <p className="text-xs text-[#bbb] dark:text-[#444] mb-4">
+            <p className="mb-4" style={{ fontSize: '12px', color: 'rgb(117, 115, 106)' }}>
               {results.length === MAX_RESULTS
                 ? `${MAX_RESULTS}+ results — try a more specific search`
                 : `${results.length} ${results.length === 1 ? 'result' : 'results'}`}
             </p>
-            <div className="flex flex-col gap-2">
-              {results.map(post => {
-                const snippet = getSnippet(post.text, terms);
-                return (
+            <div className="flex flex-col gap-3">
+              {results.map(post => (
+                <div
+                  key={`${post.slug}/${post.postId}`}
+                  className="flex flex-col gap-1.5"
+                  style={{
+                    background: 'rgb(255, 255, 255)',
+                    borderRadius: '12px',
+                    boxShadow: 'rgba(20, 20, 15, 0.04) 0px 1px 2px 0px',
+                    padding: '14px 16px',
+                  }}
+                >
+                  {/* Session context */}
+                  <div className="flex items-baseline justify-between gap-3">
+                    <span
+                      className="truncate"
+                      style={{ fontSize: '13px', fontWeight: 600, color: 'rgb(39, 68, 144)' }}
+                    >
+                      {post.sessionLabel}
+                    </span>
+                    <span style={{ fontSize: '12px', color: 'rgb(154, 152, 142)', flexShrink: 0 }}>
+                      {formatPostDate(post.indexedAt)}
+                    </span>
+                  </div>
+                  {/* Full post text */}
+                  <p style={{ fontSize: '15px', lineHeight: '1.6', color: 'rgb(27, 26, 23)' }} className="whitespace-pre-wrap break-words">
+                    <Highlighted text={post.text} terms={terms} />
+                  </p>
+                  {/* Jump to post in context of full thread */}
                   <a
-                    key={`${post.slug}/${post.postId}`}
-                    href={`/${post.slug}/${post.postId}`}
-                    className="group bg-white dark:bg-[#1a1a1a] border border-[#e0e0d8] dark:border-[#2a2a2a] rounded-[10px] px-4 py-3.5 flex flex-col gap-1.5 hover:border-[#bbb] dark:hover:border-[#444] transition-colors"
+                    href={`/${post.slug}#post-${post.postId}`}
+                    className="hover:underline self-start"
+                    style={{ fontSize: '12px', color: 'rgb(39, 68, 144)', marginTop: '2px' }}
                   >
-                    {/* Session context */}
-                    <div className="flex items-baseline justify-between gap-3">
-                      <span className="text-xs font-medium text-[#1a6bbf] dark:text-[#5a9fd4] group-hover:underline truncate">
-                        {post.sessionLabel}
-                      </span>
-                      <span className="text-xs text-[#bbb] dark:text-[#444] flex-shrink-0">
-                        {formatPostDate(post.indexedAt)}
-                      </span>
-                    </div>
-                    {/* Snippet */}
-                    <p className="text-sm text-[#333] dark:text-[#ccc] leading-[1.65] break-words">
-                      <Highlighted text={snippet} terms={terms} />
-                    </p>
+                    View in thread →
                   </a>
-                );
-              })}
+                </div>
+              ))}
             </div>
 
             {results.length === MAX_RESULTS && (
-              <p className="text-xs text-[#bbb] dark:text-[#444] text-center mt-6">
+              <p className="text-center mt-6" style={{ fontSize: '12px', color: 'rgb(154, 152, 142)' }}>
                 Showing first {MAX_RESULTS} matches — refine your search to see more specific results.
               </p>
             )}

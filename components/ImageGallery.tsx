@@ -47,14 +47,17 @@ export default function ImageGallery({ images }: ImageGalleryProps) {
         {visible.map((img, i) => (
           <div
             key={i}
-            className={`cursor-zoom-in overflow-hidden rounded-md border border-[#e0e0d8] dark:border-[#2a2a2a] bg-[#f0f0eb] dark:bg-[#111] ${count === 1 ? 'flex items-center justify-center' : `aspect-[16/10] ${count === 3 && i === 0 ? 'col-span-2' : ''}`}`}
+            // Reserve a fixed aspect ratio for every tile (including single-image
+            // posts) so the layout doesn't shift as images load — a collapsed
+            // 0-height container before load was throwing off scroll-to-unread.
+            className={`cursor-zoom-in overflow-hidden rounded-md border border-[#e0e0d8] dark:border-[#2a2a2a] bg-[#f0f0eb] dark:bg-[#111] flex items-center justify-center aspect-[16/10] ${count === 3 && i === 0 ? 'col-span-2' : ''}`}
             onClick={() => setLightboxIndex(i)}
           >
             <img
               src={img.thumb || img.fullsize}
               alt={img.alt || ''}
               loading="lazy"
-              className={`block hover:opacity-90 transition-opacity duration-150 ${count === 1 ? 'w-full max-h-[480px] object-contain' : 'w-full h-full object-contain'}`}
+              className="block w-full h-full object-contain hover:opacity-90 transition-opacity duration-150"
             />
           </div>
         ))}

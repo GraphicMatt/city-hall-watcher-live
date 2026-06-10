@@ -22,7 +22,7 @@ function linkifyPlainUrls(text: string): React.ReactNode[] {
     const url = match[0]!;
     nodes.push(
       <a key={match.index} href={url} target="_blank" rel="noopener noreferrer"
-         className="text-[#1a6bbf] dark:text-[#5a9fd4] hover:underline">
+         className="text-brand-blue dark:text-blue-400 hover:underline">
         {url}
       </a>
     );
@@ -71,7 +71,7 @@ function linkifyText(post: BlueskyPost): React.ReactNode[] {
           href={linkFeature.uri}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-[#1a6bbf] dark:text-[#5a9fd4] hover:underline"
+          className="text-brand-blue dark:text-blue-400 hover:underline"
         >
           {segText}
         </a>
@@ -100,9 +100,20 @@ export default function PostCard({ post, isNew, slug, videoSegments }: PostCardP
   const bskyUrl = externalUrl;
   const permalinkUrl = slug ? `/${slug}/${postId}` : null;
   const ytResult = videoSegments?.length ? getYoutubeTimestampUrl(post, videoSegments) : null;
+
   return (
-    <div className={`post-card border border-[#e0e0d8] dark:border-[#2a2a2a] rounded-[10px] px-[15px] py-[13px] ${isNew ? 'post-card-flash' : 'bg-white dark:bg-[#1a1a1a]'}`}>
-      <p className="text-sm leading-[1.65] text-[#1a1a1a] dark:text-[#e8e8e0] whitespace-pre-wrap break-words">
+    <div
+      className={`post-card ${isNew ? 'post-card-flash' : 'bg-white'}`}
+      style={{
+        borderRadius: '12px',
+        padding: '18px 20px 14px 20px',
+        boxShadow: 'rgba(20, 20, 15, 0.04) 0px 1px 2px 0px',
+      }}
+    >
+      <p
+        className="text-chw-text whitespace-pre-wrap break-words"
+        style={{ fontSize: '16px', lineHeight: '24.8px', fontWeight: 400 }}
+      >
         {linkifyText(post)}
       </p>
       {images.length > 0 && <ImageGallery images={images} />}
@@ -111,34 +122,38 @@ export default function PostCard({ post, isNew, slug, videoSegments }: PostCardP
           href={post.quotedPost.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-2.5 block border border-[#e0e0d8] dark:border-[#2a2a2a] rounded-lg px-3.5 py-3 hover:border-[#bbb] dark:hover:border-[#444] transition-colors"
+          className="mt-3 block border border-border rounded-lg px-3.5 py-3 hover:border-chw-secondary transition-colors bg-bg-secondary"
         >
-          <p className="text-xs font-medium text-[#1a1a1a] dark:text-[#e8e8e0]">
+          <p className="text-xs font-medium text-chw-text">
             {post.quotedPost.authorName}
-            <span className="font-normal text-[#aaa] dark:text-[#555] ml-1.5">@{post.quotedPost.authorHandle}</span>
+            <span className="font-normal text-chw-tertiary ml-1.5">@{post.quotedPost.authorHandle}</span>
           </p>
-          <p className="text-xs leading-[1.55] text-[#666] dark:text-[#999] whitespace-pre-wrap break-words mt-1">
+          <p className="text-xs leading-[1.6] text-chw-secondary whitespace-pre-wrap break-words mt-1">
             {post.quotedPost.text}
           </p>
         </a>
       )}
-      <div className="flex items-center justify-between mt-[7px]">
+      <div className="flex items-center justify-between" style={{ marginTop: '12px' }}>
         <a
           href={permalinkUrl ?? bskyUrl}
           {...(permalinkUrl ? {} : { target: '_blank', rel: 'noopener noreferrer' })}
-          className="text-xs text-[#aaa] dark:text-[#555] hover:text-[#1a6bbf] dark:hover:text-[#5a9fd4] hover:underline transition-colors"
+          className="hover:text-brand-blue transition-colors hover:underline"
+          style={{ fontSize: '12.5px', color: 'rgb(154, 152, 142)' }}
           title={permalinkUrl ? 'Permalink' : externalLabel}
         >
           {formatTime(post.indexedAt)}
         </a>
-        <span className="flex items-center gap-2.5 text-xs text-[#ccc] dark:text-[#3a3a3a]">
+        <span
+          className="flex items-center gap-2.5"
+          style={{ fontSize: '12px', color: 'rgb(154, 152, 142)' }}
+        >
           {ytResult && (
             <a
               href={ytResult.url}
               target="_blank"
               rel="noopener noreferrer"
               title={`Watch on YouTube — ${ytResult.segment.label}`}
-              className="hover:text-[#c0392b] dark:hover:text-[#f08080] transition-colors"
+              className="hover:text-live-red transition-colors"
             >
               ▶ {formatYoutubeOffset(ytResult.offsetSeconds)}
             </a>

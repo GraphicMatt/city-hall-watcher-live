@@ -1,42 +1,71 @@
 @import "tailwindcss";
 
-:root {
-  --background: #f5f5f0;
-  --foreground: #1a1a1a;
-}
+/* ── Dynamic color tokens (respond to dark mode) ─────────────────────────── */
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+:root {
+  --bg:              rgb(244, 242, 235);
+  --bg-secondary:    rgb(236, 234, 225);
+  --bg-pale-blue:    rgb(234, 238, 249);
+  --paper:           rgb(228, 225, 215);
+  --border:          rgb(220, 227, 244);
+  --text:            rgb(27, 26, 23);
+  --text-secondary:  rgb(117, 115, 106);
+  --text-tertiary:   rgb(154, 152, 142);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #111;
-    --foreground: #e8e8e0;
+    --bg:              #111109;
+    --bg-secondary:    #1a1814;
+    --bg-pale-blue:    #111b30;
+    --paper:           #1e1c17;
+    --border:          #2a2a28;
+    --text:            #e8e6df;
+    --text-secondary:  #888680;
+    --text-tertiary:   #55534e;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+/* ── Tailwind theme registration ─────────────────────────────────────────── */
+
+@theme inline {
+  /* Static brand colors */
+  --color-brand-blue:    rgb(39, 68, 144);
+  --color-deep-blue:     rgb(22, 38, 79);
+  --color-live-red:      rgb(216, 64, 42);
+  --color-archive-gold:  rgb(185, 138, 46);
+
+  /* Dynamic surface / text colors */
+  --color-bg:             var(--bg);
+  --color-bg-secondary:   var(--bg-secondary);
+  --color-bg-pale-blue:   var(--bg-pale-blue);
+  --color-paper:          var(--paper);
+  --color-border:         var(--border);
+  --color-chw-text:       var(--text);
+  --color-chw-secondary:  var(--text-secondary);
+  --color-chw-tertiary:   var(--text-tertiary);
+
+  /* Typography */
+  --font-sans:    var(--font-hanken);
+  --font-display: var(--font-schibsted);
+  --font-mono:    var(--font-plex);
 }
 
-/* Post card new-flash animation: instant blue background, fades out over 0.8s */
+/* ── Base styles ─────────────────────────────────────────────────────────── */
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-hanken), system-ui, sans-serif;
+}
+
+/* ── Post card new-flash animation ───────────────────────────────────────── */
+
 .post-card {
   transition: background-color 0.8s ease-out;
 }
 
 .post-card-flash {
-  background-color: #eef5fd !important;
+  background-color: var(--bg-pale-blue) !important;
   transition: none !important;
-}
-
-@media (prefers-color-scheme: dark) {
-  .post-card-flash {
-    background-color: #1a2a3a !important;
-  }
 }
