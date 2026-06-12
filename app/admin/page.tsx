@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import SiteHeader from '@/components/SiteHeader';
 import type { ActiveSession, ArchiveEntry } from '@/lib/kv';
 import type { SessionMetadata } from '@/lib/bluesky';
+import type { BitlyLinkInfo } from '@/lib/linkExpansion';
 import MetadataEditor from '@/components/MetadataEditor';
 import AdminPastSessions from '@/components/AdminPastSessions';
 
@@ -95,6 +96,14 @@ export default function AdminPage() {
   // Remove this state, handler, route, and button once it's been run.
   const [fixingPronouns, setFixingPronouns] = useState(false);
   const [fixPronounsResult, setFixPronounsResult] = useState<string | null>(null);
+
+  // Bit.ly link expansion: scan archived posts for bit.ly link facets, resolve
+  // each to its destination, then optionally rewrite them in place.
+  const [scanningBitly, setScanningBitly] = useState(false);
+  const [bitlyLinks, setBitlyLinks] = useState<BitlyLinkInfo[] | null>(null);
+  const [bitlyError, setBitlyError] = useState<string | null>(null);
+  const [applyingBitly, setApplyingBitly] = useState(false);
+  const [bitlyApplyResult, setBitlyApplyResult] = useState<string | null>(null);
 
   // Derived booleans — declared early so they can be used in effects below
   const isLive = session?.status === 'live';
@@ -478,6 +487,47 @@ export default function AdminPage() {
       setFixPronounsResult('Network error — try again.');
     } finally {
       setFixingPronouns(false);
+    }
+  }
+
+  async function handleScanBitlyLinks() {
+    setScanningBitly(true);
+    setBitlyError(null);
+    setBitlyApplyResult(null);
+    setBitlyLinks(null);
+    try {
+      const r = await fetch('/api/archive/bitly-links', { method: 'POST' });
+      const data = await r.json();
+      if (r.ok) {
+        setBitlyLinks(data.links);
+      } else {
+        setBitlyError(data.error || 'Scan failed.');
+      }
+    } catch {
+      setBitlyError('Network error — try again.');
+    } finally {
+      setScanningBitly(false);
+    }
+  }
+
+  async function handleApplyBitlyLinks() {
+    setApplyingBitly(true);
+    setBitlyApplyResult(null);
+    try {
+      const r = await fetch('/api/archive/bitly-links/apply', { method: 'POST' });
+      const data = await r.json();
+      if (r.ok) {
+        const parts = [`${data.patched} link${data.patched !== 1 ? 's' : ''} updated across ${data.sessionsTouched} session${data.sessionsTouched !== 1 ? 's' : ''}`];
+        if (data.unresolved.length > 0) parts.push(`${data.unresolved.length} could not be resolved`);
+        setBitlyApplyResult(parts.join(' · '));
+        setBitlyLinks(null);
+      } else {
+        setBitlyApplyResult(data.error || 'Apply failed.');
+      }
+    } catch {
+      setBitlyApplyResult('Network error — try again.');
+    } finally {
+      setApplyingBitly(false);
     }
   }
 
@@ -1007,6 +1057,68 @@ export default function AdminPage() {
               {fixingPronouns ? 'Updating…' : 'Fix pronouns (July 7, 2014)'}
             </button>
           </div>
+        </div>
+
+        {/* Expand bit.ly links */}
+        <div className="bg-white dark:bg-[#1a1a1a] border border-[#e0e0d8] dark:border-[#2a2a2a] rounded-xl p-5">
+          <p className="text-xs font-medium text-[#888] uppercase tracking-wide mb-4">Expand bit.ly links</p>
+          <p className="text-xs text-[#888] dark:text-[#555] mb-3">
+            Scans the archive for bit.ly links, resolves each to its destination, and lets you replace
+            them in place — avoids the bit.ly interstitial and shows readers where a link actually goes.
+          </p>
+
+          <div className="flex items-center gap-3 flex-wrap">
+            <button
+              onClick={handleScanBitlyLinks}
+              disabled={scanningBitly}
+              className="text-xs font-medium px-2.5 py-1 rounded bg-[#1a1a1a] dark:bg-[#e8e8e0] text-white dark:text-[#111] hover:bg-[#333] disabled:opacity-50 flex-shrink-0 whitespace-nowrap"
+            >
+              {scanningBitly ? 'Scanning…' : 'Scan for bit.ly links'}
+            </button>
+            {bitlyError && <span className="text-xs text-[#c0392b] dark:text-[#f08080]">{bitlyError}</span>}
+            {bitlyApplyResult && <span className="text-xs text-[#aaa] dark:text-[#555]">{bitlyApplyResult}</span>}
+          </div>
+
+          {bitlyLinks && (
+            <div className="mt-3">
+              {bitlyLinks.length === 0 ? (
+                <p className="text-xs text-[#aaa] dark:text-[#555]">No bit.ly links found.</p>
+              ) : (
+                <>
+                  <div className="flex flex-col gap-2 max-h-80 overflow-y-auto pr-1">
+                    {bitlyLinks.map(link => (
+                      <div key={link.shortUrl} className="p-2.5 bg-[#fafaf8] dark:bg-[#111] border border-[#f0f0ea] dark:border-[#222] rounded-lg text-xs">
+                        <p className="text-[#1a1a1a] dark:text-[#e8e8e0] font-medium break-all">{link.shortUrl}</p>
+                        {link.expandedUrl ? (
+                          <p className="text-[#2a7a3a] dark:text-[#4caf6a] break-all mt-0.5">→ {link.expandedUrl}</p>
+                        ) : (
+                          <p className="text-[#c0392b] dark:text-[#f08080] mt-0.5">Could not resolve — will be left untouched</p>
+                        )}
+                        <p className="text-[#bbb] dark:text-[#555] mt-1">
+                          {link.occurrences.length} post{link.occurrences.length !== 1 ? 's' : ''}:{' '}
+                          {link.occurrences.map((o, i) => (
+                            <span key={`${o.slug}/${o.postId}`}>
+                              {i > 0 && ', '}
+                              <a href={`/${o.slug}/${o.postId}`} target="_blank" rel="noopener noreferrer" className="underline hover:text-[#1a6bbf] dark:hover:text-[#5a9fd4]">
+                                {o.slug}
+                              </a>
+                            </span>
+                          ))}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                  <button
+                    onClick={handleApplyBitlyLinks}
+                    disabled={applyingBitly || !bitlyLinks.some(l => l.expandedUrl)}
+                    className="mt-3 text-xs font-medium px-2.5 py-1 rounded bg-[#1a1a1a] dark:bg-[#e8e8e0] text-white dark:text-[#111] hover:bg-[#333] disabled:opacity-50"
+                  >
+                    {applyingBitly ? 'Replacing…' : `Replace ${bitlyLinks.filter(l => l.expandedUrl).length} resolved link${bitlyLinks.filter(l => l.expandedUrl).length !== 1 ? 's' : ''}`}
+                  </button>
+                </>
+              )}
+            </div>
+          )}
         </div>
 
       </main>
