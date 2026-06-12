@@ -91,11 +91,11 @@ export default async function PostPage({ params }: Props) {
           <a
             href={`/${slug}#post-${postId}`}
             className="hover:underline truncate"
-            style={{ fontSize: '13px', fontWeight: 600, color: 'rgb(39, 68, 144)' }}
+            style={{ fontSize: '13px', fontWeight: 600, color: 'var(--pale-blue-text)' }}
           >
             ← {label}
           </a>
-          <span style={{ fontSize: '12px', color: 'rgb(154, 152, 142)', flexShrink: 0 }}>
+          <span style={{ fontSize: '12px', color: 'var(--text-tertiary)', flexShrink: 0 }}>
             {formatPostDate(post.indexedAt)}
           </span>
         </div>
@@ -105,7 +105,7 @@ export default async function PostPage({ params }: Props) {
         {/* Footer links */}
         <div
           className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 mt-4"
-          style={{ fontSize: '12.5px', color: 'rgb(117, 115, 106)' }}
+          style={{ fontSize: '12.5px', color: 'var(--text-secondary)' }}
         >
           <a
             href={`/${slug}#post-${postId}`}

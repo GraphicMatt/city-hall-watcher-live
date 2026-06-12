@@ -30,7 +30,7 @@ function formatDate(isoString: string): string {
 }
 
 const SELECT_CLASS =
-  'text-xs text-chw-secondary bg-white border border-border rounded-lg px-2.5 py-1.5 cursor-pointer hover:border-chw-secondary outline-none transition-colors';
+  'text-xs text-chw-secondary bg-card border border-border rounded-lg px-2.5 py-1.5 cursor-pointer hover:border-chw-secondary outline-none transition-colors';
 
 interface Props {
   entries: ArchiveEntry[];
@@ -138,14 +138,14 @@ export default function ArchiveIndexClient({ entries }: Props) {
             <div className="flex items-center gap-3 mb-3">
               <h2
                 className="uppercase flex-shrink-0"
-                style={{ fontSize: '12px', fontWeight: 600, letterSpacing: '1.44px', color: 'rgb(117, 115, 106)' }}
+                style={{ fontSize: '12px', fontWeight: 600, letterSpacing: '1.44px', color: 'var(--text-secondary)' }}
               >
                 {year}
               </h2>
               <div className="flex-1 h-px bg-border" />
               <span
                 className="flex-shrink-0"
-                style={{ fontSize: '12px', color: 'rgb(117, 115, 106)' }}
+                style={{ fontSize: '12px', color: 'var(--text-secondary)' }}
               >
                 {group.length} {group.length === 1 ? 'session' : 'sessions'}
               </span>
@@ -176,22 +176,22 @@ function ArchiveCard({ entry }: { entry: ArchiveEntry }) {
       href={`/${entry.slug}`}
       className="flex flex-col gap-1 hover:opacity-90 transition-opacity group"
       style={{
-        background: 'rgb(255, 255, 255)',
+        background: 'var(--card)',
         borderRadius: '12px',
-        boxShadow: 'rgba(20, 20, 15, 0.04) 0px 1px 2px 0px',
+        boxShadow: 'var(--card-shadow)',
         padding: '14px 16px',
       }}
     >
       <p
         className="leading-snug"
-        style={{ fontSize: '15px', fontWeight: 600, color: 'rgb(27, 26, 23)' }}
+        style={{ fontSize: '15px', fontWeight: 600, color: 'var(--text)' }}
       >
         {title}
       </p>
-      <p style={{ fontSize: '12px', color: 'rgb(154, 152, 142)' }}>{dateStr}</p>
-      <p style={{ fontSize: '12px', color: 'rgb(117, 115, 106)', marginTop: '2px' }}>
+      <p style={{ fontSize: '12px', color: 'var(--text-tertiary)' }}>{dateStr}</p>
+      <p style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: '2px' }}>
         {entry.postCount} {entry.postCount === 1 ? 'post' : 'posts'}{' '}
-        <span style={{ color: 'rgb(39, 68, 144)', fontSize: '15px' }}>→</span>
+        <span style={{ color: 'var(--pale-blue-text)', fontSize: '15px' }}>→</span>
       </p>
     </a>
   );

@@ -103,11 +103,12 @@ export default function PostCard({ post, isNew, slug, videoSegments }: PostCardP
 
   return (
     <div
-      className={`post-card ${isNew ? 'post-card-flash' : 'bg-white'}`}
+      className={`post-card ${isNew ? 'post-card-flash' : ''}`}
       style={{
+        background: isNew ? undefined : 'var(--card)',
         borderRadius: '12px',
         padding: '18px 20px 14px 20px',
-        boxShadow: 'rgba(20, 20, 15, 0.04) 0px 1px 2px 0px',
+        boxShadow: 'var(--card-shadow)',
       }}
     >
       <p
@@ -138,14 +139,14 @@ export default function PostCard({ post, isNew, slug, videoSegments }: PostCardP
           href={permalinkUrl ?? bskyUrl}
           {...(permalinkUrl ? {} : { target: '_blank', rel: 'noopener noreferrer' })}
           className="hover:text-brand-blue transition-colors hover:underline"
-          style={{ fontSize: '12.5px', color: 'rgb(154, 152, 142)' }}
+          style={{ fontSize: '12.5px', color: 'var(--text-tertiary)' }}
           title={permalinkUrl ? 'Permalink' : externalLabel}
         >
           {formatTime(post.indexedAt)}
         </a>
         <span
           className="flex items-center gap-2.5"
-          style={{ fontSize: '12px', color: 'rgb(154, 152, 142)' }}
+          style={{ fontSize: '12px', color: 'var(--text-tertiary)' }}
         >
           {ytResult && (
             <a

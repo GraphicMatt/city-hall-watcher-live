@@ -108,9 +108,9 @@ export default function ArchiveViewer({ posts, label, postCount, startedAt, slug
         <div
           className="mb-6"
           style={{
-            background: 'rgb(255, 255, 255)',
+            background: 'var(--card)',
             borderRadius: '12px',
-            boxShadow: 'rgba(20, 20, 15, 0.04) 0px 1px 2px 0px',
+            boxShadow: 'var(--card-shadow)',
             padding: '18px 20px 16px 20px',
           }}
         >
@@ -123,7 +123,7 @@ export default function ArchiveViewer({ posts, label, postCount, startedAt, slug
               ARCHIVED
             </span>
             {dateStr && (
-              <span style={{ fontSize: '12px', fontWeight: 400, color: 'rgb(117, 115, 106)' }}>
+              <span style={{ fontSize: '12px', fontWeight: 400, color: 'var(--text-secondary)' }}>
                 {dateStr}
               </span>
             )}
@@ -134,7 +134,7 @@ export default function ArchiveViewer({ posts, label, postCount, startedAt, slug
           >
             {label}
           </h1>
-          <p style={{ fontSize: '12.5px', fontWeight: 400, color: 'rgb(117, 115, 106)', marginTop: '4px' }}>
+          <p style={{ fontSize: '12.5px', fontWeight: 400, color: 'var(--text-secondary)', marginTop: '4px' }}>
             {postCount} {postCount === 1 ? 'post' : 'posts'}
           </p>
         </div>

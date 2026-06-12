@@ -11,6 +11,15 @@
   --text:            rgb(27, 26, 23);
   --text-secondary:  rgb(117, 115, 106);
   --text-tertiary:   rgb(154, 152, 142);
+
+  /* "White card" surface used throughout the redesign — and its hairline border */
+  --card:            rgb(255, 255, 255);
+  --card-border:     rgb(228, 225, 215);
+  --card-shadow:     rgba(20, 20, 15, 0.04) 0px 1px 2px 0px;
+
+  /* Pale-blue chip text colors (e.g. "Next meeting") */
+  --pale-blue-text:       rgb(39, 68, 144);
+  --pale-blue-text-deep:  rgb(27, 47, 102);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -23,6 +32,15 @@
     --text:            #e8e6df;
     --text-secondary:  #888680;
     --text-tertiary:   #55534e;
+
+    /* Slightly elevated above --bg so cards still read as distinct surfaces */
+    --card:            #1c1a16;
+    --card-border:     #322f29;
+    --card-shadow:     none;
+
+    /* Lighter blue tones so chip text stays legible on the dark pale-blue chip */
+    --pale-blue-text:       rgb(141, 174, 247);
+    --pale-blue-text-deep:  rgb(189, 209, 252);
   }
 }
 
@@ -44,6 +62,8 @@
   --color-chw-text:       var(--text);
   --color-chw-secondary:  var(--text-secondary);
   --color-chw-tertiary:   var(--text-tertiary);
+  --color-card:           var(--card);
+  --color-card-border:    var(--card-border);
 
   /* Typography */
   --font-sans:    var(--font-hanken);

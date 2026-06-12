@@ -114,7 +114,7 @@ export default async function Home() {
           {/* "— OFF AIR —" label */}
           <p
             className="uppercase mb-5"
-            style={{ fontSize: '12px', fontWeight: 600, letterSpacing: '1.92px', color: 'rgb(154, 152, 142)' }}
+            style={{ fontSize: '12px', fontWeight: 600, letterSpacing: '1.92px', color: 'var(--text-tertiary)' }}
           >
             — Off Air —
           </p>
@@ -128,7 +128,7 @@ export default async function Home() {
 
           <p
             className="mx-auto mt-4"
-            style={{ fontSize: '16px', lineHeight: '24.8px', color: 'rgb(117, 115, 106)', maxWidth: '420px' }}
+            style={{ fontSize: '16px', lineHeight: '24.8px', color: 'var(--text-secondary)', maxWidth: '420px' }}
           >
             No live coverage right now.
           </p>
@@ -145,7 +145,7 @@ export default async function Home() {
                 <span
                   className="inline-flex items-center gap-2 rounded-full"
                   style={{
-                    background: 'rgb(234, 238, 249)',
+                    background: 'var(--bg-pale-blue)',
                     height: '34px',
                     padding: '7px 14px 7px 8px',
                   }}
@@ -158,10 +158,10 @@ export default async function Home() {
                     height={18}
                     style={{ borderRadius: '4px', flexShrink: 0 }}
                   />
-                  <span style={{ fontSize: '13.5px', fontWeight: 600, color: 'rgb(27, 47, 102)' }}>
+                  <span style={{ fontSize: '13.5px', fontWeight: 600, color: 'var(--pale-blue-text-deep)' }}>
                     Next meeting
                   </span>
-                  <span style={{ fontSize: '13px', color: 'rgb(39, 68, 144)' }}>
+                  <span style={{ fontSize: '13px', color: 'var(--pale-blue-text)' }}>
                     {formatNextMeetingChip(nextMeetingInfo.date)}
                   </span>
                 </span>
@@ -177,13 +177,13 @@ export default async function Home() {
             <div className="flex items-baseline justify-between mb-3">
               <h3
                 className="uppercase"
-                style={{ fontSize: '12px', fontWeight: 600, letterSpacing: '1.44px', color: 'rgb(117, 115, 106)' }}
+                style={{ fontSize: '12px', fontWeight: 600, letterSpacing: '1.44px', color: 'var(--text-secondary)' }}
               >
                 Recent Coverage
               </h3>
               <a
                 href="/archive"
-                style={{ fontSize: '13px', fontWeight: 600, color: 'rgb(39, 68, 144)' }}
+                style={{ fontSize: '13px', fontWeight: 600, color: 'var(--pale-blue-text)' }}
                 className="hover:underline"
               >
                 All {index.length} sessions →
@@ -193,7 +193,7 @@ export default async function Home() {
             {/* Single white card containing all session rows */}
             <div
               className="overflow-hidden"
-              style={{ background: 'rgb(255, 255, 255)', borderRadius: '12px' }}
+              style={{ background: 'var(--card)', borderRadius: '12px' }}
             >
               {recentSessions.map((entry, i) => {
                 const title = entry.metadata?.meetingTitle || entry.label;
@@ -204,24 +204,24 @@ export default async function Home() {
                     className="flex items-center justify-between hover:bg-bg-secondary transition-colors"
                     style={{
                       padding: '14px 16px',
-                      borderTop: i > 0 ? '1px solid rgb(236, 234, 225)' : 'none',
+                      borderTop: i > 0 ? '1px solid var(--card-border)' : 'none',
                     }}
                   >
                     {/* Left: title + date */}
                     <div>
-                      <p style={{ fontSize: '15px', fontWeight: 600, color: 'rgb(27, 26, 23)' }}>
+                      <p style={{ fontSize: '15px', fontWeight: 600, color: 'var(--text)' }}>
                         {title}
                       </p>
-                      <p style={{ fontSize: '12px', color: 'rgb(154, 152, 142)', marginTop: '3px' }}>
+                      <p style={{ fontSize: '12px', color: 'var(--text-tertiary)', marginTop: '3px' }}>
                         {formatShortDate(entry.startedAt)}
                       </p>
                     </div>
                     {/* Right: post count + arrow */}
                     <div className="flex items-center gap-2 flex-shrink-0 ml-4">
-                      <span style={{ fontSize: '12px', color: 'rgb(117, 115, 106)' }}>
+                      <span style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>
                         {entry.postCount} posts
                       </span>
-                      <span style={{ fontSize: '15px', color: 'rgb(39, 68, 144)' }}>→</span>
+                      <span style={{ fontSize: '15px', color: 'var(--pale-blue-text)' }}>→</span>
                     </div>
                   </a>
                 );
@@ -234,7 +234,7 @@ export default async function Home() {
         <section>
           <h3
             className="uppercase mb-3"
-            style={{ fontSize: '12px', fontWeight: 600, letterSpacing: '1.44px', color: 'rgb(117, 115, 106)' }}
+            style={{ fontSize: '12px', fontWeight: 600, letterSpacing: '1.44px', color: 'var(--text-secondary)' }}
           >
             Search Past Coverage
           </h3>
@@ -243,7 +243,7 @@ export default async function Home() {
               type="search"
               name="q"
               placeholder={totalPosts > 0 ? `Search ${totalPosts.toLocaleString()} posts…` : 'Search past coverage…'}
-              className="flex-1 border border-border rounded-xl bg-white text-chw-text placeholder:text-chw-tertiary outline-none focus:border-chw-secondary transition-colors"
+              className="flex-1 border border-border rounded-xl bg-card text-chw-text placeholder:text-chw-tertiary outline-none focus:border-chw-secondary transition-colors"
               style={{ fontSize: '15px', padding: '0 16px', height: '48px' }}
             />
             <button
@@ -261,7 +261,7 @@ export default async function Home() {
           <section>
             <h3
               className="uppercase"
-              style={{ fontSize: '12px', fontWeight: 600, letterSpacing: '1.44px', color: 'rgb(117, 115, 106)', marginBottom: '10px' }}
+              style={{ fontSize: '12px', fontWeight: 600, letterSpacing: '1.44px', color: 'var(--text-secondary)', marginBottom: '10px' }}
             >
               From the Archives
             </h3>
@@ -269,14 +269,14 @@ export default async function Home() {
               href={`/${quote.slug}#post-${quote.postId}`}
               className="block hover:opacity-90 transition-opacity"
               style={{
-                background: 'rgb(255, 255, 255)',
+                background: 'var(--card)',
                 borderRadius: '12px',
                 padding: '20px 22px',
-                borderTop: '1px solid rgb(228, 225, 215)',
-                borderRight: '1px solid rgb(228, 225, 215)',
-                borderBottom: '1px solid rgb(228, 225, 215)',
+                borderTop: '1px solid var(--card-border)',
+                borderRight: '1px solid var(--card-border)',
+                borderBottom: '1px solid var(--card-border)',
                 borderLeft: '3px solid rgb(185, 138, 46)',
-                boxShadow: 'rgba(20, 20, 15, 0.04) 0px 1px 2px 0px',
+                boxShadow: 'var(--card-shadow)',
               }}
             >
               <p
@@ -285,14 +285,14 @@ export default async function Home() {
                   fontSize: '19px',
                   fontWeight: 400,
                   letterSpacing: '-0.19px',
-                  color: 'rgb(64, 62, 56)',
+                  color: 'var(--text)',
                   lineHeight: '27.55px',
                   marginBottom: '14px',
                 }}
               >
                 {quote.text}
               </p>
-              <p style={{ fontSize: '12px', color: 'rgb(117, 115, 106)' }}>
+              <p style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>
                 {quote.sessionLabel} · {formatTime(quote.indexedAt)}, {formatShortDate(quote.indexedAt)} →
               </p>
             </a>

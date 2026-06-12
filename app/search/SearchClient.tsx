@@ -58,7 +58,7 @@ function Highlighted({ text, terms }: { text: string; terms: string[] }) {
           <mark
             key={i}
             className="bg-archive-gold/20 rounded-[3px] px-0.5 not-italic"
-            style={{ color: 'rgb(27, 26, 23)' }}
+            style={{ color: 'var(--text)' }}
           >
             {part}
           </mark>
@@ -175,7 +175,7 @@ export default function SearchClient({ initialQuery = '' }: { initialQuery?: str
             onChange={e => setQuery(e.target.value)}
             placeholder={corpus ? `Search ${corpus.length.toLocaleString()} posts…` : 'Loading…'}
             disabled={!corpus && !loadError}
-            className="w-full border border-border rounded-xl bg-white text-chw-text placeholder:text-chw-tertiary outline-none focus:border-chw-secondary transition-colors disabled:opacity-50"
+            className="w-full border border-border rounded-xl bg-card text-chw-text placeholder:text-chw-tertiary outline-none focus:border-chw-secondary transition-colors disabled:opacity-50"
             style={{ fontSize: '15px', padding: '0 40px 0 16px', height: '48px' }}
           />
           {query && (
@@ -203,7 +203,7 @@ export default function SearchClient({ initialQuery = '' }: { initialQuery?: str
 
         {/* Idle state */}
         {corpus && debouncedQuery.length < MIN_QUERY_LEN && (
-          <p className="text-center py-8" style={{ fontSize: '12px', color: 'rgb(154, 152, 142)' }}>
+          <p className="text-center py-8" style={{ fontSize: '12px', color: 'var(--text-tertiary)' }}>
             {corpus.length.toLocaleString()} posts indexed across {sessionCount} sessions
           </p>
         )}
@@ -218,7 +218,7 @@ export default function SearchClient({ initialQuery = '' }: { initialQuery?: str
         {/* Results */}
         {results && results.length > 0 && (
           <>
-            <p className="mb-4" style={{ fontSize: '12px', color: 'rgb(117, 115, 106)' }}>
+            <p className="mb-4" style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>
               {results.length === MAX_RESULTS
                 ? `${MAX_RESULTS}+ results — try a more specific search`
                 : `${results.length} ${results.length === 1 ? 'result' : 'results'}`}
@@ -229,9 +229,9 @@ export default function SearchClient({ initialQuery = '' }: { initialQuery?: str
                   key={`${post.slug}/${post.postId}`}
                   className="flex flex-col gap-1.5"
                   style={{
-                    background: 'rgb(255, 255, 255)',
+                    background: 'var(--card)',
                     borderRadius: '12px',
-                    boxShadow: 'rgba(20, 20, 15, 0.04) 0px 1px 2px 0px',
+                    boxShadow: 'var(--card-shadow)',
                     padding: '14px 16px',
                   }}
                 >
@@ -239,23 +239,23 @@ export default function SearchClient({ initialQuery = '' }: { initialQuery?: str
                   <div className="flex items-baseline justify-between gap-3">
                     <span
                       className="truncate"
-                      style={{ fontSize: '13px', fontWeight: 600, color: 'rgb(39, 68, 144)' }}
+                      style={{ fontSize: '13px', fontWeight: 600, color: 'var(--pale-blue-text)' }}
                     >
                       {post.sessionLabel}
                     </span>
-                    <span style={{ fontSize: '12px', color: 'rgb(154, 152, 142)', flexShrink: 0 }}>
+                    <span style={{ fontSize: '12px', color: 'var(--text-tertiary)', flexShrink: 0 }}>
                       {formatPostDate(post.indexedAt)}
                     </span>
                   </div>
                   {/* Full post text */}
-                  <p style={{ fontSize: '15px', lineHeight: '1.6', color: 'rgb(27, 26, 23)' }} className="whitespace-pre-wrap break-words">
+                  <p style={{ fontSize: '15px', lineHeight: '1.6', color: 'var(--text)' }} className="whitespace-pre-wrap break-words">
                     <Highlighted text={post.text} terms={terms} />
                   </p>
                   {/* Jump to post in context of full thread */}
                   <a
                     href={`/${post.slug}#post-${post.postId}`}
                     className="hover:underline self-start"
-                    style={{ fontSize: '12px', color: 'rgb(39, 68, 144)', marginTop: '2px' }}
+                    style={{ fontSize: '12px', color: 'var(--pale-blue-text)', marginTop: '2px' }}
                   >
                     View in thread →
                   </a>
@@ -264,7 +264,7 @@ export default function SearchClient({ initialQuery = '' }: { initialQuery?: str
             </div>
 
             {results.length === MAX_RESULTS && (
-              <p className="text-center mt-6" style={{ fontSize: '12px', color: 'rgb(154, 152, 142)' }}>
+              <p className="text-center mt-6" style={{ fontSize: '12px', color: 'var(--text-tertiary)' }}>
                 Showing first {MAX_RESULTS} matches — refine your search to see more specific results.
               </p>
             )}
