@@ -1,4 +1,4 @@
-import type { BlueskyPost, BlueskyFacetLink, VideoSegment } from '@/lib/bluesky';
+import type { BlueskyPost, BlueskyFacetLink, BlueskyFacetMention, BlueskyFacetTag, VideoSegment } from '@/lib/bluesky';
 import { getImages, formatTime, getYoutubeTimestampUrl, formatYoutubeOffset } from '@/lib/bluesky';
 import { decodeHtmlEntities } from '@/lib/twitter';
 import ImageGallery from './ImageGallery';
@@ -10,26 +10,70 @@ interface PostCardProps {
   videoSegments?: VideoSegment[];
 }
 
-// Regex URL linkifier used as a fallback for Twitter posts that pre-date
-// facet generation, and to strip residual t.co media links.
-function linkifyPlainUrls(text: string): React.ReactNode[] {
-  const urlRegex = /https?:\/\/\S+/g;
+// Visual treatment for hashtags — set apart from surrounding text without
+// implying it's a (potentially long-dead) link to the original platform.
+const HASHTAG_CLASSNAME = 'font-medium text-chw-secondary';
+
+// Matches URLs, @mentions, and #hashtags in Twitter-era plain text (no
+// facets). Twitter handles are 1-15 word characters; the negative lookbehind
+// keeps these from matching mid-string, e.g. the "domain" part of
+// "name@example.com" or a Bluesky-style "@handle.bsky.social" (those come
+// through with real facets). Hashtags must start with a letter so things like
+// "item #15" aren't mistaken for tags.
+const TWITTER_TOKEN_RE = /(https?:\/\/\S+)|((?<![\w@.])@\w{1,15})|((?<![\w#])#[a-zA-Z]\w*)/g;
+
+// Regex linkifier used as a fallback for Twitter posts that pre-date facet
+// generation: linkifies plain URLs and @mentions (to twitter.com profiles),
+// and visually sets off #hashtags.
+function linkifyPlainText(text: string): React.ReactNode[] {
   const nodes: React.ReactNode[] = [];
   let last = 0;
   let match: RegExpExecArray | null;
-  while ((match = urlRegex.exec(text)) !== null) {
+  while ((match = TWITTER_TOKEN_RE.exec(text)) !== null) {
     if (match.index > last) nodes.push(text.slice(last, match.index));
-    const url = match[0]!;
-    nodes.push(
-      <a key={match.index} href={url} target="_blank" rel="noopener noreferrer"
-         className="text-brand-blue dark:text-blue-400 hover:underline">
-        {url}
-      </a>
-    );
-    last = match.index + url.length;
+    const token = match[0]!;
+    if (token.startsWith('#')) {
+      nodes.push(<span key={match.index} className={HASHTAG_CLASSNAME}>{token}</span>);
+    } else {
+      const href = token.startsWith('@') ? `https://twitter.com/${token.slice(1)}` : token;
+      nodes.push(
+        <a key={match.index} href={href} target="_blank" rel="noopener noreferrer"
+           className="text-brand-blue dark:text-blue-400 hover:underline">
+          {token}
+        </a>
+      );
+    }
+    last = match.index + token.length;
   }
   if (last < text.length) nodes.push(text.slice(last));
   return nodes.length > 0 ? nodes : [text];
+}
+
+// Old-style manual retweets/modified tweets, from before Twitter had a native
+// retweet button: "<your comment> RT @handle: <their tweet>" or "MT" for a
+// modified/abridged quote. \b before RT/MT keeps this from matching mid-word
+// (e.g. "PORT @x"); the lead is non-greedy so it stops at the first such marker.
+const OLD_RT_RE = /^([\s\S]*?)\b(RT|MT)\s+@(\w{1,15}):\s*([\s\S]+)$/i;
+
+interface OldRetweet {
+  lead: string;
+  label: string;
+  handle: string;
+  quoted: string;
+}
+
+function parseOldStyleRetweet(post: BlueskyPost): OldRetweet | null {
+  if (post.platform !== 'twitter' || post.quotedPost) return null;
+  if ((post.record?.facets ?? []).length) return null;
+
+  const text = decodeHtmlEntities(post.record?.text || '');
+  const hasImages = getImages(post).length > 0;
+  const cleaned = hasImages ? text.replace(/\s*https:\/\/t\.co\/\S+/g, '').trim() : text;
+
+  const match = OLD_RT_RE.exec(cleaned);
+  if (!match) return null;
+  const [, lead, label, handle, quoted] = match;
+  return { lead: lead!.trim(), label: label!.toUpperCase(), handle: handle!, quoted: quoted!.trim() };
 }
 
 function linkifyText(post: BlueskyPost): React.ReactNode[] {
@@ -45,7 +89,7 @@ function linkifyText(post: BlueskyPost): React.ReactNode[] {
   if (post.platform === 'twitter' && !facets.length) {
     const hasImages = getImages(post).length > 0;
     const cleaned = hasImages ? text.replace(/\s*https:\/\/t\.co\/\S+/g, '').trim() : text;
-    return linkifyPlainUrls(cleaned);
+    return linkifyPlainText(cleaned);
   }
 
   if (!facets.length) return [text];
@@ -64,6 +108,8 @@ function linkifyText(post: BlueskyPost): React.ReactNode[] {
     }
     const segText = new TextDecoder().decode(bytes.slice(byteStart, byteEnd));
     const linkFeature = facet.features?.find((f): f is BlueskyFacetLink => f.$type === 'app.bsky.richtext.facet#link');
+    const mentionFeature = facet.features?.find((f): f is BlueskyFacetMention => f.$type === 'app.bsky.richtext.facet#mention');
+    const tagFeature = facet.features?.find((f): f is BlueskyFacetTag => f.$type === 'app.bsky.richtext.facet#tag');
     if (linkFeature?.uri) {
       nodes.push(
         <a
@@ -76,6 +122,20 @@ function linkifyText(post: BlueskyPost): React.ReactNode[] {
           {segText}
         </a>
       );
+    } else if (mentionFeature?.did) {
+      nodes.push(
+        <a
+          key={byteStart}
+          href={`https://bsky.app/profile/${mentionFeature.did}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-brand-blue dark:text-blue-400 hover:underline"
+        >
+          {segText}
+        </a>
+      );
+    } else if (tagFeature) {
+      nodes.push(<span key={byteStart} className={HASHTAG_CLASSNAME}>{segText}</span>);
     } else {
       nodes.push(segText);
     }
@@ -100,6 +160,7 @@ export default function PostCard({ post, isNew, slug, videoSegments }: PostCardP
   const bskyUrl = externalUrl;
   const permalinkUrl = slug ? `/${slug}/${postId}` : null;
   const ytResult = videoSegments?.length ? getYoutubeTimestampUrl(post, videoSegments) : null;
+  const retweet = parseOldStyleRetweet(post);
 
   return (
     <div
@@ -111,12 +172,38 @@ export default function PostCard({ post, isNew, slug, videoSegments }: PostCardP
         boxShadow: 'var(--card-shadow)',
       }}
     >
-      <p
-        className="text-chw-text whitespace-pre-wrap break-words"
-        style={{ fontSize: '16px', lineHeight: '24.8px', fontWeight: 400 }}
-      >
-        {linkifyText(post)}
-      </p>
+      {retweet ? (
+        <>
+          {retweet.lead.length > 0 && (
+            <p
+              className="text-chw-text whitespace-pre-wrap break-words"
+              style={{ fontSize: '16px', lineHeight: '24.8px', fontWeight: 400 }}
+            >
+              {linkifyPlainText(retweet.lead)}
+            </p>
+          )}
+          <a
+            href={`https://twitter.com/${retweet.handle}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`block border border-border rounded-lg px-3.5 py-3 hover:border-chw-secondary transition-colors bg-bg-secondary ${retweet.lead.length > 0 ? 'mt-3' : ''}`}
+          >
+            <p className="text-xs font-medium text-chw-text">
+              {retweet.label} <span className="font-normal text-chw-tertiary">@{retweet.handle}</span>
+            </p>
+            <p className="text-xs leading-[1.6] text-chw-secondary whitespace-pre-wrap break-words mt-1">
+              {linkifyPlainText(retweet.quoted)}
+            </p>
+          </a>
+        </>
+      ) : (
+        <p
+          className="text-chw-text whitespace-pre-wrap break-words"
+          style={{ fontSize: '16px', lineHeight: '24.8px', fontWeight: 400 }}
+        >
+          {linkifyText(post)}
+        </p>
+      )}
       {images.length > 0 && <ImageGallery images={images} />}
       {post.quotedPost && (
         <a

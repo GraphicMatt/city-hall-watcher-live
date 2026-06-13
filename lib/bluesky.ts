@@ -9,9 +9,19 @@ export interface BlueskyFacetLink {
   uri: string;
 }
 
+export interface BlueskyFacetMention {
+  $type: 'app.bsky.richtext.facet#mention';
+  did: string;
+}
+
+export interface BlueskyFacetTag {
+  $type: 'app.bsky.richtext.facet#tag';
+  tag: string;
+}
+
 export interface BlueskyFacet {
   index: { byteStart: number; byteEnd: number };
-  features: Array<BlueskyFacetLink | { $type: string }>;
+  features: Array<BlueskyFacetLink | BlueskyFacetMention | BlueskyFacetTag | { $type: string }>;
 }
 
 // A quote-tweet's content, fetched via Twitter's public oEmbed endpoint and
