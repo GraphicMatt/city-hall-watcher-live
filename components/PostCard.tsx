@@ -14,30 +14,42 @@ interface PostCardProps {
 // implying it's a (potentially long-dead) link to the original platform.
 const HASHTAG_CLASSNAME = 'font-medium text-chw-secondary';
 
-// Matches URLs, @mentions, and #hashtags in Twitter-era plain text (no
-// facets). Twitter handles are 1-15 word characters; the negative lookbehind
-// keeps these from matching mid-string, e.g. the "domain" part of
-// "name@example.com" or a Bluesky-style "@handle.bsky.social" (those come
-// through with real facets). Hashtags must start with a letter so things like
-// "item #15" aren't mistaken for tags.
-const TWITTER_TOKEN_RE = /(https?:\/\/\S+)|((?<![\w@.])@\w{1,15})|((?<![\w#])#[a-zA-Z]\w*)/g;
+// Matches URLs, @mentions, and #hashtags in plain (non-facet) text. The
+// negative lookbehind on @ avoids matching mid-word, e.g. the "domain" part
+// of "name@example.com", while still catching the common Twitter ".@handle"
+// convention (a leading period isn't a word character). Hashtags must start
+// with a letter so things like "item #15" aren't mistaken for tags.
+const INLINE_TOKEN_RE = /(https?:\/\/\S+)|((?<!\w)@\w{1,15})|((?<!\w)#[a-zA-Z]\w*)/g;
 
-// Regex linkifier used as a fallback for Twitter posts that pre-date facet
-// generation: linkifies plain URLs and @mentions (to twitter.com profiles),
-// and visually sets off #hashtags.
-function linkifyPlainText(text: string): React.ReactNode[] {
+// Linkifies URLs and #hashtags (styled, not linked) in a plain text span.
+// @mentions are linked to twitter.com only when `isTwitter` — Bluesky mentions
+// that didn't get a resolved facet have no DID to link to, so they're left as
+// plain text. `keyPrefix` keeps React keys unique when concatenating output
+// from multiple spans into one children array.
+function linkifyInline(text: string, isTwitter: boolean, keyPrefix: string | number = ''): React.ReactNode[] {
   const nodes: React.ReactNode[] = [];
   let last = 0;
   let match: RegExpExecArray | null;
-  while ((match = TWITTER_TOKEN_RE.exec(text)) !== null) {
+  while ((match = INLINE_TOKEN_RE.exec(text)) !== null) {
     if (match.index > last) nodes.push(text.slice(last, match.index));
     const token = match[0]!;
+    const key = `${keyPrefix}-${match.index}`;
     if (token.startsWith('#')) {
-      nodes.push(<span key={match.index} className={HASHTAG_CLASSNAME}>{token}</span>);
+      nodes.push(<span key={key} className={HASHTAG_CLASSNAME}>{token}</span>);
+    } else if (token.startsWith('@')) {
+      if (isTwitter) {
+        nodes.push(
+          <a key={key} href={`https://twitter.com/${token.slice(1)}`} target="_blank" rel="noopener noreferrer"
+             className="text-brand-blue dark:text-blue-400 hover:underline">
+            {token}
+          </a>
+        );
+      } else {
+        nodes.push(token);
+      }
     } else {
-      const href = token.startsWith('@') ? `https://twitter.com/${token.slice(1)}` : token;
       nodes.push(
-        <a key={match.index} href={href} target="_blank" rel="noopener noreferrer"
+        <a key={key} href={token} target="_blank" rel="noopener noreferrer"
            className="text-brand-blue dark:text-blue-400 hover:underline">
           {token}
         </a>
@@ -47,6 +59,12 @@ function linkifyPlainText(text: string): React.ReactNode[] {
   }
   if (last < text.length) nodes.push(text.slice(last));
   return nodes.length > 0 ? nodes : [text];
+}
+
+// Regex linkifier for full Twitter-era plain text: URLs, @mentions (to
+// twitter.com profiles), and styled #hashtags.
+function linkifyPlainText(text: string): React.ReactNode[] {
+  return linkifyInline(text, true);
 }
 
 // Old-style manual retweets/modified tweets, from before Twitter had a native
@@ -64,7 +82,6 @@ interface OldRetweet {
 
 function parseOldStyleRetweet(post: BlueskyPost): OldRetweet | null {
   if (post.platform !== 'twitter' || post.quotedPost) return null;
-  if ((post.record?.facets ?? []).length) return null;
 
   const text = decodeHtmlEntities(post.record?.text || '');
   const hasImages = getImages(post).length > 0;
@@ -98,13 +115,15 @@ function linkifyText(post: BlueskyPost): React.ReactNode[] {
   const bytes = encoder.encode(text);
   const nodes: React.ReactNode[] = [];
   let pos = 0;
+  const isTwitter = post.platform === 'twitter';
 
   const sorted = [...facets].sort((a, b) => a.index.byteStart - b.index.byteStart);
 
   for (const facet of sorted) {
     const { byteStart, byteEnd } = facet.index;
     if (byteStart > pos) {
-      nodes.push(new TextDecoder().decode(bytes.slice(pos, byteStart)));
+      const gapText = new TextDecoder().decode(bytes.slice(pos, byteStart));
+      nodes.push(...linkifyInline(gapText, isTwitter, pos));
     }
     const segText = new TextDecoder().decode(bytes.slice(byteStart, byteEnd));
     const linkFeature = facet.features?.find((f): f is BlueskyFacetLink => f.$type === 'app.bsky.richtext.facet#link');
@@ -137,13 +156,14 @@ function linkifyText(post: BlueskyPost): React.ReactNode[] {
     } else if (tagFeature) {
       nodes.push(<span key={byteStart} className={HASHTAG_CLASSNAME}>{segText}</span>);
     } else {
-      nodes.push(segText);
+      nodes.push(...linkifyInline(segText, isTwitter, byteStart));
     }
     pos = byteEnd;
   }
 
   if (pos < bytes.length) {
-    nodes.push(new TextDecoder().decode(bytes.slice(pos)));
+    const tailText = new TextDecoder().decode(bytes.slice(pos));
+    nodes.push(...linkifyInline(tailText, isTwitter, pos));
   }
 
   return nodes;

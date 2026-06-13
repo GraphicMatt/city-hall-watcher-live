@@ -10,6 +10,11 @@ import SiteHeader from './SiteHeader';
 import { getLastRead, setLastRead, markAllRead } from '@/lib/lastRead';
 import { scrollToPost } from '@/lib/scroll';
 
+interface AdjacentSession {
+  slug: string;
+  label: string;
+}
+
 interface ArchiveViewerProps {
   posts: BlueskyPost[];
   label: string;
@@ -17,11 +22,13 @@ interface ArchiveViewerProps {
   startedAt?: string;
   slug: string;
   metadata?: SessionMetadata;
+  prevSession?: AdjacentSession | null;
+  nextSession?: AdjacentSession | null;
 }
 
 const EMPTY_URIS = new Set<string>();
 
-export default function ArchiveViewer({ posts, label, postCount, startedAt, slug, metadata }: ArchiveViewerProps) {
+export default function ArchiveViewer({ posts, label, postCount, startedAt, slug, metadata, prevSession, nextSession }: ArchiveViewerProps) {
   const [order, setOrder] = useState<SortOrder>('oldest');
   const [lastReadAt, setLastReadAt] = useState<string | null>(null);
   // Frozen snapshot of lastReadAt taken once when the page loads (or after
@@ -78,6 +85,21 @@ export default function ArchiveViewer({ posts, label, postCount, startedAt, slug
     ? new Date(startedAt).toLocaleDateString('en-CA', { dateStyle: 'long' })
     : null;
 
+  const MeetingNav = (
+    <div className="flex items-center justify-between gap-3" style={{ fontSize: '13px', fontWeight: 600 }}>
+      {prevSession ? (
+        <a href={`/${prevSession.slug}`} className="hover:underline truncate" style={{ color: 'var(--pale-blue-text)' }}>
+          ← {prevSession.label}
+        </a>
+      ) : <span />}
+      {nextSession ? (
+        <a href={`/${nextSession.slug}`} className="hover:underline truncate text-right" style={{ color: 'var(--pale-blue-text)' }}>
+          {nextSession.label} →
+        </a>
+      ) : <span />}
+    </div>
+  );
+
   const HeaderRight = (
     <span
       className="inline-flex items-center gap-[7px] rounded-full"
@@ -104,6 +126,8 @@ export default function ArchiveViewer({ posts, label, postCount, startedAt, slug
       <UnreadBanner count={unreadCount} order={order} onJump={handleJump} onMarkRead={handleMarkRead} />
 
       <main className="max-w-[640px] mx-auto px-4 py-6 pb-12">
+        {(prevSession || nextSession) && <div className="mb-4">{MeetingNav}</div>}
+
         {/* Session header card */}
         <div
           className="mb-6"
@@ -163,6 +187,8 @@ export default function ArchiveViewer({ posts, label, postCount, startedAt, slug
           firstUnreadUri={firstUnreadUri}
           onPostSeen={handlePostSeen}
         />
+
+        {(prevSession || nextSession) && <div className="mt-6">{MeetingNav}</div>}
       </main>
     </>
   );

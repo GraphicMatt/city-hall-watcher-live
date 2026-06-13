@@ -51,6 +51,11 @@ export default async function ArchivePage({ params }: Props) {
 
   const entry = index.find(e => e.slug === slug);
 
+  const sortedByDate = [...index].sort((a, b) => a.startedAt.localeCompare(b.startedAt));
+  const currentIdx = sortedByDate.findIndex(e => e.slug === slug);
+  const prevEntry = currentIdx > 0 ? sortedByDate[currentIdx - 1] : undefined;
+  const nextEntry = currentIdx >= 0 && currentIdx < sortedByDate.length - 1 ? sortedByDate[currentIdx + 1] : undefined;
+
   return (
     <ArchiveViewer
       posts={posts}
@@ -59,6 +64,8 @@ export default async function ArchivePage({ params }: Props) {
       startedAt={entry?.startedAt}
       slug={slug}
       metadata={entry?.metadata}
+      prevSession={prevEntry ? { slug: prevEntry.slug, label: prevEntry.metadata?.meetingTitle || prevEntry.label } : null}
+      nextSession={nextEntry ? { slug: nextEntry.slug, label: nextEntry.metadata?.meetingTitle || nextEntry.label } : null}
     />
   );
 }
