@@ -5,6 +5,7 @@ import SiteHeader from '@/components/SiteHeader';
 import type { ActiveSession, ArchiveEntry } from '@/lib/kv';
 import type { SessionMetadata } from '@/lib/bluesky';
 import type { BitlyLinkInfo } from '@/lib/linkExpansion';
+import type { OldImageLinkInfo } from '@/lib/twitpic';
 import MetadataEditor from '@/components/MetadataEditor';
 import AdminPastSessions from '@/components/AdminPastSessions';
 
@@ -104,6 +105,15 @@ export default function AdminPage() {
   const [bitlyError, setBitlyError] = useState<string | null>(null);
   const [applyingBitly, setApplyingBitly] = useState(false);
   const [bitlyApplyResult, setBitlyApplyResult] = useState<string | null>(null);
+
+  // Twitpic/yfrog image recovery: scan archived posts for links to these
+  // defunct(ish) image hosts, resolve twitpic links to their underlying image,
+  // then optionally download and re-host them on Vercel Blob.
+  const [scanningTwitpic, setScanningTwitpic] = useState(false);
+  const [twitpicLinks, setTwitpicLinks] = useState<(OldImageLinkInfo & { resolvedImageUrl: string | null })[] | null>(null);
+  const [twitpicError, setTwitpicError] = useState<string | null>(null);
+  const [applyingTwitpic, setApplyingTwitpic] = useState(false);
+  const [twitpicApplyResult, setTwitpicApplyResult] = useState<string | null>(null);
 
   // Derived booleans — declared early so they can be used in effects below
   const isLive = session?.status === 'live';
@@ -528,6 +538,47 @@ export default function AdminPage() {
       setBitlyApplyResult('Network error — try again.');
     } finally {
       setApplyingBitly(false);
+    }
+  }
+
+  async function handleScanTwitpicLinks() {
+    setScanningTwitpic(true);
+    setTwitpicError(null);
+    setTwitpicApplyResult(null);
+    setTwitpicLinks(null);
+    try {
+      const r = await fetch('/api/archive/old-image-links', { method: 'POST' });
+      const data = await r.json();
+      if (r.ok) {
+        setTwitpicLinks(data.links);
+      } else {
+        setTwitpicError(data.error || 'Scan failed.');
+      }
+    } catch {
+      setTwitpicError('Network error — try again.');
+    } finally {
+      setScanningTwitpic(false);
+    }
+  }
+
+  async function handleApplyTwitpicLinks() {
+    setApplyingTwitpic(true);
+    setTwitpicApplyResult(null);
+    try {
+      const r = await fetch('/api/archive/old-image-links/apply', { method: 'POST' });
+      const data = await r.json();
+      if (r.ok) {
+        const parts = [`${data.patched} image${data.patched !== 1 ? 's' : ''} added across ${data.sessionsTouched} session${data.sessionsTouched !== 1 ? 's' : ''}`];
+        if (data.failed.length > 0) parts.push(`${data.failed.length} could not be recovered`);
+        setTwitpicApplyResult(parts.join(' · '));
+        setTwitpicLinks(null);
+      } else {
+        setTwitpicApplyResult(data.error || 'Apply failed.');
+      }
+    } catch {
+      setTwitpicApplyResult('Network error — try again.');
+    } finally {
+      setApplyingTwitpic(false);
     }
   }
 
@@ -1114,6 +1165,80 @@ export default function AdminPage() {
                     className="mt-3 text-xs font-medium px-2.5 py-1 rounded bg-[#1a1a1a] dark:bg-[#e8e8e0] text-white dark:text-[#111] hover:bg-[#333] disabled:opacity-50"
                   >
                     {applyingBitly ? 'Replacing…' : `Replace ${bitlyLinks.filter(l => l.expandedUrl).length} resolved link${bitlyLinks.filter(l => l.expandedUrl).length !== 1 ? 's' : ''}`}
+                  </button>
+                </>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Recover twitpic/yfrog images */}
+        <div className="bg-white dark:bg-[#1a1a1a] border border-[#e0e0d8] dark:border-[#2a2a2a] rounded-xl p-5">
+          <p className="text-xs font-medium text-[#888] uppercase tracking-wide mb-4">Recover twitpic/yfrog images</p>
+          <p className="text-xs text-[#888] dark:text-[#555] mb-3">
+            Scans the archive for links to twitpic and yfrog — two early Twitter-era image hosts.
+            Twitpic links can still be resolved; yfrog has been offline for years and its images
+            are unrecoverable. Applying downloads each resolvable image, re-hosts it on Vercel Blob,
+            and adds it as an embed alongside the original post.
+          </p>
+
+          <div className="flex items-center gap-3 flex-wrap">
+            <button
+              onClick={handleScanTwitpicLinks}
+              disabled={scanningTwitpic}
+              className="text-xs font-medium px-2.5 py-1 rounded bg-[#1a1a1a] dark:bg-[#e8e8e0] text-white dark:text-[#111] hover:bg-[#333] disabled:opacity-50 flex-shrink-0 whitespace-nowrap"
+            >
+              {scanningTwitpic ? 'Scanning…' : 'Scan for twitpic/yfrog links'}
+            </button>
+            {twitpicError && <span className="text-xs text-[#c0392b] dark:text-[#f08080]">{twitpicError}</span>}
+            {twitpicApplyResult && <span className="text-xs text-[#aaa] dark:text-[#555]">{twitpicApplyResult}</span>}
+          </div>
+
+          {twitpicLinks && (
+            <div className="mt-3">
+              {twitpicLinks.length === 0 ? (
+                <p className="text-xs text-[#aaa] dark:text-[#555]">No twitpic or yfrog links found.</p>
+              ) : (
+                <>
+                  <div className="flex flex-col gap-2 max-h-80 overflow-y-auto pr-1">
+                    {twitpicLinks.map(link => (
+                      <div key={link.url} className="p-2.5 bg-[#fafaf8] dark:bg-[#111] border border-[#f0f0ea] dark:border-[#222] rounded-lg text-xs">
+                        <div className="flex items-start gap-2.5">
+                          {link.resolvedImageUrl && (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img src={link.resolvedImageUrl} alt="" className="w-16 h-16 object-cover rounded flex-shrink-0" />
+                          )}
+                          <div className="min-w-0">
+                            <p className="text-[#1a1a1a] dark:text-[#e8e8e0] font-medium break-all">{link.url}</p>
+                            {link.resolvedImageUrl ? (
+                              <p className="text-[#2a7a3a] dark:text-[#4caf6a] mt-0.5">Image recoverable</p>
+                            ) : (
+                              <p className="text-[#c0392b] dark:text-[#f08080] mt-0.5">
+                                {link.platform === 'yfrog' ? 'yfrog is offline — image unrecoverable' : 'Could not resolve — image may be deleted'}
+                              </p>
+                            )}
+                            <p className="text-[#bbb] dark:text-[#555] mt-1">
+                              {link.occurrences.length} post{link.occurrences.length !== 1 ? 's' : ''}:{' '}
+                              {link.occurrences.map((o, i) => (
+                                <span key={`${o.slug}/${o.postId}`}>
+                                  {i > 0 && ', '}
+                                  <a href={`/${o.slug}/${o.postId}`} target="_blank" rel="noopener noreferrer" className="underline hover:text-[#1a6bbf] dark:hover:text-[#5a9fd4]">
+                                    {o.slug}
+                                  </a>
+                                </span>
+                              ))}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <button
+                    onClick={handleApplyTwitpicLinks}
+                    disabled={applyingTwitpic || !twitpicLinks.some(l => l.resolvedImageUrl)}
+                    className="mt-3 text-xs font-medium px-2.5 py-1 rounded bg-[#1a1a1a] dark:bg-[#e8e8e0] text-white dark:text-[#111] hover:bg-[#333] disabled:opacity-50"
+                  >
+                    {applyingTwitpic ? 'Recovering…' : `Recover ${twitpicLinks.filter(l => l.resolvedImageUrl).length} image${twitpicLinks.filter(l => l.resolvedImageUrl).length !== 1 ? 's' : ''}`}
                   </button>
                 </>
               )}
