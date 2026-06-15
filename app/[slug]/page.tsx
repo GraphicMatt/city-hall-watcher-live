@@ -12,7 +12,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const [posts, index] = await Promise.all([getArchivePosts(slug), getArchiveIndex()]);
   const entry = index.find(e => e.slug === slug);
-  const label = entry?.label ?? slug;
+  const label = entry?.metadata?.meetingTitle || entry?.label || slug;
   const title = `${label} — CHW Live`;
   const description = `Toronto City Council live coverage from ${label} by Matt Elliott. ${entry?.postCount ?? ''} posts.`;
 
@@ -62,6 +62,7 @@ export default async function ArchivePage({ params }: Props) {
       label={entry?.label ?? slug}
       postCount={posts.length}
       startedAt={entry?.startedAt}
+      endedAt={entry?.endedAt}
       slug={slug}
       metadata={entry?.metadata}
       prevSession={prevEntry ? { slug: prevEntry.slug, label: prevEntry.metadata?.meetingTitle || prevEntry.label } : null}

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import type { BlueskyPost, SessionMetadata } from '@/lib/bluesky';
+import { formatMeetingDateRange } from '@/lib/bluesky';
 import PostList from './PostList';
 import type { SortOrder } from './PostList';
 import MetadataBar from './MetadataBar';
@@ -20,6 +21,7 @@ interface ArchiveViewerProps {
   label: string;
   postCount: number;
   startedAt?: string;
+  endedAt?: string;
   slug: string;
   metadata?: SessionMetadata;
   prevSession?: AdjacentSession | null;
@@ -28,7 +30,7 @@ interface ArchiveViewerProps {
 
 const EMPTY_URIS = new Set<string>();
 
-export default function ArchiveViewer({ posts, label, postCount, startedAt, slug, metadata, prevSession, nextSession }: ArchiveViewerProps) {
+export default function ArchiveViewer({ posts, label, postCount, startedAt, endedAt, slug, metadata, prevSession, nextSession }: ArchiveViewerProps) {
   const [order, setOrder] = useState<SortOrder>('oldest');
   const [lastReadAt, setLastReadAt] = useState<string | null>(null);
   // Frozen snapshot of lastReadAt taken once when the page loads (or after
@@ -81,9 +83,8 @@ export default function ArchiveViewer({ posts, label, postCount, startedAt, slug
     setBaselineReadAt(newest.indexedAt);
   }
 
-  const dateStr = startedAt
-    ? new Date(startedAt).toLocaleDateString('en-CA', { dateStyle: 'long' })
-    : null;
+  const title = metadata?.meetingTitle || label;
+  const dateRangeStr = startedAt && endedAt ? formatMeetingDateRange(startedAt, endedAt) : null;
 
   const MeetingNav = (
     <div className="flex items-center justify-between gap-3" style={{ fontSize: '13px', fontWeight: 600 }}>
@@ -138,7 +139,7 @@ export default function ArchiveViewer({ posts, label, postCount, startedAt, slug
             padding: '18px 20px 16px 20px',
           }}
         >
-          <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center mb-2">
             <span
               className="inline-flex items-center gap-1.5"
               style={{ fontSize: '13px', fontWeight: 600, letterSpacing: '1.04px', color: 'rgb(185, 138, 46)' }}
@@ -146,18 +147,18 @@ export default function ArchiveViewer({ posts, label, postCount, startedAt, slug
               <span style={{ background: 'rgb(185,138,46)', width: 6, height: 6, borderRadius: '50%', display: 'inline-block', flexShrink: 0 }} />
               ARCHIVED
             </span>
-            {dateStr && (
-              <span style={{ fontSize: '12px', fontWeight: 400, color: 'var(--text-secondary)' }}>
-                {dateStr}
-              </span>
-            )}
           </div>
           <h1
             className="text-chw-text"
             style={{ fontSize: '24px', fontWeight: 700, letterSpacing: '-0.24px' }}
           >
-            {label}
+            {title}
           </h1>
+          {dateRangeStr && (
+            <p style={{ fontSize: '13px', fontWeight: 500, color: 'var(--text-secondary)', marginTop: '2px' }}>
+              {dateRangeStr}
+            </p>
+          )}
           <p style={{ fontSize: '12.5px', fontWeight: 400, color: 'var(--text-secondary)', marginTop: '4px' }}>
             {postCount} {postCount === 1 ? 'post' : 'posts'}
           </p>

@@ -1,4 +1,4 @@
-import type { BlueskyPost, SessionMetadata } from './bluesky';
+import type { BlueskyPost, SessionMetadata, MinutesVote } from './bluesky';
 export type { SessionMetadata } from './bluesky';
 export type { VideoSegment } from './bluesky';
 import type { QuoteCandidate } from './quotes';
@@ -138,6 +138,31 @@ export async function setArchivePosts(slug: string, posts: BlueskyPost[]): Promi
     return;
   }
   storeSet(key, JSON.stringify(posts));
+}
+
+// --- Minutes votes (scraped from the official Council Minutes) ---
+//
+// Uploaded via the /admin/[slug]/votes "Match votes" tool — stored so the
+// matcher can be re-run without re-uploading the scraper's JSON output.
+
+export async function getMinutesVotes(slug: string): Promise<MinutesVote[] | null> {
+  const key = `archive:votes:${slug}`;
+  if (isKvConfigured()) {
+    const { kv } = await import('@vercel/kv');
+    return kv.get<MinutesVote[]>(key);
+  }
+  const raw = storeGet(key);
+  return raw ? (JSON.parse(raw) as MinutesVote[]) : null;
+}
+
+export async function setMinutesVotes(slug: string, votes: MinutesVote[]): Promise<void> {
+  const key = `archive:votes:${slug}`;
+  if (isKvConfigured()) {
+    const { kv } = await import('@vercel/kv');
+    await kv.set(key, JSON.stringify(votes));
+    return;
+  }
+  storeSet(key, JSON.stringify(votes));
 }
 
 export async function updateArchiveEntry(slug: string, updates: Partial<ArchiveEntry>): Promise<void> {

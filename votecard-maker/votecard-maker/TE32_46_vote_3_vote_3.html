@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vote: TE32.46 — vote_3</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.34.0/dist/tabler-icons.min.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    background: #ffffff;
+    padding: 24px;
+    width: 680px;
+  }
+  .meta {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 4px;
+  }
+  .meta-label {
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: #888;
+  }
+  .meta-date { font-size: 12px; color: #aaa; }
+  .meta-item {
+    margin-left: auto;
+    font-size: 12px;
+    font-family: "SFMono-Regular", Consolas, monospace;
+    background: #f3f3f1;
+    color: #666;
+    border-radius: 4px;
+    padding: 2px 7px;
+    border: 0.5px solid #ddd;
+  }
+  .vote-title {
+    font-size: 18px;
+    font-weight: 500;
+    margin: 0 0 1.25rem;
+    color: #111;
+  }
+  .bar-wrap { position: relative; padding-top: 20px; margin-bottom: 0.5rem; }
+  .maj-label {
+    position: absolute;
+    top: 0;
+    font-size: 10px;
+    color: #aaa;
+    white-space: nowrap;
+    transform: translateX(-50%);
+  }
+  .maj-line {
+    position: absolute;
+    top: 16px;
+    width: 2px;
+    height: 28px;
+    background: #fff;
+    opacity: 0.9;
+    z-index: 1;
+  }
+  .bar {
+    display: flex;
+    height: 28px;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .bar-yes {
+    background: #639922;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 8px;
+  }
+  .bar-no {
+    background: #E24B4A;
+    display: flex;
+    align-items: center;
+    padding-left: 8px;
+  }
+  .bar-absent {
+    background: #f0ede8;
+    border-left: 0.5px solid #ddd;
+  }
+  .bar-num {
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .legend {
+    display: flex;
+    gap: 16px;
+    font-size: 12px;
+    color: #666;
+    margin: 0.75rem 0 1.5rem;
+    align-items: center;
+  }
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    border-radius: 2px;
+    margin-right: 5px;
+    vertical-align: middle;
+  }
+  .result-badge {
+    margin-left: auto;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .names-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .names-header {
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    margin-bottom: 8px;
+  }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; }
+</style>
+</head>
+<body>
+
+<div class="meta">
+  <span class="meta-label">Council vote</span>
+  <span class="meta-date">Apr 30, 2026</span>
+  <span class="meta-item">TE32.46</span>
+</div>
+
+<p class="vote-title">vote_3</p>
+
+<div class="bar-wrap">
+  <span class="maj-label" style="left:50.0%;">majority (4)</span>
+  <div class="maj-line" style="left:50.0%;"></div>
+  <div class="bar">
+    <div class="bar-yes" style="width:100.0%;">
+      <span class="bar-num" style="color:#EAF3DE;">6</span>
+    </div>
+    <div class="bar-no" style="width:0.0%;">
+      <span class="bar-num" style="color:#FCEBEB;">0</span>
+    </div>
+    <div class="bar-absent" style="flex:1;"></div>
+  </div>
+</div>
+
+<div class="legend">
+  <span><span class="legend-dot" style="background:#639922;"></span>Yes</span>
+  <span><span class="legend-dot" style="background:#E24B4A;"></span>No</span>
+  <span><span class="legend-dot" style="background:#f0ede8; border:0.5px solid #ddd;"></span>Absent</span>
+  <span class="result-badge" style="color:#27500A;">Motion carried</span>
+</div>
+
+<div class="names-grid">
+  <div>
+    <div class="names-header" style="color:#27500A;">Voted yes (6)</div>
+    <div class="pills"><span style="font-size:13px; background:#EAF3DE; color:#3B6D11; border-radius:4px; padding:4px 9px; display:inline-flex; align-items:center; gap:5px; border:1.5px solid transparent;">Bravo</span>
+<span style="font-size:13px; background:#EAF3DE; color:#3B6D11; border-radius:4px; padding:4px 9px; display:inline-flex; align-items:center; gap:5px; border:1.5px solid transparent;">Malik</span>
+<span style="font-size:13px; background:#EAF3DE; color:#3B6D11; border-radius:4px; padding:4px 9px; display:inline-flex; align-items:center; gap:5px; border:1.5px solid transparent;">Matlow</span>
+<span style="font-size:13px; background:#EAF3DE; color:#3B6D11; border-radius:4px; padding:4px 9px; display:inline-flex; align-items:center; gap:5px; border:1.5px solid transparent;">Moise</span>
+<span style="font-size:13px; background:#EAF3DE; color:#3B6D11; border-radius:4px; padding:4px 9px; display:inline-flex; align-items:center; gap:5px; border:1.5px solid transparent;">Perks</span>
+<span style="font-size:13px; background:#EAF3DE; color:#3B6D11; border-radius:4px; padding:4px 9px; display:inline-flex; align-items:center; gap:5px; border:1.5px solid transparent;">Saxe</span></div>
+  </div>
+  <div>
+    <div class="names-header" style="color:#791F1F;">Voted no (0)</div>
+    <div class="pills"></div>
+  </div>
+</div>
+
+
+        <div style="margin-top:1rem; display:flex; flex-wrap:wrap; gap:6px; align-items:center;">
+          <span style="font-size:12px; color:#888;">Absent:</span>
+          <span style="font-size:13px; background:var(--color-bg-secondary); color:var(--color-text-secondary); border-radius:4px; padding:4px 9px; display:inline-flex; align-items:center; gap:5px; border:1.5px solid transparent;">Bradford</span>
+<span style="font-size:13px; background:var(--color-bg-secondary); color:var(--color-text-secondary); border-radius:4px; padding:4px 9px; display:inline-flex; align-items:center; gap:5px; border:1.5px solid transparent;">Fletcher</span>
+        </div>
+
+</body>
+</html>

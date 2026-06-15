@@ -2,6 +2,7 @@ import type { BlueskyPost, BlueskyFacetLink, BlueskyFacetMention, BlueskyFacetTa
 import { getImages, formatTime, getYoutubeTimestampUrl, formatYoutubeOffset } from '@/lib/bluesky';
 import { decodeHtmlEntities } from '@/lib/twitter';
 import ImageGallery from './ImageGallery';
+import VoteCard from './VoteCard';
 
 interface PostCardProps {
   post: BlueskyPost;
@@ -224,7 +225,7 @@ export default function PostCard({ post, isNew, slug, videoSegments }: PostCardP
           {linkifyText(post)}
         </p>
       )}
-      {images.length > 0 && <ImageGallery images={images} />}
+      {post.voteCard ? <VoteCard card={post.voteCard} /> : images.length > 0 && <ImageGallery images={images} />}
       {post.quotedPost && (
         <a
           href={post.quotedPost.url}

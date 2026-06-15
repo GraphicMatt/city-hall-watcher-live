@@ -33,6 +33,39 @@ export interface QuotedPost {
   text: string;
 }
 
+// A single recorded Council vote, scraped from the official Minutes
+// (see votecard-maker/chw_minutes_scraper.py). `timestamp` is ISO, derived
+// from the Minutes' Toronto-local "May-20-2026 10:15 AM" style date.
+export interface MinutesVote {
+  id: string;
+  itemNumber: string;
+  itemTitle: string;
+  motionLabel: string;
+  voteLabel: string;
+  result: 'Carried' | 'Lost' | string;
+  timestamp: string;
+  rawDate: string;
+  threshold: string;
+  yesCount: number;
+  noCount: number;
+  absentCount: number;
+  yesNames: string[];
+  noNames: string[];
+  absentNames: string[];
+}
+
+// A vote result card attached to a post, replacing a low-res screenshot with
+// an accessible, text-based breakdown sourced from the official Minutes.
+// Mirrors `quotedPost` as a sibling "card" field on BlueskyPost.
+export interface VoteCard {
+  vote: MinutesVote;
+  // Custom display title, falls back to vote.itemTitle / motionLabel
+  title?: string;
+  // Mayor's last name for star treatment in councillor pills — stored per
+  // card so historical cards stay correct if the mayor changes later.
+  mayorLastName?: string;
+}
+
 export interface BlueskyPostRecord {
   text: string;
   facets?: BlueskyFacet[];
@@ -58,6 +91,7 @@ export interface BlueskyPost {
   platform?: 'bluesky' | 'twitter';
   twitterId?: string;
   quotedPost?: QuotedPost;
+  voteCard?: VoteCard;
 }
 
 export interface VideoSegment {
@@ -70,6 +104,7 @@ export interface VideoSegment {
 export interface SessionMetadata {
   meetingTitle?: string;
   agendaUrl?: string;
+  minutesUrl?: string;
   previewUrl?: string;
   videoSegments?: VideoSegment[];
   // Which import pipeline produced this session — lets the admin UI surface
@@ -211,12 +246,83 @@ export function getImages(post: BlueskyPost): BlueskyImage[] {
   return [];
 }
 
+export type SessionBreak = 'lunch' | 'day';
+
+// Detects a lunch or day break in the gap between two adjacent posts (in
+// either order). A break is only reported if the gap is "sustained" —
+// long enough that it's unlikely to just be council extending past its
+// usual break time by 15-20 minutes.
+export function detectBreak(tsA: string, tsB: string): SessionBreak | null {
+  const a = new Date(tsA);
+  const b = new Date(tsB);
+  const [start, end] = a < b ? [a, b] : [b, a];
+  const gapMinutes = (end.getTime() - start.getTime()) / 60000;
+
+  const minutesOfDay = (d: Date) => {
+    const parts = new Intl.DateTimeFormat('en-CA', {
+      hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'America/Toronto',
+    }).formatToParts(d);
+    const hour = Number(parts.find(p => p.type === 'hour')?.value ?? '0');
+    const minute = Number(parts.find(p => p.type === 'minute')?.value ?? '0');
+    return hour * 60 + minute;
+  };
+
+  // Day break: ≥8h with no posts, resuming before ~10:30am — the gap
+  // stretched through the overnight lull. The morning resumption time is
+  // given some slack since council often starts a few minutes late.
+  if (gapMinutes >= 8 * 60 && minutesOfDay(end) <= 10 * 60 + 30) return 'day';
+
+  // Lunch break: ≥45min with no posts, within the 12:30pm–2pm window on the
+  // same day.
+  const startMin = minutesOfDay(start);
+  const endMin = minutesOfDay(end);
+  const sameDay = new Intl.DateTimeFormat('en-CA', { dateStyle: 'short', timeZone: 'America/Toronto' }).format(start)
+    === new Intl.DateTimeFormat('en-CA', { dateStyle: 'short', timeZone: 'America/Toronto' }).format(end);
+  if (gapMinutes >= 45 && sameDay && startMin < 14 * 60 && endMin > 12 * 60 + 30) return 'lunch';
+
+  return null;
+}
+
 export function formatTime(ts: string): string {
-  return new Date(ts).toLocaleTimeString('en-CA', {
+  return new Date(ts).toLocaleString('en-CA', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
     hour: '2-digit',
     minute: '2-digit',
     hour12: true,
+    timeZone: 'America/Toronto',
   });
+}
+
+// Formats the date(s) a multi-day meeting took place, e.g. "June 24, 2026",
+// "June 24 + 25, 2026", "June 24–27, 2026", or "Dec 31, 2026 – Jan 1, 2027".
+export function formatMeetingDateRange(startedAt: string, endedAt: string): string {
+  const partsFor = (iso: string) => {
+    const parts = new Intl.DateTimeFormat('en-CA', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+      timeZone: 'America/Toronto',
+    }).formatToParts(new Date(iso));
+    const get = (type: string) => parts.find(p => p.type === type)?.value ?? '';
+    return { month: get('month'), day: get('day'), year: get('year') };
+  };
+
+  const start = partsFor(startedAt);
+  const end = partsFor(endedAt);
+
+  if (start.year === end.year && start.month === end.month && start.day === end.day) {
+    return `${start.month} ${start.day}, ${start.year}`;
+  }
+  if (start.year === end.year && start.month === end.month) {
+    const sep = Number(end.day) - Number(start.day) === 1 ? ' + ' : '–';
+    return `${start.month} ${start.day}${sep}${end.day}, ${start.year}`;
+  }
+  if (start.year === end.year) {
+    return `${start.month} ${start.day} – ${end.month} ${end.day}, ${start.year}`;
+  }
+  return `${start.month} ${start.day}, ${start.year} – ${end.month} ${end.day}, ${end.year}`;
 }
 
 export function extractYoutubeVideoId(url: string): string | null {

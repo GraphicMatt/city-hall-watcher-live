@@ -20,6 +20,19 @@
   /* Pale-blue chip text colors (e.g. "Next meeting") */
   --pale-blue-text:       rgb(39, 68, 144);
   --pale-blue-text-deep:  rgb(27, 47, 102);
+
+  /* Vote card colors */
+  --vote-yes:            #639922;
+  --vote-yes-on:         #EAF3DE;
+  --vote-yes-pill-bg:    #EAF3DE;
+  --vote-yes-pill-text:  #3B6D11;
+  --vote-no:             #E24B4A;
+  --vote-no-on:          #FCEBEB;
+  --vote-no-pill-bg:     #FCEBEB;
+  --vote-no-pill-text:   #A32D2D;
+  --vote-absent-bg:      #f0ede8;
+  --vote-carried-text:   #27500A;
+  --vote-lost-text:      #791F1F;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -41,6 +54,16 @@
     /* Lighter blue tones so chip text stays legible on the dark pale-blue chip */
     --pale-blue-text:       rgb(141, 174, 247);
     --pale-blue-text-deep:  rgb(189, 209, 252);
+
+    /* Vote card colors — bar colors stay constant, pill/result text colors
+       lighten for contrast against the dark background */
+    --vote-yes-pill-bg:    rgba(99, 153, 34, 0.18);
+    --vote-yes-pill-text:  #A6D27A;
+    --vote-no-pill-bg:     rgba(226, 75, 74, 0.18);
+    --vote-no-pill-text:   #F2A6A5;
+    --vote-absent-bg:      #2a2a28;
+    --vote-carried-text:   #A6D27A;
+    --vote-lost-text:      #F2A6A5;
   }
 }
 
@@ -69,6 +92,19 @@
   --font-sans:    var(--font-hanken);
   --font-display: var(--font-schibsted);
   --font-mono:    var(--font-plex);
+
+  /* Vote card colors */
+  --color-vote-yes:           var(--vote-yes);
+  --color-vote-yes-on:        var(--vote-yes-on);
+  --color-vote-yes-pill:      var(--vote-yes-pill-bg);
+  --color-vote-yes-pill-text: var(--vote-yes-pill-text);
+  --color-vote-no:            var(--vote-no);
+  --color-vote-no-on:         var(--vote-no-on);
+  --color-vote-no-pill:       var(--vote-no-pill-bg);
+  --color-vote-no-pill-text:  var(--vote-no-pill-text);
+  --color-vote-absent:        var(--vote-absent-bg);
+  --color-vote-carried:       var(--vote-carried-text);
+  --color-vote-lost:          var(--vote-lost-text);
 }
 
 /* ── Base styles ─────────────────────────────────────────────────────────── */

@@ -26,6 +26,7 @@ function genId(): string {
 export default function MetadataEditor({ slug, initialMetadata, onSaved }: MetadataEditorProps) {
   const [meetingTitle, setMeetingTitle] = useState(initialMetadata?.meetingTitle ?? '');
   const [agendaUrl, setAgendaUrl] = useState(initialMetadata?.agendaUrl ?? '');
+  const [minutesUrl, setMinutesUrl] = useState(initialMetadata?.minutesUrl ?? '');
   const [previewUrl, setPreviewUrl] = useState(initialMetadata?.previewUrl ?? '');
   const [segments, setSegments] = useState<VideoSegment[]>(initialMetadata?.videoSegments ?? []);
   const [suggestions, setSuggestions] = useState<VideoSegment[]>([]);
@@ -92,6 +93,7 @@ export default function MetadataEditor({ slug, initialMetadata, onSaved }: Metad
     const metadata: SessionMetadata = {
       meetingTitle: meetingTitle.trim() || undefined,
       agendaUrl: agendaUrl.trim() || undefined,
+      minutesUrl: minutesUrl.trim() || undefined,
       previewUrl: previewUrl.trim() || undefined,
       videoSegments: segments.length ? segments : undefined,
     };
@@ -125,6 +127,10 @@ export default function MetadataEditor({ slug, initialMetadata, onSaved }: Metad
           <div>
             <label className={labelCls}>Agenda URL</label>
             <input className={inputCls} value={agendaUrl} onChange={e => setAgendaUrl(e.target.value)} placeholder="toronto.ca/council/…" />
+          </div>
+          <div>
+            <label className={labelCls}>Minutes URL</label>
+            <input className={inputCls} value={minutesUrl} onChange={e => setMinutesUrl(e.target.value)} placeholder="toronto.ca/council/…" />
           </div>
           <div>
             <label className={labelCls}>Preview URL</label>

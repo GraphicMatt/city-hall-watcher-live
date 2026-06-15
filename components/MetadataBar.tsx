@@ -5,8 +5,8 @@ interface MetadataBarProps {
 }
 
 export default function MetadataBar({ metadata }: MetadataBarProps) {
-  const { meetingTitle, agendaUrl, previewUrl, videoSegments } = metadata;
-  const hasLinks = agendaUrl || previewUrl || (videoSegments && videoSegments.length > 0);
+  const { meetingTitle, agendaUrl, minutesUrl, previewUrl, videoSegments } = metadata;
+  const hasLinks = agendaUrl || minutesUrl || previewUrl || (videoSegments && videoSegments.length > 0);
   if (!meetingTitle && !hasLinks) return null;
 
   return (
@@ -30,6 +30,16 @@ export default function MetadataBar({ metadata }: MetadataBarProps) {
                 className="text-xs text-chw-secondary hover:text-chw-text hover:underline transition-colors"
               >
                 Agenda
+              </a>
+            )}
+            {minutesUrl && (
+              <a
+                href={minutesUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs text-chw-secondary hover:text-chw-text hover:underline transition-colors"
+              >
+                Minutes
               </a>
             )}
             {previewUrl && (
