@@ -51,6 +51,13 @@ export default async function ArchivePage({ params }: Props) {
 
   const entry = index.find(e => e.slug === slug);
 
+  // Derive the meeting's date range from the posts themselves rather than
+  // entry.startedAt/endedAt — endedAt records when the session was archived,
+  // which can be a day or more after the meeting's last post.
+  const indexedAts = posts.map(p => p.indexedAt).sort();
+  const firstPostAt = indexedAts[0];
+  const lastPostAt = indexedAts[indexedAts.length - 1];
+
   const sortedByDate = [...index].sort((a, b) => a.startedAt.localeCompare(b.startedAt));
   const currentIdx = sortedByDate.findIndex(e => e.slug === slug);
   const prevEntry = currentIdx > 0 ? sortedByDate[currentIdx - 1] : undefined;
@@ -61,8 +68,8 @@ export default async function ArchivePage({ params }: Props) {
       posts={posts}
       label={entry?.label ?? slug}
       postCount={posts.length}
-      startedAt={entry?.startedAt}
-      endedAt={entry?.endedAt}
+      startedAt={firstPostAt}
+      endedAt={lastPostAt}
       slug={slug}
       metadata={entry?.metadata}
       prevSession={prevEntry ? { slug: prevEntry.slug, label: prevEntry.metadata?.meetingTitle || prevEntry.label } : null}
