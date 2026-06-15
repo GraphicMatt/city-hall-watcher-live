@@ -18,5 +18,9 @@ export async function POST() {
     resolvedImageUrl: link.platform === 'twitpic' ? await resolveTwitpicImage(link.url) : null,
   })));
 
-  return NextResponse.json({ ok: true, links: results });
+  return NextResponse.json({
+    ok: true,
+    links: results,
+    blobConfigured: !!process.env.BLOB_READ_WRITE_TOKEN,
+  });
 }

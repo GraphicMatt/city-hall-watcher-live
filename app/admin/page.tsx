@@ -111,9 +111,11 @@ export default function AdminPage() {
   // then optionally download and re-host them on Vercel Blob.
   const [scanningTwitpic, setScanningTwitpic] = useState(false);
   const [twitpicLinks, setTwitpicLinks] = useState<(OldImageLinkInfo & { resolvedImageUrl: string | null })[] | null>(null);
+  const [twitpicBlobConfigured, setTwitpicBlobConfigured] = useState(true);
   const [twitpicError, setTwitpicError] = useState<string | null>(null);
   const [applyingTwitpic, setApplyingTwitpic] = useState(false);
   const [twitpicApplyResult, setTwitpicApplyResult] = useState<string | null>(null);
+  const [twitpicFailures, setTwitpicFailures] = useState<{ url: string; reason: string }[] | null>(null);
 
   // Derived booleans — declared early so they can be used in effects below
   const isLive = session?.status === 'live';
@@ -545,12 +547,14 @@ export default function AdminPage() {
     setScanningTwitpic(true);
     setTwitpicError(null);
     setTwitpicApplyResult(null);
+    setTwitpicFailures(null);
     setTwitpicLinks(null);
     try {
       const r = await fetch('/api/archive/old-image-links', { method: 'POST' });
       const data = await r.json();
       if (r.ok) {
         setTwitpicLinks(data.links);
+        setTwitpicBlobConfigured(data.blobConfigured);
       } else {
         setTwitpicError(data.error || 'Scan failed.');
       }
@@ -564,6 +568,7 @@ export default function AdminPage() {
   async function handleApplyTwitpicLinks() {
     setApplyingTwitpic(true);
     setTwitpicApplyResult(null);
+    setTwitpicFailures(null);
     try {
       const r = await fetch('/api/archive/old-image-links/apply', { method: 'POST' });
       const data = await r.json();
@@ -571,6 +576,7 @@ export default function AdminPage() {
         const parts = [`${data.patched} image${data.patched !== 1 ? 's' : ''} added across ${data.sessionsTouched} session${data.sessionsTouched !== 1 ? 's' : ''}`];
         if (data.failed.length > 0) parts.push(`${data.failed.length} could not be recovered`);
         setTwitpicApplyResult(parts.join(' · '));
+        setTwitpicFailures(data.failed.length > 0 ? data.failed : null);
         setTwitpicLinks(null);
       } else {
         setTwitpicApplyResult(data.error || 'Apply failed.');
@@ -1193,6 +1199,23 @@ export default function AdminPage() {
             {twitpicError && <span className="text-xs text-[#c0392b] dark:text-[#f08080]">{twitpicError}</span>}
             {twitpicApplyResult && <span className="text-xs text-[#aaa] dark:text-[#555]">{twitpicApplyResult}</span>}
           </div>
+
+          {twitpicLinks && !twitpicBlobConfigured && (
+            <p className="text-xs text-[#c0392b] dark:text-[#f08080] mt-2">
+              ⚠ BLOB_READ_WRITE_TOKEN is not set for this environment — recovery will fail until Vercel Blob storage is enabled (and connected to this environment).
+            </p>
+          )}
+
+          {twitpicFailures && (
+            <div className="mt-3 flex flex-col gap-1.5 max-h-60 overflow-y-auto pr-1">
+              {twitpicFailures.map(f => (
+                <div key={f.url} className="p-2 bg-[#fdf2f0] dark:bg-[#1f1410] border border-[#f5ddd6] dark:border-[#3a2018] rounded-lg text-xs">
+                  <p className="text-[#1a1a1a] dark:text-[#e8e8e0] font-medium break-all">{f.url}</p>
+                  <p className="text-[#c0392b] dark:text-[#f08080] mt-0.5">{f.reason}</p>
+                </div>
+              ))}
+            </div>
+          )}
 
           {twitpicLinks && (
             <div className="mt-3">

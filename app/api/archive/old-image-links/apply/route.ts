@@ -16,23 +16,30 @@ export const maxDuration = 60;
 // URL, and posts that already have it in embed.images are skipped.
 // Protected by proxy (POST on /api/archive/:path*).
 export async function POST() {
+  if (!process.env.BLOB_READ_WRITE_TOKEN) {
+    return NextResponse.json({
+      ok: false,
+      error: 'BLOB_READ_WRITE_TOKEN is not set — enable Vercel Blob storage for this project and redeploy.',
+    }, { status: 500 });
+  }
+
   const index = await getArchiveIndex();
   const links = await scanOldImageLinks(index);
   const twitpicLinks = links.filter(l => l.platform === 'twitpic');
 
   const imageByUrl = new Map<string, BlueskyImage>();
-  const failed: string[] = [];
+  const failed: { url: string; reason: string }[] = [];
 
   for (const link of twitpicLinks) {
     const resolvedUrl = await resolveTwitpicImage(link.url);
     if (!resolvedUrl) {
-      failed.push(link.url);
+      failed.push({ url: link.url, reason: 'Could not resolve twitpic page to an image URL' });
       continue;
     }
     try {
       const imgRes = await fetch(resolvedUrl, { signal: AbortSignal.timeout(15000) });
       if (!imgRes.ok) {
-        failed.push(link.url);
+        failed.push({ url: link.url, reason: `Image download failed: HTTP ${imgRes.status}` });
         continue;
       }
       const buffer = Buffer.from(await imgRes.arrayBuffer());
@@ -45,8 +52,8 @@ export async function POST() {
         addRandomSuffix: false,
       });
       imageByUrl.set(link.url, { thumb: blob.url, fullsize: blob.url, alt: '' });
-    } catch {
-      failed.push(link.url);
+    } catch (err) {
+      failed.push({ url: link.url, reason: `Upload to Blob failed: ${err instanceof Error ? err.message : String(err)}` });
     }
   }
 
