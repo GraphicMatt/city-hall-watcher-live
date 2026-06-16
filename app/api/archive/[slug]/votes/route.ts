@@ -1,21 +1,40 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { getArchivePosts, getMinutesVotes, setArchivePosts, setMinutesVotes } from '@/lib/kv';
+import { getArchiveIndex, getArchivePosts, getMinutesVotes, setArchivePosts, setMinutesVotes } from '@/lib/kv';
 import { matchVotesToPosts } from '@/lib/voteMatching';
+import { meetingCodeForSlug, readLocalVotes } from '@/lib/voteFiles';
 import type { MinutesVote, VoteCard } from '@/lib/bluesky';
 
 // GET: previously-uploaded Minutes votes for this session, plus the current
-// match candidates against the session's posts.
+// match candidates against the session's posts. If no votes are in the DB,
+// falls back to a committed data/votes/{meetingCode}.json file so the
+// VoteMatcher works without any manual copy-paste.
 export async function GET(
   _request: NextRequest,
   { params }: { params: Promise<{ slug: string }> }
 ) {
   const { slug } = await params;
 
-  const [votes, posts] = await Promise.all([getMinutesVotes(slug), getArchivePosts(slug)]);
+  const [kvVotes, posts, index] = await Promise.all([
+    getMinutesVotes(slug),
+    getArchivePosts(slug),
+    getArchiveIndex(),
+  ]);
+
+  let votes = kvVotes;
+  let votesSource: 'db' | 'file' | null = kvVotes ? 'db' : null;
+
+  if (!votes) {
+    const meetingCode = meetingCodeForSlug(slug, index);
+    if (meetingCode) {
+      votes = readLocalVotes(meetingCode);
+      if (votes) votesSource = 'file';
+    }
+  }
+
   const candidates = votes && posts ? matchVotesToPosts(posts, votes) : [];
 
-  return NextResponse.json({ votes: votes ?? [], candidates });
+  return NextResponse.json({ votes: votes ?? [], votesSource, candidates });
 }
 
 // POST: store scraped Minutes votes (from chw_minutes_scraper.py) and return

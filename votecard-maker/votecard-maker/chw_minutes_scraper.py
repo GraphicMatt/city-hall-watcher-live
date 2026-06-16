@@ -414,10 +414,6 @@ def main():
     p = MinutesParser(debug=args.debug)
     p.feed(html_src)
 
-    if not p.votes:
-        print("No votes found on page.")
-        sys.exit(1)
-
     print(f"Found {len(p.votes)} vote(s)")
 
     votes_out = []

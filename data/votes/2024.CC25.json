@@ -1,0 +1,52 @@
+{
+  "meetingKey": "CC25",
+  "scrapedAt": "2026-06-16T13:26:18.618527-04:00",
+  "votes": [
+    {
+      "id": "CC25.1-vote-1",
+      "itemNumber": "CC25.1",
+      "itemTitle": "Results of Collective Bargaining Negotiations between the City of Toronto and Toronto Civic Employees Union Local 416",
+      "motionLabel": "Adopt the item as amended",
+      "voteLabel": "",
+      "result": "Carried",
+      "timestamp": "2024-12-20T10:22:00-05:00",
+      "rawDate": "Dec-20-2024 10:22 AM",
+      "threshold": "Majority Required - CC25.1 - Adopt the item as amended",
+      "yesCount": 21,
+      "noCount": 1,
+      "absentCount": 4,
+      "yesNames": [
+        "Paul Ainslie",
+        "Alejandra Bravo",
+        "Jon Burnside",
+        "Shelley Carroll",
+        "Rachel Chernos Lin",
+        "Olivia Chow",
+        "Mike Colle",
+        "Vincent Crisanti",
+        "Paula Fletcher",
+        "Ausma Malik",
+        "Nick Mantas",
+        "Josh Matlow",
+        "Jennifer McKelvie",
+        "Amber Morley",
+        "Jamaal Myers",
+        "Frances Nunziata (Chair)",
+        "James Pasternak",
+        "Gord Perks",
+        "Anthony Perruzza",
+        "Dianne Saxe",
+        "Michael Thompson"
+      ],
+      "noNames": [
+        "Stephen Holyday"
+      ],
+      "absentNames": [
+        "Brad Bradford",
+        "Lily Cheng",
+        "Parthi Kandavel",
+        "Chris Moise"
+      ]
+    }
+  ]
+}

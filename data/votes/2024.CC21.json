@@ -1,0 +1,140 @@
+{
+  "meetingKey": "CC21",
+  "scrapedAt": "2026-06-16T13:25:20.265017-04:00",
+  "votes": [
+    {
+      "id": "CC21.3-vote-1",
+      "itemNumber": "CC21.3",
+      "itemTitle": "70-86 Lynn Williams Street - Zoning By-law Amendment Application- Ontario Land Tribunal Hearing - Request for Directions",
+      "motionLabel": "Malik - motion 1",
+      "voteLabel": "",
+      "result": "Carried",
+      "timestamp": "2024-09-05T10:22:00-04:00",
+      "rawDate": "Sep-05-2024 10:22 AM",
+      "threshold": "Majority Required - CC21.3 - Malik - motion 1",
+      "yesCount": 23,
+      "noCount": 0,
+      "absentCount": 2,
+      "yesNames": [
+        "Paul Ainslie",
+        "Brad Bradford",
+        "Alejandra Bravo",
+        "Jon Burnside",
+        "Lily Cheng",
+        "Olivia Chow",
+        "Mike Colle",
+        "Vincent Crisanti",
+        "Paula Fletcher",
+        "Stephen Holyday",
+        "Parthi Kandavel",
+        "Ausma Malik",
+        "Nick Mantas",
+        "Josh Matlow",
+        "Jennifer McKelvie",
+        "Chris Moise",
+        "Amber Morley",
+        "Jamaal Myers",
+        "Frances Nunziata (Chair)",
+        "Gord Perks",
+        "Anthony Perruzza",
+        "Dianne Saxe",
+        "Michael Thompson"
+      ],
+      "noNames": [],
+      "absentNames": [
+        "Shelley Carroll",
+        "James Pasternak"
+      ]
+    },
+    {
+      "id": "CC21.3-vote-2",
+      "itemNumber": "CC21.3",
+      "itemTitle": "70-86 Lynn Williams Street - Zoning By-law Amendment Application- Ontario Land Tribunal Hearing - Request for Directions",
+      "motionLabel": "Adopt the item as amended",
+      "voteLabel": "",
+      "result": "Carried",
+      "timestamp": "2024-09-05T10:24:00-04:00",
+      "rawDate": "Sep-05-2024 10:24 AM",
+      "threshold": "Majority Required - CC21.3 - Adopt the item as amended",
+      "yesCount": 21,
+      "noCount": 2,
+      "absentCount": 2,
+      "yesNames": [
+        "Paul Ainslie",
+        "Brad Bradford",
+        "Alejandra Bravo",
+        "Jon Burnside",
+        "Lily Cheng",
+        "Olivia Chow",
+        "Mike Colle",
+        "Vincent Crisanti",
+        "Stephen Holyday",
+        "Parthi Kandavel",
+        "Nick Mantas",
+        "Josh Matlow",
+        "Jennifer McKelvie",
+        "Chris Moise",
+        "Amber Morley",
+        "Jamaal Myers",
+        "Frances Nunziata (Chair)",
+        "Gord Perks",
+        "Anthony Perruzza",
+        "Dianne Saxe",
+        "Michael Thompson"
+      ],
+      "noNames": [
+        "Paula Fletcher",
+        "Ausma Malik"
+      ],
+      "absentNames": [
+        "Shelley Carroll",
+        "James Pasternak"
+      ]
+    },
+    {
+      "id": "CC21.4-vote-1",
+      "itemNumber": "CC21.4",
+      "itemTitle": "4195 Dundas Street West and 556, 558, 560, 562 and 564 Prince Edward Drive North - Official Plan Amendment and Zoning By-law Amendment Applications - Ontario Land Tribunal Hearing - Request for Directions",
+      "motionLabel": "Adopt the item as amended",
+      "voteLabel": "",
+      "result": "Carried",
+      "timestamp": "2024-09-05T10:27:00-04:00",
+      "rawDate": "Sep-05-2024 10:27 AM",
+      "threshold": "Majority Required - CC21.4 - Adopt the item as amended",
+      "yesCount": 22,
+      "noCount": 1,
+      "absentCount": 2,
+      "yesNames": [
+        "Paul Ainslie",
+        "Brad Bradford",
+        "Alejandra Bravo",
+        "Jon Burnside",
+        "Lily Cheng",
+        "Olivia Chow",
+        "Mike Colle",
+        "Vincent Crisanti",
+        "Paula Fletcher",
+        "Parthi Kandavel",
+        "Ausma Malik",
+        "Nick Mantas",
+        "Josh Matlow",
+        "Jennifer McKelvie",
+        "Chris Moise",
+        "Amber Morley",
+        "Jamaal Myers",
+        "Frances Nunziata (Chair)",
+        "Gord Perks",
+        "Anthony Perruzza",
+        "Dianne Saxe",
+        "Michael Thompson"
+      ],
+      "noNames": [
+        "Stephen Holyday"
+      ],
+      "absentNames": [
+        "Shelley Carroll",
+        "James Pasternak"
+      ]
+    }
+  ]
+}

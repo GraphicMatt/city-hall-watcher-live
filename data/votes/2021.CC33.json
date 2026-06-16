@@ -1,0 +1,50 @@
+{
+  "meetingKey": "CC33",
+  "scrapedAt": "2026-06-16T13:15:52.632767-04:00",
+  "votes": [
+    {
+      "id": "CC33.1-vote-1",
+      "itemNumber": "CC33.1",
+      "itemTitle": "Toronto Transit Commission Streetcar Program - Procurement of 60 Streetcars",
+      "motionLabel": "Adopt the Item as amended",
+      "voteLabel": "",
+      "result": "Carried",
+      "timestamp": "2021-05-26T13:01:00-04:00",
+      "rawDate": "May-26-2021 1:01 PM",
+      "threshold": "Majority Required - CC33.1 - Adopt the Item as amended",
+      "yesCount": 26,
+      "noCount": 0,
+      "absentCount": 0,
+      "yesNames": [
+        "Paul Ainslie",
+        "Ana Bailão",
+        "Brad Bradford",
+        "Shelley Carroll",
+        "Mike Colle",
+        "Gary Crawford",
+        "Joe Cressy",
+        "John Filion",
+        "Paula Fletcher",
+        "Michael Ford",
+        "Mark Grimes",
+        "Stephen Holyday",
+        "Cynthia Lai",
+        "Mike Layton",
+        "Nick Mantas",
+        "Josh Matlow",
+        "Jennifer McKelvie",
+        "Denzil Minnan-Wong",
+        "Frances Nunziata (Chair)",
+        "James Pasternak",
+        "Gord Perks",
+        "Anthony Perruzza",
+        "Jaye Robinson",
+        "Michael Thompson",
+        "John Tory",
+        "Kristyn Wong-Tam"
+      ],
+      "noNames": [],
+      "absentNames": []
+    }
+  ]
+}

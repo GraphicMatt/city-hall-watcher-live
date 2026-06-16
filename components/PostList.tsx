@@ -41,12 +41,24 @@ export default function PostList({
 
   // Lunch/day break markers — only meaningful when adjacent posts in the
   // displayed order are also adjacent in time (chronological orders only).
+  // Lunch breaks are capped to one per day — a long afternoon gap shouldn't
+  // also be flagged as a second lunch.
   const breakMarkers = useMemo(() => {
     const markers = new Map<string, SessionBreak>();
     if (order !== 'oldest' && order !== 'newest') return markers;
-    for (let i = 1; i < sorted.length; i++) {
-      const breakType = detectBreak(sorted[i - 1]!.indexedAt, sorted[i]!.indexedAt);
-      if (breakType) markers.set(sorted[i]!.uri, breakType);
+    const chronological = order === 'oldest' ? sorted : [...sorted].reverse();
+    const lunchDaysUsed = new Set<string>();
+    for (let i = 1; i < chronological.length; i++) {
+      const a = chronological[i - 1]!;
+      const b = chronological[i]!;
+      const breakType = detectBreak(a.indexedAt, b.indexedAt);
+      if (!breakType) continue;
+      if (breakType === 'lunch') {
+        const dayKey = new Intl.DateTimeFormat('en-CA', { dateStyle: 'short', timeZone: 'America/Toronto' }).format(new Date(b.indexedAt));
+        if (lunchDaysUsed.has(dayKey)) continue;
+        lunchDaysUsed.add(dayKey);
+      }
+      markers.set(b.uri, breakType);
     }
     return markers;
   }, [sorted, order]);

@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
 import { put } from '@vercel/blob';
 import { getArchiveIndex, getArchivePosts, setArchivePosts } from '@/lib/kv';
-import { scanOldImageLinks, resolveTwitpicImage, isTwitpicUrl } from '@/lib/twitpic';
-import type { BlueskyImage, BlueskyFacetLink } from '@/lib/bluesky';
+import { scanOldImageLinks, resolveTwitpicImage, extractOldImageUrls } from '@/lib/twitpic';
+import type { BlueskyImage } from '@/lib/bluesky';
 
 export const maxDuration = 60;
 
@@ -69,16 +69,12 @@ export async function POST() {
       const newImages: BlueskyImage[] = [];
       const existing = post.embed?.images ?? [];
 
-      for (const facet of post.record?.facets ?? []) {
-        for (const feature of facet.features) {
-          if (feature.$type !== 'app.bsky.richtext.facet#link') continue;
-          const uri = (feature as BlueskyFacetLink).uri;
-          if (!isTwitpicUrl(uri)) continue;
-          const image = imageByUrl.get(uri);
-          if (!image) continue;
-          if (existing.some(img => img.fullsize === image.fullsize)) continue;
-          newImages.push(image);
-        }
+      for (const { url, platform } of extractOldImageUrls(post)) {
+        if (platform !== 'twitpic') continue;
+        const image = imageByUrl.get(url);
+        if (!image) continue;
+        if (existing.some(img => img.fullsize === image.fullsize)) continue;
+        newImages.push(image);
       }
 
       if (newImages.length === 0) return post;

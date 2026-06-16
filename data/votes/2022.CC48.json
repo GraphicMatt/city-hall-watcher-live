@@ -1,0 +1,95 @@
+{
+  "meetingKey": "CC48",
+  "scrapedAt": "2026-06-16T13:19:44.462970-04:00",
+  "votes": [
+    {
+      "id": "RM48.7-vote-1",
+      "itemNumber": "RM48.7",
+      "itemTitle": "Review of the Order Paper",
+      "motionLabel": "",
+      "voteLabel": "",
+      "result": "Carried",
+      "timestamp": "2022-08-15T10:18:00-04:00",
+      "rawDate": "Aug-15-2022 10:18 AM",
+      "threshold": "Majority Required - Adopt the August 15, 2022 Order Paper for Meeting 48",
+      "yesCount": 22,
+      "noCount": 0,
+      "absentCount": 3,
+      "yesNames": [
+        "Paul Ainslie",
+        "Ana Bailão",
+        "Brad Bradford",
+        "Robin Buxton Potts",
+        "Shelley Carroll",
+        "Gary Crawford",
+        "John Filion",
+        "Paula Fletcher",
+        "Stephen Holyday",
+        "Cynthia Lai",
+        "Mike Layton",
+        "Josh Matlow",
+        "Jennifer McKelvie",
+        "Joe Mihevc",
+        "Denzil Minnan-Wong",
+        "Frances Nunziata (Chair)",
+        "James Pasternak",
+        "Gord Perks",
+        "Anthony Perruzza",
+        "Jaye Robinson",
+        "Michael Thompson",
+        "John Tory"
+      ],
+      "noNames": [],
+      "absentNames": [
+        "Mike Colle",
+        "Mark Grimes",
+        "Nick Mantas"
+      ]
+    },
+    {
+      "id": "GL32.19-vote-1",
+      "itemNumber": "GL32.19",
+      "itemTitle": "Bulk Room Accommodations Agreement at 3 Park Home Avenue",
+      "motionLabel": "Thompson - motion 3",
+      "voteLabel": "",
+      "result": "Carried",
+      "timestamp": "2022-08-15T13:58:00-04:00",
+      "rawDate": "Aug-15-2022 1:58 PM",
+      "threshold": "Majority Required - GL32.19 - Thompson - motion 3",
+      "yesCount": 14,
+      "noCount": 9,
+      "absentCount": 2,
+      "yesNames": [
+        "Paul Ainslie",
+        "Brad Bradford",
+        "Gary Crawford",
+        "John Filion",
+        "Paula Fletcher",
+        "Mark Grimes",
+        "Stephen Holyday",
+        "Nick Mantas",
+        "Jennifer McKelvie",
+        "Frances Nunziata (Chair)",
+        "James Pasternak",
+        "Anthony Perruzza",
+        "Michael Thompson",
+        "John Tory"
+      ],
+      "noNames": [
+        "Ana Bailão",
+        "Robin Buxton Potts",
+        "Shelley Carroll",
+        "Mike Colle",
+        "Mike Layton",
+        "Joe Mihevc",
+        "Denzil Minnan-Wong",
+        "Gord Perks",
+        "Jaye Robinson"
+      ],
+      "absentNames": [
+        "Cynthia Lai",
+        "Josh Matlow"
+      ]
+    }
+  ]
+}

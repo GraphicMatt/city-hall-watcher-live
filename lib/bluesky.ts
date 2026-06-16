@@ -272,13 +272,14 @@ export function detectBreak(tsA: string, tsB: string): SessionBreak | null {
   // given some slack since council often starts a few minutes late.
   if (gapMinutes >= 8 * 60 && minutesOfDay(end) <= 10 * 60 + 30) return 'day';
 
-  // Lunch break: ≥45min with no posts, within the 12:30pm–2pm window on the
-  // same day.
+  // Lunch break: ≥45min with no posts, starting between noon and 2pm (council
+  // won't break for lunch before noon) and ending after 12:30pm, on the same
+  // day.
   const startMin = minutesOfDay(start);
   const endMin = minutesOfDay(end);
   const sameDay = new Intl.DateTimeFormat('en-CA', { dateStyle: 'short', timeZone: 'America/Toronto' }).format(start)
     === new Intl.DateTimeFormat('en-CA', { dateStyle: 'short', timeZone: 'America/Toronto' }).format(end);
-  if (gapMinutes >= 45 && sameDay && startMin < 14 * 60 && endMin > 12 * 60 + 30) return 'lunch';
+  if (gapMinutes >= 45 && sameDay && startMin >= 12 * 60 && startMin < 14 * 60 && endMin > 12 * 60 + 30) return 'lunch';
 
   return null;
 }
