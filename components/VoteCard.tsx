@@ -1,6 +1,6 @@
 import type { VoteCard as VoteCardData } from '@/lib/bluesky';
 import { formatTime } from '@/lib/bluesky';
-import { lastName } from '@/lib/councillors';
+import { buildDisplayLabels, lastName } from '@/lib/councillors';
 import { deriveMotionLabel } from '@/lib/voteMatching';
 
 interface VoteCardProps {
@@ -20,8 +20,8 @@ function StarIcon() {
 // than simply being away.
 const INTEREST_DECLARED_RE = /\(interest declared\)/i;
 
-function Pill({ name, type, isMayor }: { name: string; type: 'yes' | 'no' | 'absent'; isMayor: boolean }) {
-  const short = lastName(name);
+function Pill({ name, label, type, isMayor }: { name: string; label: string; type: 'yes' | 'no' | 'absent'; isMayor: boolean }) {
+  const short = label;
   const interestDeclared = type === 'absent' && INTEREST_DECLARED_RE.test(name);
   const colorClasses =
     type === 'yes' ? 'bg-vote-yes-pill text-vote-yes-pill-text'
@@ -71,6 +71,10 @@ export default function VoteCard({ card }: VoteCardProps) {
   const motionDescriptor = vote.motionLabel || deriveMotionLabel(vote.threshold);
   const mayorLast = (card.mayorLastName || 'Chow').toLowerCase();
   const carried = vote.result === 'Carried';
+
+  const displayLabels = buildDisplayLabels([
+    ...vote.yesNames, ...vote.noNames, ...vote.absentNames,
+  ]);
 
   return (
     <div className="mt-3 rounded-lg border border-border bg-bg-secondary px-4 py-3.5">
@@ -143,7 +147,7 @@ export default function VoteCard({ card }: VoteCardProps) {
           </div>
           <div className="flex flex-wrap gap-1.5">
             {vote.yesNames.map(name => (
-              <Pill key={name} name={name} type="yes" isMayor={lastName(name).toLowerCase() === mayorLast} />
+              <Pill key={name} name={name} label={displayLabels.get(name) ?? lastName(name)} type="yes" isMayor={(displayLabels.get(name) ?? lastName(name)).toLowerCase() === mayorLast} />
             ))}
           </div>
         </div>
@@ -153,7 +157,7 @@ export default function VoteCard({ card }: VoteCardProps) {
           </div>
           <div className="flex flex-wrap gap-1.5">
             {vote.noNames.map(name => (
-              <Pill key={name} name={name} type="no" isMayor={lastName(name).toLowerCase() === mayorLast} />
+              <Pill key={name} name={name} label={displayLabels.get(name) ?? lastName(name)} type="no" isMayor={(displayLabels.get(name) ?? lastName(name)).toLowerCase() === mayorLast} />
             ))}
           </div>
         </div>
@@ -163,7 +167,7 @@ export default function VoteCard({ card }: VoteCardProps) {
         <div className="mt-3.5 flex flex-wrap gap-1.5 items-center">
           <span className="text-[12px] text-chw-tertiary mr-0.5">Absent:</span>
           {vote.absentNames.map(name => (
-            <Pill key={name} name={name} type="absent" isMayor={lastName(name).toLowerCase() === mayorLast} />
+            <Pill key={name} name={name} label={displayLabels.get(name) ?? lastName(name)} type="absent" isMayor={(displayLabels.get(name) ?? lastName(name)).toLowerCase() === mayorLast} />
           ))}
           {vote.absentNames.some(n => INTEREST_DECLARED_RE.test(n)) && (
             <span className="text-[11px] text-chw-tertiary">† declared a conflict of interest</span>
