@@ -9,7 +9,15 @@ import VoteCard from './VoteCard';
 
 type AdminState = 'checking' | 'login' | 'admin';
 
-const DEFAULT_MAYOR = 'Chow';
+// Returns the mayor's display name for a given vote timestamp so the field
+// auto-fills. Overlapping transition months are handled by editing manually.
+function mayorForTimestamp(timestamp: string | undefined): string {
+  if (!timestamp) return 'Chow';
+  const year = new Date(timestamp).getFullYear();
+  if (year <= 2014) return 'R. Ford';
+  if (year <= 2022) return 'Tory';
+  return 'Chow';
+}
 
 interface Selection {
   matchIndex: number | null; // null = "no match selected" — Save is disabled
@@ -23,7 +31,7 @@ function defaultSelection(candidate: VoteCandidatePost): Selection {
   return {
     matchIndex,
     title: vote ? (vote.itemTitle || vote.motionLabel || vote.voteLabel) : '',
-    mayorLastName: DEFAULT_MAYOR,
+    mayorLastName: mayorForTimestamp(vote?.timestamp ?? candidate.announcement.postTime),
   };
 }
 
@@ -154,6 +162,7 @@ export default function VoteMatcher({ slug }: { slug: string }) {
     updateSelection(postUri, {
       matchIndex,
       title: vote ? (vote.itemTitle || vote.motionLabel || vote.voteLabel) : '',
+      mayorLastName: mayorForTimestamp(vote?.timestamp ?? candidate.announcement.postTime),
     });
   }
 
