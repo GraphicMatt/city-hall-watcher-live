@@ -3,6 +3,7 @@
 // as needed (key = final word, value = full display name).
 const COMPOUND_SURNAMES: Record<string, string> = {
   lin: 'Chernos Lin',
+  baeremaeker: 'De Baeremaeker',
 };
 
 // Extracts a short display name from a full councillor name as it appears in
