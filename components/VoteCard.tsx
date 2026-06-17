@@ -174,6 +174,19 @@ export default function VoteCard({ card }: VoteCardProps) {
           )}
         </div>
       )}
+
+      {card.screenshotUrl && (
+        <div className="mt-3.5 pt-3 border-t border-border">
+          <a
+            href={card.screenshotUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[11px] text-chw-tertiary hover:text-chw-secondary transition-colors"
+          >
+            View original vote image ↗
+          </a>
+        </div>
+      )}
     </div>
   );
 }

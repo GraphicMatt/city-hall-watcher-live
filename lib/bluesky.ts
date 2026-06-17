@@ -64,6 +64,8 @@ export interface VoteCard {
   // Mayor's last name for star treatment in councillor pills — stored per
   // card so historical cards stay correct if the mayor changes later.
   mayorLastName?: string;
+  // Fullsize URL of the original screenshot, if one was attached to the post.
+  screenshotUrl?: string;
 }
 
 export interface BlueskyPostRecord {

@@ -172,10 +172,14 @@ export default function VoteMatcher({ slug }: { slug: string }) {
     if (!sel || sel.matchIndex === null) return;
     const vote = candidate.matches[sel.matchIndex]!.vote;
 
+    const post = posts.find(p => p.uri === postUri);
+    const screenshotUrl = post ? (getImages(post)[0]?.fullsize ?? undefined) : undefined;
+
     const voteCard: VoteCardData = {
       vote,
       title: sel.title || undefined,
       mayorLastName: sel.mayorLastName || undefined,
+      screenshotUrl,
     };
 
     setSavingUri(postUri);
