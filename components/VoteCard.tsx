@@ -21,7 +21,6 @@ function StarIcon() {
 const INTEREST_DECLARED_RE = /\(interest declared\)/i;
 
 function Pill({ name, label, type, isMayor }: { name: string; label: string; type: 'yes' | 'no' | 'absent'; isMayor: boolean }) {
-  const short = label;
   const interestDeclared = type === 'absent' && INTEREST_DECLARED_RE.test(name);
   const colorClasses =
     type === 'yes' ? 'bg-vote-yes-pill text-vote-yes-pill-text'
@@ -32,13 +31,13 @@ function Pill({ name, label, type, isMayor }: { name: string; label: string; typ
 
   return (
     <span
-      className={`inline-flex items-center gap-1 text-[13px] rounded px-2 py-1 border ${colorClasses} ${
+      className={`inline-flex items-center gap-0.5 text-[11px] sm:text-[13px] rounded px-1.5 sm:px-2 py-0.5 sm:py-1 border ${colorClasses} ${
         isMayor ? `${borderColor} font-medium` : interestDeclared ? 'border-chw-tertiary border-dashed' : 'border-transparent'
       } ${interestDeclared ? 'italic' : ''}`}
       title={interestDeclared ? 'Declared a conflict of interest' : undefined}
     >
       {isMayor && <StarIcon />}
-      {short}
+      {label}
       {interestDeclared && <sup className="not-italic">†</sup>}
     </span>
   );
@@ -76,8 +75,11 @@ export default function VoteCard({ card }: VoteCardProps) {
     ...vote.yesNames, ...vote.noNames, ...vote.absentNames,
   ]);
 
+  const pillLabel = (name: string) => displayLabels.get(name) ?? lastName(name);
+  const isMayorPill = (name: string) => pillLabel(name).toLowerCase() === mayorLast;
+
   return (
-    <div className="mt-3 rounded-lg border border-border bg-bg-secondary px-4 py-3.5">
+    <div className="mt-3 rounded-lg border border-border bg-bg-secondary px-3 sm:px-4 py-3 sm:py-3.5">
       <div className="flex items-baseline gap-3 mb-1.5">
         <span className="text-[11px] font-medium uppercase tracking-wide text-chw-tertiary">Council vote</span>
         {vote.timestamp && (
@@ -95,9 +97,9 @@ export default function VoteCard({ card }: VoteCardProps) {
         )}
       </div>
 
-      <p className="text-[15px] font-medium text-chw-text mb-1">{title}</p>
+      <p className="text-[14px] sm:text-[15px] font-medium text-chw-text mb-1">{title}</p>
       {motionDescriptor && (
-        <p className="text-[12px] text-chw-tertiary mb-3.5">{motionDescriptor}</p>
+        <p className="text-[11px] sm:text-[12px] text-chw-tertiary mb-2 sm:mb-3.5">{motionDescriptor}</p>
       )}
 
       <div className="relative pt-4 mb-1.5">
@@ -109,20 +111,20 @@ export default function VoteCard({ card }: VoteCardProps) {
         </span>
         <div
           className="absolute w-[2px] bg-card opacity-90 z-10"
-          style={{ left: `${majorityPct}%`, top: '16px', height: '28px' }}
+          style={{ left: `${majorityPct}%`, top: '16px', height: '24px' }}
         />
-        <div className="flex h-7 rounded overflow-hidden">
+        <div className="flex h-6 sm:h-7 rounded overflow-hidden">
           {yes > 0 && (
             <div
               className="flex items-center justify-end pr-2 bg-vote-yes"
               style={{ width: `${yesPct}%` }}
             >
-              <span className="text-[13px] font-medium text-vote-yes-on">{yes}</span>
+              <span className="text-[12px] sm:text-[13px] font-medium text-vote-yes-on">{yes}</span>
             </div>
           )}
           {no > 0 && (
             <div className="flex items-center pl-2 bg-vote-no" style={{ width: `${noPct}%` }}>
-              <span className="text-[13px] font-medium text-vote-no-on">{no}</span>
+              <span className="text-[12px] sm:text-[13px] font-medium text-vote-no-on">{no}</span>
             </div>
           )}
           {absent > 0 && (
@@ -131,43 +133,43 @@ export default function VoteCard({ card }: VoteCardProps) {
         </div>
       </div>
 
-      <div className="flex items-center gap-4 text-[12px] text-chw-secondary mt-3 mb-4">
-        <span><span className="inline-block w-2.5 h-2.5 rounded-sm mr-1.5 align-middle bg-vote-yes" />Yes</span>
-        <span><span className="inline-block w-2.5 h-2.5 rounded-sm mr-1.5 align-middle bg-vote-no" />No</span>
-        <span><span className="inline-block w-2.5 h-2.5 rounded-sm mr-1.5 align-middle bg-vote-absent border border-card-border" />Absent</span>
+      <div className="flex items-center gap-3 sm:gap-4 text-[11px] sm:text-[12px] text-chw-secondary mt-2 sm:mt-3 mb-3 sm:mb-4">
+        <span><span className="inline-block w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-sm mr-1 sm:mr-1.5 align-middle bg-vote-yes" />Yes</span>
+        <span><span className="inline-block w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-sm mr-1 sm:mr-1.5 align-middle bg-vote-no" />No</span>
+        <span><span className="inline-block w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-sm mr-1 sm:mr-1.5 align-middle bg-vote-absent border border-card-border" />Absent</span>
         <span className={`ml-auto font-medium ${carried ? 'text-vote-carried' : 'text-vote-lost'}`}>
           Motion {vote.result.toLowerCase()}
         </span>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-2 sm:gap-4">
         <div>
-          <div className="text-[11px] font-medium uppercase tracking-wide text-vote-carried mb-2">
+          <div className="text-[10px] sm:text-[11px] font-medium uppercase tracking-wide text-vote-carried mb-1.5 sm:mb-2">
             Voted yes ({yes})
           </div>
-          <div className="flex flex-wrap gap-1.5">
+          <div className="flex flex-wrap gap-1 sm:gap-1.5">
             {vote.yesNames.map(name => (
-              <Pill key={name} name={name} label={displayLabels.get(name) ?? lastName(name)} type="yes" isMayor={(displayLabels.get(name) ?? lastName(name)).toLowerCase() === mayorLast} />
+              <Pill key={name} name={name} label={pillLabel(name)} type="yes" isMayor={isMayorPill(name)} />
             ))}
           </div>
         </div>
         <div>
-          <div className="text-[11px] font-medium uppercase tracking-wide text-vote-lost mb-2">
+          <div className="text-[10px] sm:text-[11px] font-medium uppercase tracking-wide text-vote-lost mb-1.5 sm:mb-2">
             Voted no ({no})
           </div>
-          <div className="flex flex-wrap gap-1.5">
+          <div className="flex flex-wrap gap-1 sm:gap-1.5">
             {vote.noNames.map(name => (
-              <Pill key={name} name={name} label={displayLabels.get(name) ?? lastName(name)} type="no" isMayor={(displayLabels.get(name) ?? lastName(name)).toLowerCase() === mayorLast} />
+              <Pill key={name} name={name} label={pillLabel(name)} type="no" isMayor={isMayorPill(name)} />
             ))}
           </div>
         </div>
       </div>
 
       {absent > 0 && (
-        <div className="mt-3.5 flex flex-wrap gap-1.5 items-center">
-          <span className="text-[12px] text-chw-tertiary mr-0.5">Absent:</span>
+        <div className="mt-2.5 sm:mt-3.5 flex flex-wrap gap-1 sm:gap-1.5 items-center">
+          <span className="text-[11px] text-chw-tertiary mr-0.5">Absent:</span>
           {vote.absentNames.map(name => (
-            <Pill key={name} name={name} label={displayLabels.get(name) ?? lastName(name)} type="absent" isMayor={(displayLabels.get(name) ?? lastName(name)).toLowerCase() === mayorLast} />
+            <Pill key={name} name={name} label={pillLabel(name)} type="absent" isMayor={isMayorPill(name)} />
           ))}
           {vote.absentNames.some(n => INTEREST_DECLARED_RE.test(n)) && (
             <span className="text-[11px] text-chw-tertiary">† declared a conflict of interest</span>
@@ -176,7 +178,7 @@ export default function VoteCard({ card }: VoteCardProps) {
       )}
 
       {card.screenshotUrl && (
-        <div className="mt-3.5 pt-3 border-t border-border">
+        <div className="mt-3 sm:mt-3.5 pt-3 border-t border-border">
           <a
             href={card.screenshotUrl}
             target="_blank"
