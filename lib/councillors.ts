@@ -4,6 +4,9 @@
 const COMPOUND_SURNAMES: Record<string, string> = {
   lin: 'Chernos Lin',
   baeremaeker: 'De Baeremaeker',
+  luby: 'Lindsay Luby',
+  giorgio: 'Di Giorgio',
+  grande: 'Del Grande',
 };
 
 // Extracts a short display name from a full councillor name as it appears in

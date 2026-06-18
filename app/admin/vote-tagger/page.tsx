@@ -136,7 +136,13 @@ export default function VoteTaggerPage() {
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
-      <h1 className="text-lg font-semibold text-chw-text mb-1">Vote tagger</h1>
+      <div className="flex items-center justify-between mb-1">
+        <h1 className="text-lg font-semibold text-chw-text">Vote tagger</h1>
+        <a href="/admin/vote-tagger/add"
+          className="text-sm font-medium px-3 py-1.5 rounded-lg border border-border hover:border-chw-secondary transition-colors text-chw-text">
+          + Manual attach
+        </a>
+      </div>
       <p className="text-sm text-chw-secondary mb-2">
         {sessions.length} sessions · {scraped} scraped · {inDb} with votes in DB
       </p>

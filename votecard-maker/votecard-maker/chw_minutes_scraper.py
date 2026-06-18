@@ -377,6 +377,18 @@ def derive_motion_label(threshold):
 
 THRESHOLD_ITEM_RE = re.compile(r'-\s*([A-Z]{1,3}\d+\.\d+)\s*-')
 
+# Procedural motion keywords — when a motion label matches any of these, the
+# vote is a procedural motion rather than a substantive item vote. We clear
+# item_title so VoteCard falls back to showing the motion descriptor.
+PROCEDURAL_RE = re.compile(
+    r'\b(extend|recess|adjourn|waive|dispense|refer|defer|postpone|table)\b',
+    re.IGNORECASE,
+)
+
+
+def is_procedural_motion(motion_label, threshold):
+    return bool(PROCEDURAL_RE.search(motion_label) or PROCEDURAL_RE.search(threshold))
+
 
 def extract_item_number_from_threshold(threshold):
     """
@@ -426,6 +438,8 @@ def main():
         threshold_item = extract_item_number_from_threshold(v["threshold"])
         if threshold_item and threshold_item != item_number:
             item_number = threshold_item
+            item_title = ""
+        if is_procedural_motion(motion_label, v["threshold"]):
             item_title = ""
         votes_out.append({
             "id": v["id"],

@@ -25,12 +25,24 @@ interface Selection {
   mayorLastName: string;
 }
 
+const PROCEDURAL_RE = /\b(extend|recess|adjourn|waive|dispense|refer|defer|postpone|table)\b/i;
+
+function voteTitle(vote: { itemTitle?: string; motionLabel?: string; voteLabel?: string; threshold?: string } | null): string {
+  if (!vote) return '';
+  const motion = vote.motionLabel || '';
+  const thresh = vote.threshold || '';
+  if (PROCEDURAL_RE.test(motion) || PROCEDURAL_RE.test(thresh)) {
+    return motion || vote.voteLabel || '';
+  }
+  return vote.itemTitle || motion || vote.voteLabel || '';
+}
+
 function defaultSelection(candidate: VoteCandidatePost): Selection {
   const matchIndex = candidate.matches.length === 1 ? 0 : null;
   const vote = matchIndex !== null ? candidate.matches[matchIndex]!.vote : null;
   return {
     matchIndex,
-    title: vote ? (vote.itemTitle || vote.motionLabel || vote.voteLabel) : '',
+    title: voteTitle(vote),
     mayorLastName: mayorForTimestamp(vote?.timestamp ?? candidate.announcement.postTime),
   };
 }
@@ -50,6 +62,7 @@ export default function VoteMatcher({ slug }: { slug: string }) {
   const [uploadError, setUploadError] = useState('');
   const [uploading, setUploading] = useState(false);
   const [savingUri, setSavingUri] = useState<string | null>(null);
+  const [removingUri, setRemovingUri] = useState<string | null>(null);
 
   useEffect(() => {
     fetch('/api/auth')
@@ -161,7 +174,7 @@ export default function VoteMatcher({ slug }: { slug: string }) {
     const vote = matchIndex !== null ? candidate.matches[matchIndex]!.vote : null;
     updateSelection(postUri, {
       matchIndex,
-      title: vote ? (vote.itemTitle || vote.motionLabel || vote.voteLabel) : '',
+      title: voteTitle(vote),
       mayorLastName: mayorForTimestamp(vote?.timestamp ?? candidate.announcement.postTime),
     });
   }
@@ -195,6 +208,27 @@ export default function VoteMatcher({ slug }: { slug: string }) {
       }
     } finally {
       setSavingUri(null);
+    }
+  }
+
+  async function handleRemove(postUri: string) {
+    setRemovingUri(postUri);
+    try {
+      const r = await fetch(`/api/archive/${slug}/votes`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ updates: [{ postUri, voteCard: null }] }),
+      });
+      if (r.ok) {
+        setPosts(prev => prev.map(p => {
+          if (p.uri !== postUri) return p;
+          const rest = { ...p };
+          delete rest.voteCard;
+          return rest;
+        }));
+      }
+    } finally {
+      setRemovingUri(null);
     }
   }
 
@@ -405,6 +439,40 @@ export default function VoteMatcher({ slug }: { slug: string }) {
       {savedUris.size > 0 && (
         <p className="text-xs text-chw-tertiary mt-6">{savedUris.size} vote card(s) saved this session.</p>
       )}
+
+      {(() => {
+        const tagged = posts.filter(p => p.voteCard);
+        if (tagged.length === 0) return null;
+        return (
+          <div className="mt-10">
+            <h2 className="text-sm font-semibold text-chw-text mb-1">Tagged posts ({tagged.length})</h2>
+            <p className="text-xs text-chw-tertiary mb-4">
+              Posts in this session that already have a vote card attached. Save again from the matcher above to overwrite, or remove to clear.
+            </p>
+            <div className="flex flex-col gap-4">
+              {tagged.map(post => (
+                <div key={post.uri} className="rounded-lg border border-card-border bg-card p-4">
+                  <div className="flex items-start justify-between gap-3 mb-2">
+                    <p className="text-sm text-chw-text whitespace-pre-wrap break-words flex-1">{post.record?.text}</p>
+                    <span className="shrink-0 text-[11px] font-medium px-2 py-0.5 rounded-full bg-vote-yes-pill text-vote-carried">
+                      ✓ Tagged
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-chw-tertiary mb-3">{formatTime(post.indexedAt)}</p>
+                  <VoteCard card={post.voteCard!} />
+                  <button
+                    onClick={() => handleRemove(post.uri)}
+                    disabled={removingUri === post.uri}
+                    className="mt-3 text-sm font-medium px-3 py-1.5 rounded-lg border border-border text-vote-lost hover:border-vote-lost transition-colors disabled:opacity-50"
+                  >
+                    {removingUri === post.uri ? 'Removing…' : '✕ Remove vote card'}
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      })()}
     </div>
   );
 }
