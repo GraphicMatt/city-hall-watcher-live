@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
+import Link from 'next/link';
 import { getActiveSession, getArchiveIndex, getQuotesIndex } from '@/lib/kv';
 import { getNextMeetingDate } from '@/lib/councilDates';
+import type { CouncilMeeting } from '@/lib/councilDates';
 import LivePoller from '@/components/LivePoller';
 import SiteHeader from '@/components/SiteHeader';
 import StatusBadge from '@/components/StatusBadge';
@@ -31,9 +33,13 @@ async function pickRandomQuote(index: ArchiveEntry[]): Promise<QuoteResult | nul
 }
 
 function todayToronto(): string {
+  return torontoDateOnly(new Date().toISOString());
+}
+
+function torontoDateOnly(iso: string): string {
   return new Intl.DateTimeFormat('en-CA', {
     timeZone: 'America/Toronto', year: 'numeric', month: '2-digit', day: '2-digit',
-  }).format(new Date());
+  }).format(new Date(iso));
 }
 
 function formatShortDate(iso: string): string {
@@ -53,6 +59,29 @@ function formatTime(iso: string): string {
   return new Date(iso).toLocaleTimeString('en-CA', {
     hour: '2-digit', minute: '2-digit', hour12: true, timeZone: 'America/Toronto',
   });
+}
+
+function addDays(dateStr: string, days: number): string {
+  const d = new Date(dateStr + 'T00:00:00Z');
+  d.setUTCDate(d.getUTCDate() + days);
+  return d.toISOString().slice(0, 10);
+}
+
+// The city clerk often blocks off more days than a meeting ends up using
+// (e.g. a 3-day slot that wraps up in 2). Once we've archived coverage for a
+// scheduled meeting, skip past it rather than showing "meets today" through
+// its originally-scheduled last day.
+function getUpcomingMeeting(index: ArchiveEntry[]): { meeting: CouncilMeeting; date: string } | null {
+  const archivedStartDates = new Set(index.map(e => torontoDateOnly(e.startedAt)));
+  let onOrAfter = todayToronto();
+  for (let i = 0; i < 20; i++) {
+    const info = getNextMeetingDate(onOrAfter);
+    if (!info) return null;
+    const alreadyCovered = info.meeting.dates.some(d => archivedStartDates.has(d));
+    if (!alreadyCovered) return info;
+    onOrAfter = addDays(info.meeting.dates[info.meeting.dates.length - 1]!, 1);
+  }
+  return null;
 }
 
 // ── Metadata ───────────────────────────────────────────────────────────────
@@ -98,7 +127,7 @@ export default async function Home() {
 
   const [quote, nextMeetingInfo] = await Promise.all([
     pickRandomQuote(index),
-    Promise.resolve(getNextMeetingDate(todayToronto())),
+    Promise.resolve(getUpcomingMeeting(index)),
   ]);
 
   const isToday = nextMeetingInfo?.date === todayToronto();
@@ -181,13 +210,13 @@ export default async function Home() {
               >
                 Recent Coverage
               </h3>
-              <a
+              <Link
                 href="/archive"
                 style={{ fontSize: '13px', fontWeight: 600, color: 'var(--pale-blue-text)' }}
                 className="hover:underline"
               >
                 All {index.length} sessions →
-              </a>
+              </Link>
             </div>
 
             {/* Single white card containing all session rows */}

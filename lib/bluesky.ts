@@ -77,6 +77,12 @@ export interface BlueskyPostRecord {
   };
 }
 
+export interface BlueskyVideo {
+  playlist: string;
+  thumbnail: string;
+  aspectRatio?: { width: number; height: number };
+}
+
 export interface BlueskyPost {
   uri: string;
   cid: string;
@@ -85,6 +91,9 @@ export interface BlueskyPost {
   embed?: {
     $type: string;
     images?: BlueskyImage[];
+    playlist?: string;
+    thumbnail?: string;
+    aspectRatio?: { width: number; height: number };
   };
   indexedAt: string;
   likeCount?: number;
@@ -246,6 +255,17 @@ export function getImages(post: BlueskyPost): BlueskyImage[] {
     return post.embed.images || [];
   }
   return [];
+}
+
+export function getVideo(post: BlueskyPost): BlueskyVideo | null {
+  if (post.embed?.$type === 'app.bsky.embed.video#view' && post.embed.playlist) {
+    return {
+      playlist: post.embed.playlist,
+      thumbnail: post.embed.thumbnail ?? '',
+      aspectRatio: post.embed.aspectRatio,
+    };
+  }
+  return null;
 }
 
 export type SessionBreak = 'lunch' | 'day';

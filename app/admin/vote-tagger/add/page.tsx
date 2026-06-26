@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { getImages, formatTime } from '@/lib/bluesky';
 import type { BlueskyPost, VoteCard as VoteCardData } from '@/lib/bluesky';
 import type { MinutesVote } from '@/lib/bluesky';
@@ -212,7 +213,7 @@ export default function ManualVoteTaggerPage() {
   return (
     <div className="max-w-2xl mx-auto px-4 py-8">
       <div className="flex items-center gap-3 mb-6">
-        <a href="/admin/vote-tagger" className="text-sm text-chw-tertiary hover:text-chw-secondary transition-colors">← Vote tagger</a>
+        <Link href="/admin/vote-tagger" className="text-sm text-chw-tertiary hover:text-chw-secondary transition-colors">← Vote tagger</Link>
         <span className="text-chw-tertiary">/</span>
         <h1 className="text-sm font-semibold text-chw-text">Manual vote attach</h1>
       </div>

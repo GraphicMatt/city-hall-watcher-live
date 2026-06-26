@@ -1,7 +1,8 @@
 import type { BlueskyPost, BlueskyFacetLink, BlueskyFacetMention, BlueskyFacetTag, VideoSegment } from '@/lib/bluesky';
-import { getImages, formatTime, getYoutubeTimestampUrl, formatYoutubeOffset } from '@/lib/bluesky';
+import { getImages, getVideo, formatTime, getYoutubeTimestampUrl, formatYoutubeOffset } from '@/lib/bluesky';
 import { decodeHtmlEntities } from '@/lib/twitter';
 import ImageGallery from './ImageGallery';
+import VideoPlayer from './VideoPlayer';
 import VoteCard from './VoteCard';
 
 interface PostCardProps {
@@ -172,6 +173,7 @@ function linkifyText(post: BlueskyPost): React.ReactNode[] {
 
 export default function PostCard({ post, isNew, slug, videoSegments }: PostCardProps) {
   const images = getImages(post);
+  const video = getVideo(post);
   const postId = post.uri.split('/').pop();
   const isTwitter = post.platform === 'twitter';
   const externalUrl = isTwitter
@@ -225,7 +227,13 @@ export default function PostCard({ post, isNew, slug, videoSegments }: PostCardP
           {linkifyText(post)}
         </p>
       )}
-      {post.voteCard ? <VoteCard card={post.voteCard} /> : images.length > 0 && <ImageGallery images={images} />}
+      {post.voteCard ? (
+        <VoteCard card={post.voteCard} />
+      ) : images.length > 0 ? (
+        <ImageGallery images={images} />
+      ) : video ? (
+        <VideoPlayer video={video} postUrl={externalUrl} />
+      ) : null}
       {post.quotedPost && (
         <a
           href={post.quotedPost.url}

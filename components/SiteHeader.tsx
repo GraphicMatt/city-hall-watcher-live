@@ -3,6 +3,7 @@
 import type { ReactNode } from 'react';
 import { useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 interface SiteHeaderProps {
@@ -31,7 +32,7 @@ export default function SiteHeader({ right, subtitle = 'Toronto City Council', s
         style={{ height: '64px' }}
       >
         {/* Left: logo + wordmark + optional session subtitle */}
-        <a href="/" className="flex items-center gap-3 no-underline min-w-0">
+        <Link href="/" className="flex items-center gap-3 no-underline min-w-0">
           {/* Logo mark */}
           <Image
             src="/chw-logo.png"
@@ -93,7 +94,7 @@ export default function SiteHeader({ right, subtitle = 'Toronto City Council', s
               </span>
             )}
           </div>
-        </a>
+        </Link>
 
         {/* Right: persistent nav (desktop) + page-specific content + mobile menu toggle */}
         <div className="flex items-center gap-3 flex-shrink-0 ml-4">

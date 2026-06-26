@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
 import SiteHeader from '@/components/SiteHeader';
 import type { ActiveSession, ArchiveEntry } from '@/lib/kv';
 import type { SessionMetadata } from '@/lib/bluesky';
@@ -666,9 +667,9 @@ export default function AdminPage() {
 
   const AdminHeaderRight = (
     <div className="flex items-center gap-4">
-      <a href="/" className="text-xs text-white/60 hover:text-white transition-colors">
+      <Link href="/" className="text-xs text-white/60 hover:text-white transition-colors">
         Public view →
-      </a>
+      </Link>
       <button
         onClick={handleLogout}
         className="text-xs text-white/60 hover:text-white transition-colors bg-none border-none cursor-pointer p-0"
