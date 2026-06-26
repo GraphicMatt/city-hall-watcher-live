@@ -98,6 +98,12 @@ export default function AdminPage() {
   const [fixingPronouns, setFixingPronouns] = useState(false);
   const [fixPronounsResult, setFixPronounsResult] = useState<string | null>(null);
 
+  const [renameOldSlug, setRenameOldSlug] = useState('');
+  const [renameNewSlug, setRenameNewSlug] = useState('');
+  const [renamingSlug, setRenamingSlug] = useState(false);
+  const [renameResult, setRenameResult] = useState<string | null>(null);
+  const [renameError, setRenameError] = useState<string | null>(null);
+
   // Bit.ly link expansion: scan archived posts for bit.ly link facets, resolve
   // each to its destination, then optionally rewrite them in place.
   const [scanningBitly, setScanningBitly] = useState(false);
@@ -499,6 +505,32 @@ export default function AdminPage() {
       setFixPronounsResult('Network error — try again.');
     } finally {
       setFixingPronouns(false);
+    }
+  }
+
+  async function handleRenameSlug() {
+    setRenamingSlug(true);
+    setRenameResult(null);
+    setRenameError(null);
+    try {
+      const r = await fetch('/api/archive/rename-slug', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ oldSlug: renameOldSlug.trim(), newSlug: renameNewSlug.trim() }),
+      });
+      const data = await r.json();
+      if (r.ok) {
+        setRenameResult(`Renamed "${data.oldSlug}" → "${data.newSlug}" (${data.postCount} posts).`);
+        setRenameOldSlug('');
+        setRenameNewSlug('');
+        fetchArchiveIndex();
+      } else {
+        setRenameError(data.error || 'Rename failed.');
+      }
+    } catch {
+      setRenameError('Network error — try again.');
+    } finally {
+      setRenamingSlug(false);
     }
   }
 
@@ -1079,7 +1111,42 @@ export default function AdminPage() {
         {/* Site maintenance */}
         <div className="bg-white dark:bg-[#1a1a1a] border border-[#e0e0d8] dark:border-[#2a2a2a] rounded-xl p-5">
           <p className="text-xs font-medium text-[#888] uppercase tracking-wide mb-4">Site maintenance</p>
-          <div className="p-2.5 bg-[#fafaf8] dark:bg-[#111] border border-[#f0f0ea] dark:border-[#222] rounded-lg flex items-center justify-between gap-3 flex-wrap">
+
+          <div className="p-2.5 bg-[#fafaf8] dark:bg-[#111] border border-[#f0f0ea] dark:border-[#222] rounded-lg">
+            <p className="text-xs text-[#888] dark:text-[#555] mb-2">
+              Rename an archive entry&apos;s slug — moves its posts to the new key and updates the index.
+              Useful when a session gets re-captured under a suffixed slug (e.g. after a bug forces a
+              delete/redo) and you want the clean URL back.
+            </p>
+            <div className="flex items-center gap-2 flex-wrap">
+              <input
+                type="text"
+                value={renameOldSlug}
+                onChange={e => setRenameOldSlug(e.target.value)}
+                placeholder="old-slug"
+                className="text-xs px-2 py-1 rounded border border-[#e0e0d8] dark:border-[#2a2a2a] bg-white dark:bg-[#1a1a1a] text-[#1a1a1a] dark:text-[#e8e8e0] w-40"
+              />
+              <span className="text-xs text-[#888]">→</span>
+              <input
+                type="text"
+                value={renameNewSlug}
+                onChange={e => setRenameNewSlug(e.target.value)}
+                placeholder="new-slug"
+                className="text-xs px-2 py-1 rounded border border-[#e0e0d8] dark:border-[#2a2a2a] bg-white dark:bg-[#1a1a1a] text-[#1a1a1a] dark:text-[#e8e8e0] w-40"
+              />
+              <button
+                onClick={handleRenameSlug}
+                disabled={renamingSlug || !renameOldSlug.trim() || !renameNewSlug.trim()}
+                className="text-xs font-medium px-2.5 py-1 rounded bg-[#1a1a1a] dark:bg-[#e8e8e0] text-white dark:text-[#111] hover:bg-[#333] disabled:opacity-50 flex-shrink-0 whitespace-nowrap"
+              >
+                {renamingSlug ? 'Renaming…' : 'Rename'}
+              </button>
+            </div>
+            {renameError && <p className="text-xs text-[#c0392b] dark:text-[#f08080] mt-1.5">{renameError}</p>}
+            {renameResult && <p className="text-xs text-[#aaa] dark:text-[#555] mt-1.5">{renameResult}</p>}
+          </div>
+
+          <div className="mt-3 p-2.5 bg-[#fafaf8] dark:bg-[#111] border border-[#f0f0ea] dark:border-[#222] rounded-lg flex items-center justify-between gap-3 flex-wrap">
             <p className="text-xs text-[#888] dark:text-[#555]">
               Rebuild the &quot;From Past Coverage&quot; quote index — speeds up the homepage&apos;s random
               quote feature by precomputing matches instead of scanning the archive on every load.

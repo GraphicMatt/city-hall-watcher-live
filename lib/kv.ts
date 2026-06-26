@@ -214,6 +214,29 @@ export async function appendQuoteCandidates(newCandidates: QuoteCandidate[]): Pr
   await setQuotesIndex([...existing, ...toAdd]);
 }
 
+// Renames an archive entry's slug — moves its posts to the new key and
+// updates the index entry in place. Caller is responsible for checking that
+// `newSlug` doesn't already exist.
+export async function renameArchiveEntry(oldSlug: string, newSlug: string): Promise<void> {
+  const posts = await getArchivePosts(oldSlug);
+  await setArchivePosts(newSlug, posts ?? []);
+
+  const index = await getArchiveIndex();
+  const updated = index.map(e => (e.slug === oldSlug ? { ...e, slug: newSlug } : e));
+  const oldPostsKey = `archive:posts:${oldSlug}`;
+
+  if (isKvConfigured()) {
+    const { kv } = await import('@vercel/kv');
+    await Promise.all([
+      kv.set(ARCHIVE_INDEX_KEY, JSON.stringify(updated)),
+      kv.del(oldPostsKey),
+    ]);
+    return;
+  }
+  storeSet(ARCHIVE_INDEX_KEY, JSON.stringify(updated));
+  storeDel(oldPostsKey);
+}
+
 export async function deleteArchiveEntry(slug: string): Promise<void> {
   // Remove from index
   const index = await getArchiveIndex();
