@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import type { CorpusPost } from '@/lib/search';
 import SiteHeader from '@/components/SiteHeader';
 
-const MAX_RESULTS = 50;
+const MAX_RESULTS = 100;
 const DEBOUNCE_MS = 200;
 const MIN_QUERY_LEN = 2;
 
