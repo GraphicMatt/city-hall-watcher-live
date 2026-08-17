@@ -99,16 +99,17 @@ export default function SearchClient({ initialQuery = '' }: { initialQuery?: str
   const [query, setQuery] = useState(initialQuery);
   const [debouncedQuery, setDebouncedQuery] = useState(initialQuery);
   const [imagesOnly, setImagesOnly] = useState(false);
-  const [pastYearOnly, setPastYearOnly] = useState(false);
+  // Date-range bounds, as yyyy-mm-dd strings straight from <input type="date">.
+  // Empty string means unbounded on that side.
+  const [dateFrom, setDateFrom] = useState('');
+  const [dateTo, setDateTo] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Rolling one-year cutoff, computed once per mount so "past year" always
-  // means the last 12 months rather than a date that goes stale.
-  const oneYearAgoIso = useMemo(() => {
-    const d = new Date();
-    d.setFullYear(d.getFullYear() - 1);
-    return d.toISOString();
-  }, []);
+  // Convert the date-only bounds into ISO instants so they can be compared
+  // directly against each post's (UTC) indexedAt timestamp — "to" is pushed
+  // to the end of that day so it's inclusive.
+  const fromIso = useMemo(() => (dateFrom ? `${dateFrom}T00:00:00.000Z` : null), [dateFrom]);
+  const toIso = useMemo(() => (dateTo ? `${dateTo}T23:59:59.999Z` : null), [dateTo]);
 
   // Load search corpus on mount
   useEffect(() => {
@@ -148,7 +149,8 @@ export default function SearchClient({ initialQuery = '' }: { initialQuery?: str
     if (!corpus || debouncedQuery.length < MIN_QUERY_LEN || terms.length === 0) return null;
     const matched = corpus.filter(p => {
       if (imagesOnly && !p.imageUrl) return false;
-      if (pastYearOnly && p.indexedAt < oneYearAgoIso) return false;
+      if (fromIso && p.indexedAt < fromIso) return false;
+      if (toIso && p.indexedAt > toIso) return false;
       const lower = p.text.toLowerCase();
       return terms.every(t => lower.includes(t));
     });
@@ -163,7 +165,7 @@ export default function SearchClient({ initialQuery = '' }: { initialQuery?: str
       return diff !== 0 ? diff : b.indexedAt.localeCompare(a.indexedAt);
     });
     return matched.slice(0, MAX_RESULTS);
-  }, [corpus, debouncedQuery, terms, imagesOnly, pastYearOnly, oneYearAgoIso]);
+  }, [corpus, debouncedQuery, terms, imagesOnly, fromIso, toIso]);
 
   const sessionCount = useMemo(
     () => (corpus ? new Set(corpus.map(p => p.slug)).size : 0),
@@ -202,7 +204,7 @@ export default function SearchClient({ initialQuery = '' }: { initialQuery?: str
         </div>
 
         {/* Filters */}
-        <div className="flex items-center gap-4 mb-6 -mt-2">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-6 -mt-2">
           <label className="flex items-center gap-1.5 cursor-pointer select-none" style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>
             <input
               type="checkbox"
@@ -212,15 +214,37 @@ export default function SearchClient({ initialQuery = '' }: { initialQuery?: str
             />
             Has images
           </label>
-          <label className="flex items-center gap-1.5 cursor-pointer select-none" style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>
+          <div className="flex items-center gap-1.5" style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>
+            <label htmlFor="search-date-from">From</label>
             <input
-              type="checkbox"
-              checked={pastYearOnly}
-              onChange={e => setPastYearOnly(e.target.checked)}
-              className="cursor-pointer accent-chw-secondary"
+              id="search-date-from"
+              type="date"
+              value={dateFrom}
+              max={dateTo || undefined}
+              onChange={e => setDateFrom(e.target.value)}
+              className="border border-border rounded-md bg-card text-chw-text outline-none focus:border-chw-secondary transition-colors"
+              style={{ fontSize: '13px', padding: '3px 6px', colorScheme: 'light dark' }}
             />
-            Past year only
-          </label>
+            <label htmlFor="search-date-to">to</label>
+            <input
+              id="search-date-to"
+              type="date"
+              value={dateTo}
+              min={dateFrom || undefined}
+              onChange={e => setDateTo(e.target.value)}
+              className="border border-border rounded-md bg-card text-chw-text outline-none focus:border-chw-secondary transition-colors"
+              style={{ fontSize: '13px', padding: '3px 6px', colorScheme: 'light dark' }}
+            />
+            {(dateFrom || dateTo) && (
+              <button
+                onClick={() => { setDateFrom(''); setDateTo(''); }}
+                className="text-chw-tertiary hover:text-chw-secondary text-base leading-none"
+                aria-label="Clear date range"
+              >
+                ×
+              </button>
+            )}
+          </div>
         </div>
 
         {/* Loading / error */}
