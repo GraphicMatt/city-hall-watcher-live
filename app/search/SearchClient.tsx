@@ -46,10 +46,13 @@ function countWholeWordOccurrences(lower: string, terms: string[]): number {
 // Wrap every occurrence of any search term in the snippet with a <mark>.
 // Each term is highlighted independently, so "Bradford cars" highlights both
 // words wherever they appear rather than requiring them to be adjacent.
-function Highlighted({ text, terms }: { text: string; terms: string[] }) {
+// When `wholeWord` is set, only standalone-word occurrences are wrapped —
+// matches the same rule used to filter results in whole-word mode.
+function Highlighted({ text, terms, wholeWord }: { text: string; terms: string[]; wholeWord?: boolean }) {
   if (!terms.length) return <>{text}</>;
   const pattern = terms.map(escapeRegex).join('|');
-  const parts = text.split(new RegExp(`(${pattern})`, 'gi'));
+  const boundary = wholeWord ? '\\b' : '';
+  const parts = text.split(new RegExp(`(${boundary}(?:${pattern})${boundary})`, 'gi'));
   const lowerTerms = new Set(terms);
   return (
     <>
@@ -99,6 +102,9 @@ export default function SearchClient({ initialQuery = '' }: { initialQuery?: str
   const [query, setQuery] = useState(initialQuery);
   const [debouncedQuery, setDebouncedQuery] = useState(initialQuery);
   const [imagesOnly, setImagesOnly] = useState(false);
+  // When set, terms must match as standalone words (e.g. "Colle" won't match
+  // inside "College" or "Colleagues") rather than as any substring.
+  const [wholeWord, setWholeWord] = useState(false);
   // Date-range bounds, as yyyy-mm-dd strings straight from <input type="date">.
   // Empty string means unbounded on that side.
   const [dateFrom, setDateFrom] = useState('');
@@ -143,6 +149,13 @@ export default function SearchClient({ initialQuery = '' }: { initialQuery?: str
   // matching and rendering passes use the exact same set of tokens.
   const terms = useMemo(() => parseTerms(debouncedQuery), [debouncedQuery]);
 
+  // Precompute one word-boundary regex per term for whole-word mode, so the
+  // filter below doesn't rebuild a RegExp per post.
+  const wholeWordRes = useMemo(
+    () => (wholeWord ? terms.map(t => new RegExp(`\\b${escapeRegex(t)}\\b`)) : null),
+    [terms, wholeWord],
+  );
+
   // Run search: require ALL terms to appear (AND logic), then rank by total
   // term frequency (more occurrences = more relevant), break ties by recency.
   const results = useMemo<CorpusPost[] | null>(() => {
@@ -152,7 +165,7 @@ export default function SearchClient({ initialQuery = '' }: { initialQuery?: str
       if (fromIso && p.indexedAt < fromIso) return false;
       if (toIso && p.indexedAt > toIso) return false;
       const lower = p.text.toLowerCase();
-      return terms.every(t => lower.includes(t));
+      return wholeWordRes ? wholeWordRes.every(re => re.test(lower)) : terms.every(t => lower.includes(t));
     });
     // Rank whole-word matches well above incidental substring matches (e.g.
     // "car" inside "CARRIES"), then by raw occurrence count, then by recency.
@@ -165,7 +178,7 @@ export default function SearchClient({ initialQuery = '' }: { initialQuery?: str
       return diff !== 0 ? diff : b.indexedAt.localeCompare(a.indexedAt);
     });
     return matched.slice(0, MAX_RESULTS);
-  }, [corpus, debouncedQuery, terms, imagesOnly, fromIso, toIso]);
+  }, [corpus, debouncedQuery, terms, imagesOnly, fromIso, toIso, wholeWordRes]);
 
   const sessionCount = useMemo(
     () => (corpus ? new Set(corpus.map(p => p.slug)).size : 0),
@@ -213,6 +226,15 @@ export default function SearchClient({ initialQuery = '' }: { initialQuery?: str
               className="cursor-pointer accent-chw-secondary"
             />
             Has images
+          </label>
+          <label className="flex items-center gap-1.5 cursor-pointer select-none" style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>
+            <input
+              type="checkbox"
+              checked={wholeWord}
+              onChange={e => setWholeWord(e.target.checked)}
+              className="cursor-pointer accent-chw-secondary"
+            />
+            Whole word
           </label>
           <div className="flex items-center gap-1.5" style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>
             <label htmlFor="search-date-from">From</label>
@@ -307,7 +329,7 @@ export default function SearchClient({ initialQuery = '' }: { initialQuery?: str
                   </div>
                   {/* Full post text */}
                   <p style={{ fontSize: '15px', lineHeight: '1.6', color: 'var(--text)' }} className="whitespace-pre-wrap break-words">
-                    <Highlighted text={post.text} terms={terms} />
+                    <Highlighted text={post.text} terms={terms} wholeWord={wholeWord} />
                   </p>
                   {/* Image thumbnail, if the post has one */}
                   {post.imageUrl && (
