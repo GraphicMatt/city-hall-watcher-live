@@ -98,7 +98,17 @@ export default function SearchClient({ initialQuery = '' }: { initialQuery?: str
   const [loadError, setLoadError] = useState(false);
   const [query, setQuery] = useState(initialQuery);
   const [debouncedQuery, setDebouncedQuery] = useState(initialQuery);
+  const [imagesOnly, setImagesOnly] = useState(false);
+  const [pastYearOnly, setPastYearOnly] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Rolling one-year cutoff, computed once per mount so "past year" always
+  // means the last 12 months rather than a date that goes stale.
+  const oneYearAgoIso = useMemo(() => {
+    const d = new Date();
+    d.setFullYear(d.getFullYear() - 1);
+    return d.toISOString();
+  }, []);
 
   // Load search corpus on mount
   useEffect(() => {
@@ -137,6 +147,8 @@ export default function SearchClient({ initialQuery = '' }: { initialQuery?: str
   const results = useMemo<CorpusPost[] | null>(() => {
     if (!corpus || debouncedQuery.length < MIN_QUERY_LEN || terms.length === 0) return null;
     const matched = corpus.filter(p => {
+      if (imagesOnly && !p.imageUrl) return false;
+      if (pastYearOnly && p.indexedAt < oneYearAgoIso) return false;
       const lower = p.text.toLowerCase();
       return terms.every(t => lower.includes(t));
     });
@@ -151,7 +163,7 @@ export default function SearchClient({ initialQuery = '' }: { initialQuery?: str
       return diff !== 0 ? diff : b.indexedAt.localeCompare(a.indexedAt);
     });
     return matched.slice(0, MAX_RESULTS);
-  }, [corpus, debouncedQuery, terms]);
+  }, [corpus, debouncedQuery, terms, imagesOnly, pastYearOnly, oneYearAgoIso]);
 
   const sessionCount = useMemo(
     () => (corpus ? new Set(corpus.map(p => p.slug)).size : 0),
@@ -187,6 +199,28 @@ export default function SearchClient({ initialQuery = '' }: { initialQuery?: str
               ×
             </button>
           )}
+        </div>
+
+        {/* Filters */}
+        <div className="flex items-center gap-4 mb-6 -mt-2">
+          <label className="flex items-center gap-1.5 cursor-pointer select-none" style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>
+            <input
+              type="checkbox"
+              checked={imagesOnly}
+              onChange={e => setImagesOnly(e.target.checked)}
+              className="cursor-pointer accent-chw-secondary"
+            />
+            Has images
+          </label>
+          <label className="flex items-center gap-1.5 cursor-pointer select-none" style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>
+            <input
+              type="checkbox"
+              checked={pastYearOnly}
+              onChange={e => setPastYearOnly(e.target.checked)}
+              className="cursor-pointer accent-chw-secondary"
+            />
+            Past year only
+          </label>
         </div>
 
         {/* Loading / error */}
@@ -251,6 +285,23 @@ export default function SearchClient({ initialQuery = '' }: { initialQuery?: str
                   <p style={{ fontSize: '15px', lineHeight: '1.6', color: 'var(--text)' }} className="whitespace-pre-wrap break-words">
                     <Highlighted text={post.text} terms={terms} />
                   </p>
+                  {/* Image thumbnail, if the post has one */}
+                  {post.imageUrl && (
+                    <div className="flex items-center gap-2 mt-0.5">
+                      <img
+                        src={post.imageUrl}
+                        alt=""
+                        loading="lazy"
+                        className="rounded-md border border-border object-cover"
+                        style={{ width: '96px', height: '72px' }}
+                      />
+                      {post.imageCount && post.imageCount > 1 && (
+                        <span style={{ fontSize: '12px', color: 'var(--text-tertiary)' }}>
+                          +{post.imageCount - 1} more
+                        </span>
+                      )}
+                    </div>
+                  )}
                   {/* Jump to post in context of full thread */}
                   <a
                     href={`/${post.slug}#post-${post.postId}`}

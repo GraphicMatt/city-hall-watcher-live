@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getArchiveIndex, getArchivePosts } from '@/lib/kv';
 import { decodeHtmlEntities } from '@/lib/twitter';
+import { getImages } from '@/lib/bluesky';
 import type { CorpusPost } from '@/lib/search';
 
 // Build the search corpus by fetching all archived sessions in parallel.
@@ -16,15 +17,20 @@ export async function GET() {
       const label = entry.metadata?.meetingTitle || entry.label;
       return posts
         .filter(p => p.record?.text?.trim())
-        .map((post): CorpusPost => ({
-          slug: entry.slug,
-          postId: post.uri.split('/').pop()!,
-          sessionLabel: label,
-          sessionDate: entry.startedAt,
-          indexedAt: post.indexedAt,
-          // Decode HTML entities so Twitter posts with &amp; etc. search correctly
-          text: decodeHtmlEntities(post.record.text),
-        }));
+        .map((post): CorpusPost => {
+          const images = getImages(post);
+          return {
+            slug: entry.slug,
+            postId: post.uri.split('/').pop()!,
+            sessionLabel: label,
+            sessionDate: entry.startedAt,
+            indexedAt: post.indexedAt,
+            // Decode HTML entities so Twitter posts with &amp; etc. search correctly
+            text: decodeHtmlEntities(post.record.text),
+            imageUrl: images[0]?.thumb,
+            imageCount: images.length || undefined,
+          };
+        });
     })
   );
 

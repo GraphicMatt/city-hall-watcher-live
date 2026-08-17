@@ -8,4 +8,6 @@ export interface CorpusPost {
   sessionDate: string; // startedAt of the archive entry (for grouping/display)
   indexedAt: string;   // timestamp of the individual post
   text: string;
+  imageUrl?: string;   // thumb of the post's first image, if it has one
+  imageCount?: number; // total images attached to the post
 }
