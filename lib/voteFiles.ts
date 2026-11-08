@@ -87,17 +87,29 @@ export function meetingCodeForSlug(slug: string, entries: ArchiveEntry[]): strin
 
 const VOTES_DIR = join(process.cwd(), 'data/votes');
 
+// Meeting codes look like "2026.CC41". Anything else is rejected before it can
+// reach a filesystem path (the code arrives from a query string in some routes).
+const MEETING_CODE_RE = /^\d{4}\.[A-Z]{2,4}\d{1,3}$/;
+
+export function isValidMeetingCode(meetingCode: string): boolean {
+  return MEETING_CODE_RE.test(meetingCode);
+}
+
 export function localVotesPath(meetingCode: string): string {
+  if (!isValidMeetingCode(meetingCode)) {
+    throw new Error(`Invalid meeting code: ${JSON.stringify(meetingCode)}`);
+  }
   return join(VOTES_DIR, `${meetingCode}.json`);
 }
 
 export function localVotesExist(meetingCode: string): boolean {
-  return existsSync(localVotesPath(meetingCode));
+  return isValidMeetingCode(meetingCode) && existsSync(localVotesPath(meetingCode));
 }
 
 // Read votes from a committed data/votes/{meetingCode}.json file.
-// Returns null if the file doesn't exist or can't be parsed.
+// Returns null if the code is malformed, the file doesn't exist, or it can't be parsed.
 export function readLocalVotes(meetingCode: string): MinutesVote[] | null {
+  if (!isValidMeetingCode(meetingCode)) return null;
   const path = localVotesPath(meetingCode);
   if (!existsSync(path)) return null;
   try {

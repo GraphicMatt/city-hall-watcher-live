@@ -92,7 +92,7 @@ export default function ManualVoteTaggerPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ password }),
       });
-      if (!r.ok) { setLoginError('Incorrect password.'); return; }
+      if (!r.ok) { setLoginError(r.status === 429 ? 'Too many failed attempts — try again in 15 minutes.' : 'Incorrect password.'); return; }
       setPassword('');
       setAdminState('admin');
       await loadSessions();

@@ -254,3 +254,39 @@ export async function deleteArchiveEntry(slug: string): Promise<void> {
   storeSet(ARCHIVE_INDEX_KEY, JSON.stringify(updated));
   storeDel(postsKey);
 }
+
+// --- Expiring counters (used for login rate limiting) ---
+
+interface LocalCounter {
+  count: number;
+  resetAt: number;
+}
+
+export async function getCounter(key: string): Promise<number> {
+  if (isKvConfigured()) {
+    const { kv } = await import('@vercel/kv');
+    return (await kv.get<number>(key)) ?? 0;
+  }
+  const raw = storeGet(key);
+  if (!raw) return 0;
+  const c = JSON.parse(raw) as LocalCounter;
+  return Date.now() < c.resetAt ? c.count : 0;
+}
+
+// Increments the counter. The window starts at the first increment and is not
+// extended by later ones, so a counter always clears ttlSeconds after it began.
+export async function incrementCounter(key: string, ttlSeconds: number): Promise<number> {
+  if (isKvConfigured()) {
+    const { kv } = await import('@vercel/kv');
+    const count = await kv.incr(key);
+    if (count === 1) await kv.expire(key, ttlSeconds);
+    return count;
+  }
+  const raw = storeGet(key);
+  const now = Date.now();
+  let c: LocalCounter = raw ? JSON.parse(raw) : { count: 0, resetAt: 0 };
+  if (now >= c.resetAt) c = { count: 0, resetAt: now + ttlSeconds * 1000 };
+  c.count += 1;
+  storeSet(key, JSON.stringify(c));
+  return c.count;
+}

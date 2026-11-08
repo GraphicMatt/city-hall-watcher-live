@@ -217,7 +217,7 @@ export default function AdminPage() {
         body: JSON.stringify({ password }),
       });
       if (!r.ok) {
-        setLoginError('Incorrect password.');
+        setLoginError(r.status === 429 ? 'Too many failed attempts — try again in 15 minutes.' : 'Incorrect password.');
       } else {
         setPassword('');
         setAdminState('admin');

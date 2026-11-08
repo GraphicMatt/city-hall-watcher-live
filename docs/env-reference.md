@@ -1,6 +1,6 @@
 # Environment variables
 
-The app reads six variables. For local development you need the first three,
+The app reads seven variables. For local development you need the first three,
 and they can be any throwaway values — nothing here talks to production.
 
 Put them in `.env.local` in the project root. That file is gitignored.
@@ -20,6 +20,7 @@ Put them in `.env.local` in the project root. That file is gitignored.
 | `KV_REST_API_URL` | Vercel KV endpoint. **Leave unset locally.** |
 | `KV_REST_API_TOKEN` | Vercel KV token. **Leave unset locally.** |
 | `BLOB_READ_WRITE_TOKEN` | Vercel Blob storage. Used only by the admin tool that rehosts dead TwitPic and Twitter image links. |
+| `ALLOWED_DEV_ORIGINS` | Comma-separated extra hostnames allowed to reach `next dev`, e.g. a tunnel for testing on a phone. Dev only. |
 
 ### You do not need a database to run this locally
 
