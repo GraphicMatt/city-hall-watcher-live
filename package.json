@@ -1,7 +1,18 @@
 {
-  "name": "nextapp",
+  "name": "city-hall-watcher-live",
   "version": "0.1.0",
   "private": true,
+  "description": "Live and archived coverage of Toronto City Council meetings.",
+  "license": "MIT",
+  "author": "Matt Elliott",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GraphicMatt/city-hall-watcher-live.git"
+  },
+  "homepage": "https://live.cityhallwatcher.com",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",

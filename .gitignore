@@ -24,8 +24,14 @@
 .DS_Store
 *.pem
 
+# editor / agent local settings (machine-specific paths and permissions)
+.claude/settings.local.json
+
 # local KV store (dev fallback for Vercel KV)
 .kv-store.json
+
+# production database snapshots — keep these outside the repo
+db-backups/
 
 # raw Twitter/Bluesky archives (too large for git; run scripts/preprocess-tweets.ts instead)
 bluesky-twitter-archive/
@@ -38,6 +44,8 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+# ...except the committed template of variable names (contains no real values)
+!.env.example
 
 # vercel
 .vercel

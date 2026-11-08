@@ -12,6 +12,17 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+
+    // Data and generated output — not source. The raw Twitter archive ships
+    // ~134MB of .js data files, which ESLint will try to parse and run out of
+    // memory on, so leaving these out is what keeps `npm run lint` working.
+    "bluesky-twitter-archive/**",
+    "db-backups/**",
+    "data/**",
+    "council-dates/**",
+    "designbrief/**",
+    "votecard-maker/samples/**",
+    ".kv-store.json",
   ]),
 ]);
 

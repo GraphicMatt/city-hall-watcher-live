@@ -1,9 +1,18 @@
 /**
  * One-time preprocessing script: reads the raw tweets.js archive (~104MB),
- * filters to Matt's own tweets and self-replies, strips to minimal fields,
- * and writes data/council-tweets.json (~8MB) for use by the import pipeline.
+ * filters to the account's own tweets and self-replies, keeps only those posted
+ * on a Toronto City Council meeting date, strips to minimal fields, and writes
+ * data/council-tweets.json for use by the import pipeline.
  *
- * Run once locally: npx ts-node --project tsconfig.json scripts/preprocess-tweets.ts
+ * Run once locally, from the repository root:
+ *   npx tsx scripts/preprocess-tweets.ts
+ *
+ * The council-date filter mirrors the import pipeline exactly: the analyze
+ * route in app/api/archive/import/twitter/analyze/route.ts keeps a tweet only
+ * when its Eastern-time date is a City Council meeting date, so tweets outside
+ * those dates can never appear in the archive. Filtering here rather than at
+ * import time keeps a decade of unrelated personal posts out of the repository
+ * without changing what the app can build.
  *
  * The raw bluesky-twitter-archive/ directory is gitignored.
  * The output data/council-tweets.json is committed to the repo.
@@ -11,8 +20,15 @@
 
 import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, statSync } from 'fs';
 import { join } from 'path';
+import { councilDateSet } from '../lib/councilDates';
 
 const MATT_USER_ID = '1956441';
+
+// Convert a UTC Date to a YYYY-MM-DD string in Eastern time (handles EST/EDT).
+// Must stay identical to toEasternDate() in the analyze route.
+function toEasternDate(date: Date): string {
+  return date.toLocaleDateString('en-CA', { timeZone: 'America/Toronto' });
+}
 
 interface RawTweetMedia {
   type: string;
@@ -141,7 +157,19 @@ async function main() {
   const filtered = allTweets.filter(isKeptTweet);
   console.log(`After filtering (own + self-replies, no RTs): ${filtered.length}`);
 
-  const stripped = filtered.map(stripTweet);
+  // Keep only tweets posted on a City Council meeting date (Eastern time).
+  const councilDates = councilDateSet();
+  console.log(`Council meeting dates loaded: ${councilDates.size}`);
+
+  const onCouncilDates = filtered.filter(t =>
+    councilDates.has(toEasternDate(new Date(t.created_at)))
+  );
+  console.log(
+    `After council-date filter: ${onCouncilDates.length} ` +
+    `(dropped ${filtered.length - onCouncilDates.length} off-date tweets)`
+  );
+
+  const stripped = onCouncilDates.map(stripTweet);
 
   const outDir = join(process.cwd(), 'data');
   if (!existsSync(outDir)) {
