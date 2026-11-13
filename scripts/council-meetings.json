@@ -11598,6 +11598,7 @@
     "location": null,
     "meetingNumber": null,
     "sessions": [],
-    "term": null
+    "term": null,
+    "cancelled": true
   }
 ]

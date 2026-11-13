@@ -21,6 +21,15 @@ function StatusBadge({ row }: { row: VoteTaggerRow }) {
       </span>
     );
   }
+  if (row.fileEmpty) {
+    return (
+      <span
+        title="The votes file has no votes — usually scraped before the Minutes were published. Re-run the scraper."
+        className="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded-full border border-vote-lost text-vote-lost">
+        Empty file — re-scrape
+      </span>
+    );
+  }
   if (row.meetingCode) {
     return (
       <span className="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded-full border border-border text-chw-tertiary">
@@ -150,6 +159,7 @@ export default function VoteTaggerPage() {
         Run <code className="font-mono">python3 scripts/scrape-all-votes.py</code> to populate{' '}
         <code className="font-mono">data/votes/</code>, then commit the files.
         Sessions with a local file load votes automatically — no copy-paste needed.
+        Empty files are re-scraped automatically on the next run.
       </p>
 
       {dataLoading ? (
