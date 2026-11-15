@@ -21,6 +21,8 @@ const ibmPlexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
+  appleWebApp: { capable: true, title: 'CHW Live', statusBarStyle: 'default' },
+  icons: { apple: '/apple-touch-icon.png' },
   metadataBase: new URL('https://live.cityhallwatcher.com'),
   title: {
     default: 'CHW Live — Toronto City Council',

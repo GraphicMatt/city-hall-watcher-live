@@ -12,6 +12,7 @@ import MetadataBar from './MetadataBar';
 import UnreadBanner from './UnreadBanner';
 import { getLastRead, setLastRead, markAllRead } from '@/lib/lastRead';
 import { scrollToPost } from '@/lib/scroll';
+import PushNotifications from './PushNotifications';
 
 const POLL_INTERVAL = 45_000;
 const SESSION_CHECK_INTERVAL = 5 * 60_000; // 5 minutes
@@ -20,9 +21,10 @@ interface LivePollerProps {
   rootUri: string;
   authorDid: string;
   metadata?: SessionMetadata;
+  initialPostId?: string;
 }
 
-export default function LivePoller({ rootUri, authorDid, metadata }: LivePollerProps) {
+export default function LivePoller({ rootUri, authorDid, metadata, initialPostId }: LivePollerProps) {
   const [status, setStatus] = useState<StatusType>('connecting');
   const [posts, setPosts] = useState<BlueskyPost[]>([]);
   const [newUris, setNewUris] = useState<Set<string>>(new Set());
@@ -41,6 +43,7 @@ export default function LivePoller({ rootUri, authorDid, metadata }: LivePollerP
   const isFirstLoadRef = useRef(true);
   const pollTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const sessionCheckTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const jumpedToNotificationRef = useRef(false);
   // Storage key = rkey of the root post (last segment of the AT URI)
   const storageKey = rootUri.split('/').pop() ?? 'live';
 
@@ -93,6 +96,15 @@ export default function LivePoller({ rootUri, authorDid, metadata }: LivePollerP
     return () => { if (pollTimerRef.current) clearInterval(pollTimerRef.current); };
   }, [fetchAndRender]);
 
+  useEffect(() => {
+    if (!initialPostId || jumpedToNotificationRef.current) return;
+    const post = posts.find(post => post.uri.split('/').pop() === initialPostId);
+    if (post) {
+      jumpedToNotificationRef.current = true;
+      scrollToPost(post.uri);
+    }
+  }, [initialPostId, posts]);
+
   // Background session-status check — independent of the Bluesky poll.
   // If the server-side session is ended (e.g. by the cron), stop polling and warn the user.
   useEffect(() => {
@@ -100,9 +112,9 @@ export default function LivePoller({ rootUri, authorDid, metadata }: LivePollerP
       try {
         const r = await fetch('/api/session');
         const session = await r.json();
-        if (!session || session.status === 'ended') {
+        if (!session || session.status === 'ended' || session.rootUri !== rootUri) {
           setCoverageEnded(true);
-          setArchivedSlug(session?.archivedSlug && session.archivedSlug !== '__archiving__'
+          setArchivedSlug(session?.rootUri === rootUri && session?.archivedSlug && session.archivedSlug !== '__archiving__'
             ? session.archivedSlug
             : null);
           // Stop the Bluesky poll — no point continuing
@@ -117,7 +129,7 @@ export default function LivePoller({ rootUri, authorDid, metadata }: LivePollerP
 
     sessionCheckTimerRef.current = setInterval(checkSession, SESSION_CHECK_INTERVAL);
     return () => { if (sessionCheckTimerRef.current) clearInterval(sessionCheckTimerRef.current); };
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [rootUri]);
 
   const postCount = posts.length;
 
@@ -186,6 +198,7 @@ export default function LivePoller({ rootUri, authorDid, metadata }: LivePollerP
       <UnreadBanner count={unreadCount} order={order} onJump={handleJump} onMarkRead={handleMarkRead} />
 
       <main className="max-w-[640px] mx-auto px-4 py-6 pb-12">
+        <PushNotifications rootUri={rootUri} live={!coverageEnded} />
         <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
           <div
             className="flex items-center gap-3 text-[11px] text-chw-tertiary font-mono"

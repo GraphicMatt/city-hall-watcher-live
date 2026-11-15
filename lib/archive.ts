@@ -39,6 +39,7 @@ export async function snapshotSession(session: ActiveSession): Promise<string> {
 
   await setArchivePosts(slug, posts);
   await appendArchiveEntry({
+    rootUri: session.rootUri,
     slug,
     label: generateLabel(rootPostDate),
     startedAt: session.startedAt,
