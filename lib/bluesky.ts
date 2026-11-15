@@ -70,6 +70,7 @@ export interface VoteCard {
 
 export interface BlueskyPostRecord {
   text: string;
+  createdAt?: string;
   facets?: BlueskyFacet[];
   reply?: {
     root: { uri: string };
@@ -187,13 +188,14 @@ export async function fetchHistoricalThread(rootUri: string, authorDid: string):
   return Array.from(allPosts.values()).sort((a, b) => a.indexedAt.localeCompare(b.indexedAt));
 }
 
-export async function fetchThreadPosts(rootUri: string, authorDid: string): Promise<BlueskyPost[]> {
+export async function fetchThreadPosts(rootUri: string, authorDid: string, options?: { signal?: AbortSignal }): Promise<BlueskyPost[]> {
   const posts: BlueskyPost[] = [];
 
   const rootRkey = rootUri.split('/').pop()!;
   const rootUriParam = `at://${authorDid}/app.bsky.feed.post/${rootRkey}`;
   const rootR = await fetch(
-    `https://public.api.bsky.app/xrpc/app.bsky.feed.getPostThread?uri=${encodeURIComponent(rootUriParam)}&depth=0&parentHeight=0`
+    `https://public.api.bsky.app/xrpc/app.bsky.feed.getPostThread?uri=${encodeURIComponent(rootUriParam)}&depth=0&parentHeight=0`,
+    { signal: options?.signal, cache: 'no-store' },
   );
   if (!rootR.ok) throw new Error(`Could not load root post (${rootR.status}): ${await rootR.text()}`);
   const rootData = await rootR.json();
@@ -213,7 +215,7 @@ export async function fetchThreadPosts(rootUri: string, authorDid: string): Prom
     url.searchParams.set('filter', 'posts_with_replies');
     if (cursor) url.searchParams.set('cursor', cursor);
 
-    const r = await fetch(url.toString());
+    const r = await fetch(url.toString(), { signal: options?.signal, cache: 'no-store' });
     if (!r.ok) throw new Error(`Feed fetch failed (${r.status}): ${await r.text()}`);
     const data = await r.json();
 

@@ -16,12 +16,108 @@ export interface ActiveSession {
 }
 
 export interface ArchiveEntry {
+  rootUri?: string;
   slug: string;
   label: string;
   startedAt: string;
   endedAt: string;
   postCount: number;
   metadata?: SessionMetadata;
+}
+
+// Small persistent values used by push delivery. Redis hashes avoid replacing
+// other devices' subscriptions when two readers opt in at the same time.
+interface ExpiringValue<T> { value: T; expiresAt: number | null }
+
+export async function getStoredValue<T>(key: string): Promise<T | null> {
+  if (isKvConfigured()) {
+    const { kv } = await import('@vercel/kv');
+    return kv.get<T>(key);
+  }
+  const raw = storeGet(key);
+  if (!raw) return null;
+  const entry = JSON.parse(raw) as ExpiringValue<T>;
+  return entry.expiresAt !== null && entry.expiresAt <= Date.now() ? null : entry.value;
+}
+
+export async function setStoredValue<T>(key: string, value: T, ttlSeconds?: number): Promise<void> {
+  if (isKvConfigured()) {
+    const { kv } = await import('@vercel/kv');
+    if (ttlSeconds) await kv.set(key, value, { ex: ttlSeconds });
+    else await kv.set(key, value);
+    return;
+  }
+  storeSet(key, JSON.stringify({ value, expiresAt: ttlSeconds ? Date.now() + ttlSeconds * 1000 : null }));
+}
+
+export async function getStoredHash<T>(key: string): Promise<Record<string, T>> {
+  if (isKvConfigured()) {
+    const { kv } = await import('@vercel/kv');
+    return (await kv.hgetall<Record<string, T>>(key)) ?? {};
+  }
+  return (await getStoredValue<Record<string, T>>(key)) ?? {};
+}
+
+export async function getStoredHashField<T>(key: string, field: string): Promise<T | null> {
+  if (isKvConfigured()) {
+    const { kv } = await import('@vercel/kv');
+    return kv.hget<T>(key, field);
+  }
+  return (await getStoredHash<T>(key))[field] ?? null;
+}
+
+export async function setStoredHashField<T>(key: string, field: string, value: T, ttlSeconds?: number): Promise<void> {
+  if (isKvConfigured()) {
+    const { kv } = await import('@vercel/kv');
+    await kv.hset(key, { [field]: value });
+    if (ttlSeconds) await kv.expire(key, ttlSeconds);
+    return;
+  }
+  // Keep the local read/modify/write synchronous, like the existing file store.
+  const raw = storeGet(key);
+  const entry = raw ? JSON.parse(raw) as ExpiringValue<Record<string, T>> : null;
+  const fields = entry && (entry.expiresAt === null || entry.expiresAt > Date.now()) ? entry.value : {};
+  fields[field] = value;
+  storeSet(key, JSON.stringify({ value: fields, expiresAt: ttlSeconds ? Date.now() + ttlSeconds * 1000 : null }));
+}
+
+export async function deleteStoredHashField(key: string, field: string): Promise<void> {
+  if (isKvConfigured()) {
+    const { kv } = await import('@vercel/kv');
+    await kv.hdel(key, field);
+    return;
+  }
+  const raw = storeGet(key);
+  if (!raw) return;
+  const entry = JSON.parse(raw) as ExpiringValue<Record<string, unknown>>;
+  delete entry.value[field];
+  storeSet(key, JSON.stringify(entry));
+}
+
+// Token-owned leases prevent overlapping cron runs and duplicate sends. A
+// compare-and-delete must be atomic so an expired owner's cleanup is harmless.
+export async function acquireLease(key: string, token: string, ttlSeconds: number): Promise<boolean> {
+  if (isKvConfigured()) {
+    const { kv } = await import('@vercel/kv');
+    return (await kv.set(key, token, { nx: true, ex: ttlSeconds })) === 'OK';
+  }
+  const raw = storeGet(key);
+  if (raw) {
+    const entry = JSON.parse(raw) as ExpiringValue<string>;
+    if (entry.expiresAt === null || entry.expiresAt > Date.now()) return false;
+  }
+  storeSet(key, JSON.stringify({ value: token, expiresAt: Date.now() + ttlSeconds * 1000 }));
+  return true;
+}
+
+export async function releaseLease(key: string, token: string): Promise<void> {
+  if (isKvConfigured()) {
+    const { kv } = await import('@vercel/kv');
+    await kv.eval('if redis.call("get", KEYS[1]) == ARGV[1] then return redis.call("del", KEYS[1]) else return 0 end', [key], [token]);
+    return;
+  }
+  const raw = storeGet(key);
+  if (raw && (JSON.parse(raw) as ExpiringValue<string>).value === token) storeDel(key);
 }
 
 const SESSION_KEY = 'session:active';

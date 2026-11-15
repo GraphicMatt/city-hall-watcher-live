@@ -10,6 +10,7 @@ import UnreadBanner from './UnreadBanner';
 import SiteHeader from './SiteHeader';
 import { getLastRead, setLastRead, markAllRead } from '@/lib/lastRead';
 import { scrollToPost } from '@/lib/scroll';
+import PushNotifications from './PushNotifications';
 
 interface AdjacentSession {
   slug: string;
@@ -17,6 +18,7 @@ interface AdjacentSession {
 }
 
 interface ArchiveViewerProps {
+  rootUri?: string;
   posts: BlueskyPost[];
   label: string;
   postCount: number;
@@ -30,7 +32,7 @@ interface ArchiveViewerProps {
 
 const EMPTY_URIS = new Set<string>();
 
-export default function ArchiveViewer({ posts, label, postCount, startedAt, endedAt, slug, metadata, prevSession, nextSession }: ArchiveViewerProps) {
+export default function ArchiveViewer({ posts, label, postCount, startedAt, endedAt, slug, metadata, prevSession, nextSession, rootUri }: ArchiveViewerProps) {
   const [order, setOrder] = useState<SortOrder>('oldest');
   const [lastReadAt, setLastReadAt] = useState<string | null>(null);
   // Frozen snapshot of lastReadAt taken once when the page loads (or after
@@ -127,6 +129,7 @@ export default function ArchiveViewer({ posts, label, postCount, startedAt, ende
       <UnreadBanner count={unreadCount} order={order} onJump={handleJump} onMarkRead={handleMarkRead} />
 
       <main className="max-w-[640px] mx-auto px-4 py-6 pb-12">
+        {rootUri && <PushNotifications rootUri={rootUri} live={false} />}
         {(prevSession || nextSession) && <div className="mb-4">{MeetingNav}</div>}
 
         {/* Session header card */}

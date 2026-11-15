@@ -65,6 +65,7 @@ export default async function ArchivePage({ params }: Props) {
 
   return (
     <ArchiveViewer
+      rootUri={entry?.rootUri}
       posts={posts}
       label={entry?.label ?? slug}
       postCount={posts.length}
