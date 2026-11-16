@@ -4,6 +4,7 @@ import { useRef, useEffect, useMemo } from 'react';
 import type { BlueskyPost, SessionBreak, VideoSegment } from '@/lib/bluesky';
 import { detectBreak } from '@/lib/bluesky';
 import PostCard from './PostCard';
+import { observeLivePostStarts } from '@/lib/postVisibility';
 
 export type SortOrder = 'newest' | 'oldest' | 'most-liked' | 'most-reposted';
 
@@ -15,6 +16,8 @@ interface PostListProps {
   videoSegments?: VideoSegment[];
   firstUnreadUri?: string | null;
   onPostSeen?: (indexedAt: string) => void;
+  liveReadTracking?: boolean;
+  fadedThrough?: string | null;
 }
 
 export default function PostList({
@@ -25,6 +28,8 @@ export default function PostList({
   videoSegments,
   firstUnreadUri,
   onPostSeen,
+  liveReadTracking = false,
+  fadedThrough,
 }: PostListProps) {
   const listRef = useRef<HTMLDivElement>(null);
   // Keep the callback in a ref so the observer never goes stale
@@ -38,6 +43,7 @@ export default function PostList({
     if (order === 'most-reposted') return arr.sort((a, b) => (b.repostCount ?? 0) - (a.repostCount ?? 0));
     return arr.sort((a, b) => b.indexedAt.localeCompare(a.indexedAt)); // newest
   }, [posts, order]);
+  const postOrderKey = sorted.map(post => post.uri).join('\n');
 
   // Lunch/day break markers — only meaningful when adjacent posts in the
   // displayed order are also adjacent in time (chronological orders only).
@@ -66,6 +72,9 @@ export default function PostList({
   // Observe every post wrapper; fire onPostSeen when it enters the viewport.
   useEffect(() => {
     if (!listRef.current || !onPostSeenRef.current) return;
+    if (liveReadTracking) {
+      return observeLivePostStarts(listRef.current, timestamp => onPostSeenRef.current?.(timestamp));
+    }
     const observer = new IntersectionObserver(
       entries => {
         entries.forEach(entry => {
@@ -79,7 +88,7 @@ export default function PostList({
     );
     listRef.current.querySelectorAll('[data-indexed-at]').forEach(el => observer.observe(el));
     return () => observer.disconnect();
-  }, [sorted]); // reconnect whenever the post list changes
+  }, [postOrderKey, liveReadTracking]);
 
   if (!posts.length) {
     return (
@@ -95,7 +104,7 @@ export default function PostList({
         const showDivider = order === 'oldest' && firstUnreadUri === post.uri;
         const breakType = breakMarkers.get(post.uri);
         return (
-          <div key={post.uri} id={`post-${post.uri.split('/').pop()}`} data-indexed-at={post.indexedAt} data-post-uri={post.uri} className="scroll-mt-16">
+          <div key={post.uri} id={`post-${post.uri.split('/').pop()}`} data-indexed-at={post.indexedAt} data-post-uri={post.uri} className={liveReadTracking ? 'scroll-mt-24' : 'scroll-mt-16'}>
             {breakType && (
               <div className="flex items-center gap-3 py-2">
                 <div className="flex-1 h-px bg-border" />
@@ -116,7 +125,8 @@ export default function PostList({
             )}
             <PostCard
               post={post}
-              isNew={newUris.has(post.uri)}
+              isNew={newUris.has(post.uri) && !(fadedThrough && post.indexedAt <= fadedThrough)}
+              isRead={!!fadedThrough && post.indexedAt <= fadedThrough}
               slug={slug}
               videoSegments={videoSegments}
             />

@@ -3,7 +3,11 @@
 // the layout. Without this, clicking "X new posts" while images are still
 // loading can leave the target post scrolled out of view once those images
 // pop in and push everything below them down the page.
-export function scrollToPost(uri: string): void {
+export function scrollToPost(uri: string, options: {
+  block?: ScrollLogicalPosition;
+  behavior?: ScrollBehavior;
+  preferUnreadMarker?: boolean;
+} = {}): () => void {
   const els = document.querySelectorAll<HTMLElement>('[data-post-uri]');
   let target: HTMLElement | null = null;
   for (const el of els) {
@@ -12,15 +16,17 @@ export function scrollToPost(uri: string): void {
       break;
     }
   }
-  if (!target) return;
+  if (!target) return () => {};
 
   // If this post has a "New" divider above it, center on the divider itself
   // rather than the whole post container — otherwise a tall image attachment
   // pushes the divider (and the post text) below the fold even though the
   // container is "centered".
-  const targetEl: HTMLElement = target.querySelector<HTMLElement>('[data-unread-marker]') ?? target;
+  const targetEl: HTMLElement = options.preferUnreadMarker === false
+    ? target : target.querySelector<HTMLElement>('[data-unread-marker]') ?? target;
+  const block = options.block ?? 'center';
 
-  targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  targetEl.scrollIntoView({ behavior: options.behavior ?? 'smooth', block });
 
   // Re-correct for images above the target that load after the initial
   // scroll. Use an instant (non-smooth) re-scroll so corrections don't fight
@@ -32,12 +38,12 @@ export function scrollToPost(uri: string): void {
   const imagesAbove = Array.from(document.querySelectorAll('img'))
     .filter(img => !img.complete && isAbove(img));
 
-  if (!imagesAbove.length) return;
+  if (!imagesAbove.length) return () => {};
 
   let pending = imagesAbove.length;
   const correct = () => {
     pending -= 1;
-    targetEl.scrollIntoView({ behavior: 'auto', block: 'center' });
+    targetEl.scrollIntoView({ behavior: 'auto', block });
     if (pending <= 0) cleanup();
   };
 
@@ -56,4 +62,5 @@ export function scrollToPost(uri: string): void {
 
   // Safety net in case some images never fire load/error.
   const timeout = setTimeout(cleanup, 4000);
+  return cleanup;
 }

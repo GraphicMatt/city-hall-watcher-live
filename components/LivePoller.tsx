@@ -10,8 +10,10 @@ import PostList from './PostList';
 import type { SortOrder } from './PostList';
 import MetadataBar from './MetadataBar';
 import UnreadBanner from './UnreadBanner';
-import { getLastRead, setLastRead, markAllRead } from '@/lib/lastRead';
+import { setLastRead, markAllRead } from '@/lib/lastRead';
 import { scrollToPost } from '@/lib/scroll';
+import { beginLiveVisit } from '@/lib/liveVisit';
+import { prepareReturnScroll } from '@/lib/returnScroll';
 
 const POLL_INTERVAL = 45_000;
 const SESSION_CHECK_INTERVAL = 5 * 60_000; // 5 minutes
@@ -28,29 +30,36 @@ export default function LivePoller({ rootUri, authorDid, metadata }: LivePollerP
   const [newUris, setNewUris] = useState<Set<string>>(new Set());
   const [lastUpdated, setLastUpdated] = useState('');
   const [order, setOrder] = useState<SortOrder>('newest');
-  const [lastReadAt, setLastReadAt] = useState<string | null>(null);
-  // Frozen snapshot of lastReadAt taken once when the page loads (or after
+  // Frozen read cutoff taken once when the page loads (or after
   // "Mark read"). Drives the "New" divider and the unread count so they don't
   // creep forward and cause a jumpy re-scroll as the reader scrolls past
   // each post — only a fresh page load or explicit "Mark read" moves it.
   const [baselineReadAt, setBaselineReadAt] = useState<string | null>(null);
+  const [fadedThrough, setFadedThrough] = useState<string | null>(null);
+  const [visitRevision, setVisitRevision] = useState(0);
   const [coverageEnded, setCoverageEnded] = useState(false);
   const [archivedSlug, setArchivedSlug] = useState<string | null>(null);
 
   const knownUrisRef = useRef<Set<string>>(new Set());
-  const isFirstLoadRef = useRef(true);
+  const initialVisitRef = useRef<ReturnType<typeof beginLiveVisit> | null>(null);
+  const visitRef = useRef<{
+    readAt: string | null;
+    returning: boolean;
+    firstLoad: boolean;
+    scroll: ReturnType<typeof prepareReturnScroll>;
+  } | null>(null);
   const pollTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const sessionCheckTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  // Storage key = rkey of the root post (last segment of the AT URI)
-  const storageKey = rootUri.split('/').pop() ?? 'live';
 
   const fetchAndRender = useCallback(async () => {
+    const visit = visitRef.current;
+    if (!visit) return;
     try {
       const fetched = await fetchThreadPosts(rootUri, authorDid);
-      const isFirstLoad = isFirstLoadRef.current;
+      if (visitRef.current !== visit) return;
+      const isFirstLoad = visit.firstLoad;
       const newOnes = fetched.filter(p => !knownUrisRef.current.has(p.uri));
       newOnes.forEach(p => knownUrisRef.current.add(p.uri));
-      isFirstLoadRef.current = false;
 
       setPosts(fetched);
       setStatus('live');
@@ -60,20 +69,17 @@ export default function LivePoller({ rootUri, authorDid, metadata }: LivePollerP
       if (!isFirstLoad && newOnes.length > 0) {
         setNewUris(new Set(newOnes.map(p => p.uri)));
       }
-      // On first successful load: establish baseline so the banner only shows *new* arrivals.
+      // Freeze the previous visit's qualified position. A first visit has no
+      // faded posts and must not save progress merely because posts loaded.
       if (isFirstLoad && fetched.length > 0) {
-        const stored = getLastRead(storageKey);
-        if (!stored) {
-          const newest = fetched.reduce((a, b) => (a.indexedAt > b.indexedAt ? a : b));
-          setLastRead(storageKey, newest.indexedAt);
-          setLastReadAt(newest.indexedAt);
-          setBaselineReadAt(newest.indexedAt);
-        } else {
-          setLastReadAt(stored);
-          setBaselineReadAt(stored);
-        }
+        visit.firstLoad = false;
+        const newest = fetched.reduce((a, b) => (a.indexedAt > b.indexedAt ? a : b));
+        setBaselineReadAt(visit.readAt ?? newest.indexedAt);
+        setFadedThrough(visit.readAt);
+        setVisitRevision(revision => revision + 1);
       }
     } catch (e) {
+      if (visitRef.current !== visit) return;
       setStatus('error');
       console.error(e);
     }
@@ -88,10 +94,38 @@ export default function LivePoller({ rootUri, authorDid, metadata }: LivePollerP
   }, [newUris]);
 
   useEffect(() => {
-    fetchAndRender();
+    function startVisit() {
+      visitRef.current?.scroll.dispose();
+      // React Strict Mode repeats effect setup during development. Preserve
+      // the original snapshot so that repeat does not become a return visit.
+      initialVisitRef.current ??= beginLiveVisit(rootUri);
+      visitRef.current = { ...initialVisitRef.current, firstLoad: true, scroll: prepareReturnScroll() };
+      knownUrisRef.current.clear();
+      void fetchAndRender();
+    }
+    function restored(event: PageTransitionEvent) {
+      // Browser Back can restore the existing document without remounting
+      // React. It is a new visit, unlike switching to an already-open tab.
+      if (event.persisted) {
+        initialVisitRef.current = null;
+        startVisit();
+      }
+    }
+    startVisit();
+    window.addEventListener('pageshow', restored);
     pollTimerRef.current = setInterval(fetchAndRender, POLL_INTERVAL);
-    return () => { if (pollTimerRef.current) clearInterval(pollTimerRef.current); };
-  }, [fetchAndRender]);
+    return () => {
+      if (pollTimerRef.current) clearInterval(pollTimerRef.current);
+      window.removeEventListener('pageshow', restored);
+      visitRef.current?.scroll.dispose();
+      visitRef.current = null;
+    };
+  }, [fetchAndRender, rootUri]);
+
+  useEffect(() => {
+    const visit = visitRef.current;
+    if (visit && !visit.firstLoad && !coverageEnded) visit.scroll.restore(posts, visit.returning);
+  }, [posts, coverageEnded, visitRevision]);
 
   // Background session-status check — independent of the Bluesky poll.
   // If the server-side session is ended (e.g. by the cron), stop polling and warn the user.
@@ -100,9 +134,9 @@ export default function LivePoller({ rootUri, authorDid, metadata }: LivePollerP
       try {
         const r = await fetch('/api/session');
         const session = await r.json();
-        if (!session || session.status === 'ended') {
+        if (!session || session.status === 'ended' || session.rootUri !== rootUri) {
           setCoverageEnded(true);
-          setArchivedSlug(session?.archivedSlug && session.archivedSlug !== '__archiving__'
+          setArchivedSlug(session?.rootUri === rootUri && session?.archivedSlug && session.archivedSlug !== '__archiving__'
             ? session.archivedSlug
             : null);
           // Stop the Bluesky poll — no point continuing
@@ -117,7 +151,7 @@ export default function LivePoller({ rootUri, authorDid, metadata }: LivePollerP
 
     sessionCheckTimerRef.current = setInterval(checkSession, SESSION_CHECK_INTERVAL);
     return () => { if (sessionCheckTimerRef.current) clearInterval(sessionCheckTimerRef.current); };
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [rootUri]);
 
   const postCount = posts.length;
 
@@ -134,14 +168,8 @@ export default function LivePoller({ rootUri, authorDid, metadata }: LivePollerP
     : null;
 
   const handlePostSeen = useCallback((indexedAt: string) => {
-    setLastReadAt(prev => {
-      if (!prev || indexedAt > prev) {
-        setLastRead(storageKey, indexedAt);
-        return indexedAt;
-      }
-      return prev;
-    });
-  }, [storageKey]);
+    setLastRead(rootUri, indexedAt);
+  }, [rootUri]);
 
   function handleJump() {
     if (order !== 'oldest') {
@@ -152,10 +180,11 @@ export default function LivePoller({ rootUri, authorDid, metadata }: LivePollerP
   }
 
   function handleMarkRead() {
-    markAllRead(storageKey, posts);
+    if (!posts.length) return;
+    markAllRead(rootUri, posts);
     const newest = posts.reduce((a, b) => (a.indexedAt > b.indexedAt ? a : b), posts[0]!);
-    setLastReadAt(newest.indexedAt);
     setBaselineReadAt(newest.indexedAt);
+    setFadedThrough(newest.indexedAt);
   }
 
   return (
@@ -211,7 +240,9 @@ export default function LivePoller({ rootUri, authorDid, metadata }: LivePollerP
           order={order}
           videoSegments={metadata?.videoSegments}
           firstUnreadUri={firstUnreadUri}
-          onPostSeen={handlePostSeen}
+          onPostSeen={coverageEnded ? undefined : handlePostSeen}
+          liveReadTracking={!coverageEnded}
+          fadedThrough={fadedThrough}
         />
       </main>
     </>
