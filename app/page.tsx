@@ -117,7 +117,7 @@ export default async function Home() {
   const session = await getActiveSession();
 
   if (session?.status === 'live') {
-    return <LivePoller rootUri={session.rootUri} authorDid={session.authorDid} metadata={session.metadata} />;
+    return <LivePoller key={session.rootUri} rootUri={session.rootUri} authorDid={session.authorDid} metadata={session.metadata} />;
   }
 
   const index = await getArchiveIndex();

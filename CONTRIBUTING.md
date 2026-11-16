@@ -24,10 +24,10 @@ as agents.
 `public.api.bsky.app`. Please keep it that way: the app should never need to log
 in or hold a token.
 
-**There are no tests yet.** This is the most obvious gap, and adding coverage
-for the pure logic in `lib/` — `voteMatching.ts`, `twitter.ts`,
-`councilDates.ts`, `quotes.ts` — would be a very welcome first contribution.
-Verify changes by running the dev server and exercising the affected page.
+**Run `npm test` for automated checks.** Tests cover live reading positions,
+visibility timers and return scrolling. Coverage for the pure logic in `lib/`
+— `voteMatching.ts`, `twitter.ts`, `councilDates.ts`, `quotes.ts` — is still a
+welcome contribution. Also run the dev server and exercise the affected page.
 
 **Run the linter** before opening a pull request:
 

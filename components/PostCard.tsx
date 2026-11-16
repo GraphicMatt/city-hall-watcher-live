@@ -8,6 +8,7 @@ import VoteCard from './VoteCard';
 interface PostCardProps {
   post: BlueskyPost;
   isNew: boolean;
+  isRead?: boolean;
   slug?: string;
   videoSegments?: VideoSegment[];
 }
@@ -171,7 +172,7 @@ function linkifyText(post: BlueskyPost): React.ReactNode[] {
   return nodes;
 }
 
-export default function PostCard({ post, isNew, slug, videoSegments }: PostCardProps) {
+export default function PostCard({ post, isNew, isRead = false, slug, videoSegments }: PostCardProps) {
   const images = getImages(post);
   const video = getVideo(post);
   const postId = post.uri.split('/').pop();
@@ -187,14 +188,20 @@ export default function PostCard({ post, isNew, slug, videoSegments }: PostCardP
 
   return (
     <div
-      className={`post-card ${isNew ? 'post-card-flash' : ''}`}
+      className={`post-card ${isRead ? 'post-card-read' : ''} ${isNew ? 'post-card-flash' : ''}`}
       style={{
-        background: isNew ? undefined : 'var(--card)',
+        position: 'relative',
+        background: isNew ? undefined : isRead ? 'var(--read-card)' : 'var(--card)',
         borderRadius: '12px',
         padding: '18px 20px 14px 20px',
         boxShadow: 'var(--card-shadow)',
       }}
     >
+      <span
+        data-post-start={post.indexedAt} aria-hidden="true"
+        className="absolute top-[18px] left-5 right-5 h-10 pointer-events-none"
+      />
+      {isRead && <span className="sr-only">Earlier coverage. </span>}
       {retweet ? (
         <>
           {retweet.lead.length > 0 && (

@@ -2,15 +2,25 @@ const PREFIX = 'chw-lastread-';
 
 export function getLastRead(key: string): string | null {
   if (typeof window === 'undefined') return null;
-  return localStorage.getItem(PREFIX + key);
+  try {
+    const value = localStorage.getItem(PREFIX + key);
+    return value && Number.isFinite(Date.parse(value)) ? value : null;
+  } catch {
+    return null;
+  }
 }
 
 // Only updates if the new timestamp is strictly newer than what's stored.
 export function setLastRead(key: string, indexedAt: string): void {
   if (typeof window === 'undefined') return;
-  const current = localStorage.getItem(PREFIX + key);
-  if (!current || indexedAt > current) {
-    localStorage.setItem(PREFIX + key, indexedAt);
+  if (!Number.isFinite(Date.parse(indexedAt))) return;
+  try {
+    const current = getLastRead(key);
+    if (!current || Date.parse(indexedAt) > Date.parse(current)) {
+      localStorage.setItem(PREFIX + key, indexedAt);
+    }
+  } catch {
+    // Reading coverage must still work when browser storage is unavailable.
   }
 }
 
