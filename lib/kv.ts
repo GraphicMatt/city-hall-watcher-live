@@ -255,6 +255,73 @@ export async function deleteArchiveEntry(slug: string): Promise<void> {
   storeDel(postsKey);
 }
 
+// --- Special threads ---
+//
+// Non-council threads (e.g. /special/councillor-history). Kept under their own
+// keys, separate from archive:index, so nothing that walks the council archive
+// (home page, /archive, search, quotes, migrations, prev/next nav) ever sees
+// them. They are reachable only by direct URL.
+
+export interface SpecialEntry {
+  slug: string;
+  title: string;
+  description?: string;
+  rootUrl: string;
+  importedAt: string;
+  postCount: number;
+}
+
+const SPECIAL_INDEX_KEY = 'special:index';
+
+async function kvGetJson<T>(key: string): Promise<T | null> {
+  if (isKvConfigured()) {
+    const { kv } = await import('@vercel/kv');
+    return kv.get<T>(key);
+  }
+  const raw = storeGet(key);
+  return raw ? (JSON.parse(raw) as T) : null;
+}
+
+async function kvSetJson(key: string, value: unknown): Promise<void> {
+  if (isKvConfigured()) {
+    const { kv } = await import('@vercel/kv');
+    await kv.set(key, JSON.stringify(value));
+    return;
+  }
+  storeSet(key, JSON.stringify(value));
+}
+
+export async function getSpecialIndex(): Promise<SpecialEntry[]> {
+  return (await kvGetJson<SpecialEntry[]>(SPECIAL_INDEX_KEY)) ?? [];
+}
+
+export async function getSpecialEntry(slug: string): Promise<SpecialEntry | null> {
+  return (await getSpecialIndex()).find(e => e.slug === slug) ?? null;
+}
+
+export async function getSpecialPosts(slug: string): Promise<BlueskyPost[] | null> {
+  return kvGetJson<BlueskyPost[]>(`special:posts:${slug}`);
+}
+
+// Saves the posts and inserts or replaces the index entry with this slug.
+export async function saveSpecialThread(entry: SpecialEntry, posts: BlueskyPost[]): Promise<void> {
+  await kvSetJson(`special:posts:${entry.slug}`, posts);
+  const index = await getSpecialIndex();
+  await kvSetJson(SPECIAL_INDEX_KEY, [entry, ...index.filter(e => e.slug !== entry.slug)]);
+}
+
+export async function deleteSpecialThread(slug: string): Promise<void> {
+  const index = await getSpecialIndex();
+  await kvSetJson(SPECIAL_INDEX_KEY, index.filter(e => e.slug !== slug));
+  const key = `special:posts:${slug}`;
+  if (isKvConfigured()) {
+    const { kv } = await import('@vercel/kv');
+    await kv.del(key);
+    return;
+  }
+  storeDel(key);
+}
+
 // --- Expiring counters (used for login rate limiting) ---
 
 interface LocalCounter {

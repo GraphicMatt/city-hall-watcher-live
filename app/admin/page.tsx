@@ -9,6 +9,7 @@ import type { BitlyLinkInfo } from '@/lib/linkExpansion';
 import type { OldImageLinkInfo } from '@/lib/twitpic';
 import MetadataEditor from '@/components/MetadataEditor';
 import AdminPastSessions from '@/components/AdminPastSessions';
+import AdminSpecialThreads from '@/components/AdminSpecialThreads';
 
 interface CandidateThread {
   rootUri: string;
@@ -796,6 +797,9 @@ export default function AdminPage() {
             onDelete={slug => setArchiveIndex(idx => idx.filter(e => e.slug !== slug))}
           />
         )}
+
+        {/* Special (non-council) threads */}
+        <AdminSpecialThreads />
 
         {/* Import Bluesky History */}
         <div className="bg-white dark:bg-[#1a1a1a] border border-[#e0e0d8] dark:border-[#2a2a2a] rounded-xl p-5">

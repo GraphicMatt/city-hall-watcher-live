@@ -26,11 +26,13 @@ interface ArchiveViewerProps {
   metadata?: SessionMetadata;
   prevSession?: AdjacentSession | null;
   nextSession?: AdjacentSession | null;
+  // Optional blurb under the title (used by special threads).
+  description?: string;
 }
 
 const EMPTY_URIS = new Set<string>();
 
-export default function ArchiveViewer({ posts, label, postCount, startedAt, endedAt, slug, metadata, prevSession, nextSession }: ArchiveViewerProps) {
+export default function ArchiveViewer({ posts, label, postCount, startedAt, endedAt, slug, metadata, prevSession, nextSession, description }: ArchiveViewerProps) {
   const [order, setOrder] = useState<SortOrder>('oldest');
   const [lastReadAt, setLastReadAt] = useState<string | null>(null);
   // Frozen snapshot of lastReadAt taken once when the page loads (or after
@@ -154,6 +156,11 @@ export default function ArchiveViewer({ posts, label, postCount, startedAt, ende
           >
             {title}
           </h1>
+          {description && (
+            <p style={{ fontSize: '14px', fontWeight: 400, color: 'var(--text-secondary)', marginTop: '6px', lineHeight: 1.45 }}>
+              {description}
+            </p>
+          )}
           {dateRangeStr && (
             <p style={{ fontSize: '13px', fontWeight: 500, color: 'var(--text-secondary)', marginTop: '2px' }}>
               {dateRangeStr}
