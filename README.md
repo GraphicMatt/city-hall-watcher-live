@@ -80,6 +80,13 @@ never logs in, and holds no Bluesky token. It only ever reads.
 4. Clicking **End coverage** calls `snapshotSession()`, which writes the posts to `archive:posts:{slug}` and prepends an entry to `archive:index`.
 5. A cron job at `/api/cron/archive` catches sessions left live by mistake.
 
+During live coverage, the site remembers the newest post whose beginning stays
+visible for three seconds in the active tab. On a return visit, it mutes that
+post and earlier coverage, then scrolls to the latest post. Direct post links
+take priority, and manual scrolling cancels the automatic jump. Progress stays
+on the same browser and applies to one Bluesky thread. See
+[live reading positions](docs/live-reading-position.md) for the full behavior.
+
 Archives are snapshots by design. Once captured, the content no longer depends
 on the post still existing upstream.
 

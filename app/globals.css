@@ -16,6 +16,8 @@
   --card:            rgb(255, 255, 255);
   --card-border:     rgb(228, 225, 215);
   --card-shadow:     rgba(20, 20, 15, 0.04) 0px 1px 2px 0px;
+  --read-card:       #f5f4ef;
+  --read-text:       #626057;
 
   /* Pale-blue chip text colors (e.g. "Next meeting") */
   --pale-blue-text:       rgb(39, 68, 144);
@@ -50,6 +52,8 @@
     --card:            #1c1a16;
     --card-border:     #322f29;
     --card-shadow:     none;
+    --read-card:       #181712;
+    --read-text:       #a09e94;
 
     /* Lighter blue tones so chip text stays legible on the dark pale-blue chip */
     --pale-blue-text:       rgb(141, 174, 247);
@@ -124,4 +128,10 @@ body {
 .post-card-flash {
   background-color: var(--bg-pale-blue) !important;
   transition: none !important;
+}
+
+/* Static read styling: keep readable text, full-strength links and media. */
+.post-card-read {
+  --text: var(--read-text);
+  transition: none;
 }
