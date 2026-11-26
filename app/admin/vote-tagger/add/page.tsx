@@ -7,8 +7,7 @@ import type { BlueskyPost, VoteCard as VoteCardData } from '@/lib/bluesky';
 import type { MinutesVote } from '@/lib/bluesky';
 import type { VoteTaggerRow } from '@/app/api/admin/vote-tagger/route';
 import VoteCard from '@/components/VoteCard';
-
-type AdminState = 'checking' | 'login' | 'admin';
+import AdminShell from '@/components/AdminShell';
 
 const PROCEDURAL_RE = /\b(extend|recess|adjourn|waive|dispense|refer|defer|postpone|table)\b/i;
 
@@ -36,11 +35,14 @@ function voteLabel(v: MinutesVote): string {
 }
 
 export default function ManualVoteTaggerPage() {
-  const [adminState, setAdminState] = useState<AdminState>('checking');
-  const [password, setPassword] = useState('');
-  const [loginError, setLoginError] = useState('');
-  const [loginLoading, setLoginLoading] = useState(false);
+  return (
+    <AdminShell width="wide">
+      <ManualVoteTagger />
+    </AdminShell>
+  );
+}
 
+function ManualVoteTagger() {
   // Session + post lookup
   const [sessions, setSessions] = useState<VoteTaggerRow[]>([]);
   const [sessionSlug, setSessionSlug] = useState('');
@@ -65,40 +67,10 @@ export default function ManualVoteTaggerPage() {
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
-    fetch('/api/auth')
-      .then(r => {
-        if (r.ok) { setAdminState('admin'); loadSessions(); }
-        else setAdminState('login');
-      })
-      .catch(() => setAdminState('login'));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    fetch('/api/admin/vote-tagger')
+      .then(r => (r.ok ? r.json() : null))
+      .then(data => { if (data) setSessions(data.sessions ?? []); });
   }, []);
-
-  async function loadSessions() {
-    const r = await fetch('/api/admin/vote-tagger');
-    if (r.ok) {
-      const d = await r.json();
-      setSessions(d.sessions ?? []);
-    }
-  }
-
-  async function handleLogin(e: React.FormEvent) {
-    e.preventDefault();
-    setLoginLoading(true);
-    setLoginError('');
-    try {
-      const r = await fetch('/api/auth', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password }),
-      });
-      if (!r.ok) { setLoginError(r.status === 429 ? 'Too many failed attempts — try again in 15 minutes.' : 'Incorrect password.'); return; }
-      setPassword('');
-      setAdminState('admin');
-      await loadSessions();
-    } catch { setLoginError('Something went wrong.'); }
-    finally { setLoginLoading(false); }
-  }
 
   async function handleLoadPost(e: React.FormEvent) {
     e.preventDefault();
@@ -186,32 +158,8 @@ export default function ManualVoteTaggerPage() {
   const selectedVote = meetingVotes.find(v => v.id === selectedVoteId) ?? null;
   const sessionsWithFiles = sessions.filter(s => s.hasFile || s.hasDbVotes);
 
-  if (adminState === 'checking') {
-    return <div className="min-h-screen flex items-center justify-center"><p className="text-sm text-chw-tertiary">Loading…</p></div>;
-  }
-
-  if (adminState === 'login') {
-    return (
-      <div className="min-h-screen flex items-center justify-center px-4" style={{ background: 'var(--bg)' }}>
-        <div className="w-full max-w-sm bg-card border border-card-border rounded-xl p-8">
-          <h1 className="text-sm font-semibold text-chw-text mb-1">CHW Live Admin</h1>
-          <p className="text-xs text-chw-tertiary mb-6">Enter your password to continue.</p>
-          <form onSubmit={handleLogin} className="flex flex-col gap-3">
-            <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" autoFocus
-              className="text-sm px-3 py-2 border border-border rounded-lg bg-bg text-chw-text placeholder-chw-tertiary outline-none focus:border-chw-secondary transition-colors" />
-            {loginError && <p className="text-xs text-vote-lost">{loginError}</p>}
-            <button type="submit" disabled={loginLoading}
-              className="text-sm font-medium py-2 rounded-lg bg-chw-text text-bg hover:opacity-90 transition-opacity disabled:opacity-50">
-              {loginLoading ? 'Signing in…' : 'Sign in'}
-            </button>
-          </form>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="max-w-2xl mx-auto px-4 py-8">
+    <div className="max-w-2xl">
       <div className="flex items-center gap-3 mb-6">
         <Link href="/admin/vote-tagger" className="text-sm text-chw-tertiary hover:text-chw-secondary transition-colors">← Vote tagger</Link>
         <span className="text-chw-tertiary">/</span>

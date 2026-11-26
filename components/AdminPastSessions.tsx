@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
+import Link from 'next/link';
 import type { ArchiveEntry } from '@/lib/kv';
 import type { SessionMetadata } from '@/lib/bluesky';
 import MetadataEditor from './MetadataEditor';
@@ -34,9 +35,11 @@ interface Props {
   entries: ArchiveEntry[];
   onMetaSaved: (slug: string, updated: SessionMetadata) => void;
   onDelete: (slug: string) => void;
+  /** Show only the newest N threads, without filters, plus a link to the full list. */
+  limit?: number;
 }
 
-export default function AdminPastSessions({ entries, onMetaSaved, onDelete }: Props) {
+export default function AdminPastSessions({ entries, onMetaSaved, onDelete, limit }: Props) {
   const [sort, setSort] = useState<SortOrder>('newest');
   const [yearFilter, setYearFilter] = useState('');
   const [termFilter, setTermFilter] = useState('');
@@ -67,23 +70,26 @@ export default function AdminPastSessions({ entries, onMetaSaved, onDelete }: Pr
 
   const filtered = useMemo(() => {
     let result = [...entries];
+    if (limit) {
+      return result.sort((a, b) => b.startedAt.localeCompare(a.startedAt)).slice(0, limit);
+    }
     if (termFilter) result = result.filter(e => getTerm(getYear(e.startedAt)) === termFilter);
     if (yearFilter) result = result.filter(e => getYear(e.startedAt) === parseInt(yearFilter, 10));
     if (sort === 'newest') result.sort((a, b) => b.startedAt.localeCompare(a.startedAt));
     else if (sort === 'oldest') result.sort((a, b) => a.startedAt.localeCompare(b.startedAt));
     else result.sort((a, b) => b.postCount - a.postCount);
     return result;
-  }, [entries, sort, yearFilter, termFilter]);
+  }, [entries, sort, yearFilter, termFilter, limit]);
 
   const grouped = useMemo<Map<number, ArchiveEntry[]> | null>(() => {
-    if (sort === 'most-posts') return null;
+    if (limit || sort === 'most-posts') return null;
     const map = new Map<number, ArchiveEntry[]>();
     for (const e of filtered) {
       const y = getYear(e.startedAt);
       map.set(y, [...(map.get(y) ?? []), e]);
     }
     return map;
-  }, [filtered, sort]);
+  }, [filtered, sort, limit]);
 
   const sortedGroupKeys = grouped
     ? Array.from(grouped.keys()).sort((a, b) => sort === 'oldest' ? a - b : b - a)
@@ -217,12 +223,14 @@ export default function AdminPastSessions({ entries, onMetaSaved, onDelete }: Pr
       {/* Header + controls */}
       <div className="flex items-center justify-between gap-3 mb-4 flex-wrap">
         <p className="text-xs font-medium text-[#888] uppercase tracking-wide">
-          Past sessions
-          <span className="ml-2 font-normal normal-case tracking-normal text-[#bbb] dark:text-[#444]">
-            ({filtered.length}{filtered.length !== entries.length ? ` of ${entries.length}` : ''})
-          </span>
+          {limit ? 'Recent threads' : 'All threads'}
+          {!limit && (
+            <span className="ml-2 font-normal normal-case tracking-normal text-[#bbb] dark:text-[#444]">
+              ({filtered.length}{filtered.length !== entries.length ? ` of ${entries.length}` : ''})
+            </span>
+          )}
         </p>
-        <div className="flex items-center gap-2 flex-wrap">
+        {!limit && <div className="flex items-center gap-2 flex-wrap">
           {terms.length > 1 && (
             <select value={termFilter} onChange={e => handleTermChange(e.target.value)} className={SELECT_CLASS}>
               <option value="">All terms</option>
@@ -238,7 +246,7 @@ export default function AdminPastSessions({ entries, onMetaSaved, onDelete }: Pr
             <option value="oldest">Oldest</option>
             <option value="most-posts">Most posts</option>
           </select>
-        </div>
+        </div>}
       </div>
 
       {filtered.length === 0 && (
@@ -262,6 +270,15 @@ export default function AdminPastSessions({ entries, onMetaSaved, onDelete }: Pr
 
       {/* Flat layout for most-posts sort */}
       {!grouped && filtered.map(renderEntry)}
+
+      {limit && entries.length > limit && (
+        <Link
+          href="/admin/threads"
+          className="block mt-3 pt-3 border-t border-[#f0f0ea] dark:border-[#222] text-xs text-[#1a6bbf] dark:text-[#5a9fd4] hover:underline"
+        >
+          See all {entries.length} threads →
+        </Link>
+      )}
     </div>
   );
 }
