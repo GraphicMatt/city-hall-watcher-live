@@ -3,8 +3,10 @@ import {
   getArchiveIndex,
   appendArchiveEntry,
   setArchivePosts,
+  appendQuoteCandidates,
   type ActiveSession,
 } from './kv';
+import { extractQuoteCandidates } from './quotes';
 
 const MONTH_NAMES = [
   'January', 'February', 'March', 'April', 'May', 'June',
@@ -46,6 +48,10 @@ export async function snapshotSession(session: ActiveSession): Promise<string> {
     postCount: posts.length,
     metadata: session.metadata,
   });
+
+  // Keep the home page's random-quote index current for live-archived sessions
+  // (mirrors importToArchive), so a manual rebuild isn't needed after each meeting.
+  await appendQuoteCandidates(extractQuoteCandidates(posts, slug));
 
   return slug;
 }
