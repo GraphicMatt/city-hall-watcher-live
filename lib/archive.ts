@@ -7,6 +7,7 @@ import {
   type ActiveSession,
 } from './kv';
 import { extractQuoteCandidates } from './quotes';
+import type { BlueskyPost } from './bluesky';
 
 const MONTH_NAMES = [
   'January', 'February', 'March', 'April', 'May', 'June',
@@ -21,6 +22,14 @@ export function generateSlug(date: Date): string {
 export function generateLabel(date: Date): string {
   const month = MONTH_NAMES[date.getMonth()];
   return `${month} ${date.getDate()}, ${date.getFullYear()}`;
+}
+
+// Earliest and latest post timestamps in a thread — the source of truth for an
+// archive entry's startedAt/endedAt (which drive the date shown on /archive and
+// the sort order). Returns null for an empty thread.
+export function postTimeRange(posts: BlueskyPost[]): { first: string; last: string } | null {
+  const times = posts.map(p => p.indexedAt).filter(Boolean).sort();
+  return times.length ? { first: times[0]!, last: times[times.length - 1]! } : null;
 }
 
 export async function snapshotSession(session: ActiveSession): Promise<string> {
@@ -39,12 +48,17 @@ export async function snapshotSession(session: ActiveSession): Promise<string> {
     slug = `${baseSlug}-${counter++}`;
   }
 
+  // Dates come from the posts, not from when Go live / archive was clicked —
+  // otherwise archiving an old thread via the live flow stamps it with today's date.
+  const range = postTimeRange(posts);
+  const now = new Date().toISOString();
+
   await setArchivePosts(slug, posts);
   await appendArchiveEntry({
     slug,
     label: generateLabel(rootPostDate),
-    startedAt: session.startedAt,
-    endedAt: new Date().toISOString(),
+    startedAt: range?.first ?? session.startedAt,
+    endedAt: range?.last ?? now,
     postCount: posts.length,
     metadata: session.metadata,
   });

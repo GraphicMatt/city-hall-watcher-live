@@ -106,6 +106,15 @@ export async function getArchiveIndex(): Promise<ArchiveEntry[]> {
   return raw ? (JSON.parse(raw) as ArchiveEntry[]) : [];
 }
 
+export async function setArchiveIndex(index: ArchiveEntry[]): Promise<void> {
+  if (isKvConfigured()) {
+    const { kv } = await import('@vercel/kv');
+    await kv.set(ARCHIVE_INDEX_KEY, JSON.stringify(index));
+    return;
+  }
+  storeSet(ARCHIVE_INDEX_KEY, JSON.stringify(index));
+}
+
 export async function appendArchiveEntry(entry: ArchiveEntry): Promise<void> {
   const index = await getArchiveIndex();
   // Deduplicate by slug — if a concurrent write already added this slug, replace it rather than appending
