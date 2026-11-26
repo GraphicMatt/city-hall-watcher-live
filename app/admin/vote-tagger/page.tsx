@@ -3,8 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import type { VoteTaggerRow } from '@/app/api/admin/vote-tagger/route';
-
-type AdminState = 'checking' | 'login' | 'admin';
+import AdminShell from '@/components/AdminShell';
 
 function StatusBadge({ row }: { row: VoteTaggerRow }) {
   if (row.hasDbVotes) {
@@ -45,106 +44,29 @@ function StatusBadge({ row }: { row: VoteTaggerRow }) {
 }
 
 export default function VoteTaggerPage() {
-  const [adminState, setAdminState] = useState<AdminState>('checking');
-  const [password, setPassword] = useState('');
-  const [loginError, setLoginError] = useState('');
-  const [loading, setLoading] = useState(false);
+  return (
+    <AdminShell width="wide">
+      <VoteTagger />
+    </AdminShell>
+  );
+}
+
+function VoteTagger() {
   const [sessions, setSessions] = useState<VoteTaggerRow[]>([]);
-  const [dataLoading, setDataLoading] = useState(false);
+  const [dataLoading, setDataLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/auth')
-      .then(r => {
-        if (r.ok) {
-          setAdminState('admin');
-          loadData();
-        } else {
-          setAdminState('login');
-        }
-      })
-      .catch(() => setAdminState('login'));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    fetch('/api/admin/vote-tagger')
+      .then(r => (r.ok ? r.json() : null))
+      .then(data => { if (data) setSessions(data.sessions ?? []); })
+      .finally(() => setDataLoading(false));
   }, []);
-
-  async function loadData() {
-    setDataLoading(true);
-    try {
-      const r = await fetch('/api/admin/vote-tagger');
-      if (r.ok) {
-        const data = await r.json();
-        setSessions(data.sessions ?? []);
-      }
-    } finally {
-      setDataLoading(false);
-    }
-  }
-
-  async function handleLogin(e: React.FormEvent) {
-    e.preventDefault();
-    setLoginError('');
-    setLoading(true);
-    try {
-      const r = await fetch('/api/auth', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password }),
-      });
-      if (!r.ok) {
-        setLoginError(r.status === 429 ? 'Too many failed attempts — try again in 15 minutes.' : 'Incorrect password.');
-      } else {
-        setPassword('');
-        setAdminState('admin');
-        await loadData();
-      }
-    } catch {
-      setLoginError('Something went wrong — try again.');
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  if (adminState === 'checking') {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-sm text-chw-tertiary">Loading…</p>
-      </div>
-    );
-  }
-
-  if (adminState === 'login') {
-    return (
-      <div className="min-h-screen flex items-center justify-center px-4" style={{ background: 'var(--bg)' }}>
-        <div className="w-full max-w-sm bg-card border border-card-border rounded-xl p-8">
-          <h1 className="text-sm font-semibold text-chw-text mb-1">CHW Live Admin</h1>
-          <p className="text-xs text-chw-tertiary mb-6">Enter your password to continue.</p>
-          <form onSubmit={handleLogin} className="flex flex-col gap-3">
-            <input
-              type="password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              placeholder="Password"
-              autoFocus
-              className="text-sm px-3 py-2 border border-border rounded-lg bg-bg text-chw-text placeholder-chw-tertiary outline-none focus:border-chw-secondary transition-colors"
-            />
-            {loginError && <p className="text-xs text-vote-lost">{loginError}</p>}
-            <button
-              type="submit"
-              disabled={loading}
-              className="text-sm font-medium py-2 rounded-lg bg-chw-text text-bg hover:opacity-90 transition-opacity disabled:opacity-50"
-            >
-              {loading ? 'Signing in…' : 'Sign in'}
-            </button>
-          </form>
-        </div>
-      </div>
-    );
-  }
 
   const scraped = sessions.filter(s => s.hasFile || s.hasDbVotes).length;
   const inDb = sessions.filter(s => s.hasDbVotes).length;
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8">
+    <div>
       <div className="flex items-center justify-between mb-1">
         <h1 className="text-lg font-semibold text-chw-text">Vote tagger</h1>
         <Link href="/admin/vote-tagger/add"

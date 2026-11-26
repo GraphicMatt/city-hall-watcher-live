@@ -5,9 +5,9 @@ import { getImages, formatTime } from '@/lib/bluesky';
 import type { BlueskyPost, VoteCard as VoteCardData } from '@/lib/bluesky';
 import { agendaItemUrl, deriveMotionLabel } from '@/lib/voteMatching';
 import type { VoteCandidatePost } from '@/lib/voteMatching';
+import Link from 'next/link';
 import VoteCard from './VoteCard';
-
-type AdminState = 'checking' | 'login' | 'admin';
+import AdminShell from './AdminShell';
 
 // Returns the mayor's display name for a given vote timestamp so the field
 // auto-fills. Overlapping transition months are handled by editing manually.
@@ -48,11 +48,14 @@ function defaultSelection(candidate: VoteCandidatePost): Selection {
 }
 
 export default function VoteMatcher({ slug }: { slug: string }) {
-  const [adminState, setAdminState] = useState<AdminState>('checking');
-  const [password, setPassword] = useState('');
-  const [loginError, setLoginError] = useState('');
-  const [loading, setLoading] = useState(false);
+  return (
+    <AdminShell width="wide">
+      <VoteMatcherInner slug={slug} />
+    </AdminShell>
+  );
+}
 
+function VoteMatcherInner({ slug }: { slug: string }) {
   const [posts, setPosts] = useState<BlueskyPost[]>([]);
   const [candidates, setCandidates] = useState<VoteCandidatePost[]>([]);
   const [selections, setSelections] = useState<Record<string, Selection>>({});
@@ -63,35 +66,6 @@ export default function VoteMatcher({ slug }: { slug: string }) {
   const [uploading, setUploading] = useState(false);
   const [savingUri, setSavingUri] = useState<string | null>(null);
   const [removingUri, setRemovingUri] = useState<string | null>(null);
-
-  useEffect(() => {
-    fetch('/api/auth')
-      .then(r => {
-        if (r.ok) {
-          setAdminState('admin');
-          loadData();
-        } else {
-          setAdminState('login');
-        }
-      })
-      .catch(() => setAdminState('login'));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  async function loadData() {
-    const [archiveRes, votesRes] = await Promise.all([
-      fetch(`/api/archive/${slug}`),
-      fetch(`/api/archive/${slug}/votes`),
-    ]);
-    if (archiveRes.ok) {
-      const data = await archiveRes.json();
-      setPosts(data.posts ?? []);
-    }
-    if (votesRes.ok) {
-      const data = await votesRes.json();
-      applyCandidates(data.candidates ?? []);
-    }
-  }
 
   function applyCandidates(newCandidates: VoteCandidatePost[]) {
     setCandidates(newCandidates);
@@ -106,29 +80,14 @@ export default function VoteMatcher({ slug }: { slug: string }) {
     });
   }
 
-  async function handleLogin(e: React.FormEvent) {
-    e.preventDefault();
-    setLoginError('');
-    setLoading(true);
-    try {
-      const r = await fetch('/api/auth', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password }),
-      });
-      if (!r.ok) {
-        setLoginError(r.status === 429 ? 'Too many failed attempts — try again in 15 minutes.' : 'Incorrect password.');
-      } else {
-        setPassword('');
-        setAdminState('admin');
-        await loadData();
-      }
-    } catch {
-      setLoginError('Something went wrong — try again.');
-    } finally {
-      setLoading(false);
-    }
-  }
+  useEffect(() => {
+    fetch(`/api/archive/${slug}`)
+      .then(r => (r.ok ? r.json() : null))
+      .then(data => { if (data) setPosts(data.posts ?? []); });
+    fetch(`/api/archive/${slug}/votes`)
+      .then(r => (r.ok ? r.json() : null))
+      .then(data => { if (data) applyCandidates(data.candidates ?? []); });
+  }, [slug]);
 
   async function handleUpload() {
     setUploadError('');
@@ -232,46 +191,10 @@ export default function VoteMatcher({ slug }: { slug: string }) {
     }
   }
 
-  if (adminState === 'checking') {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-sm text-chw-tertiary">Loading…</p>
-      </div>
-    );
-  }
-
-  if (adminState === 'login') {
-    return (
-      <div className="min-h-screen flex items-center justify-center px-4" style={{ background: 'var(--bg)' }}>
-        <div className="w-full max-w-sm bg-card border border-card-border rounded-xl p-8">
-          <h1 className="text-sm font-semibold text-chw-text mb-1">CHW Live Admin</h1>
-          <p className="text-xs text-chw-tertiary mb-6">Enter your password to continue.</p>
-          <form onSubmit={handleLogin} className="flex flex-col gap-3">
-            <input
-              type="password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              placeholder="Password"
-              autoFocus
-              className="text-sm px-3 py-2 border border-border rounded-lg bg-bg text-chw-text placeholder-chw-tertiary outline-none focus:border-chw-secondary transition-colors"
-            />
-            {loginError && <p className="text-xs text-vote-lost">{loginError}</p>}
-            <button
-              type="submit"
-              disabled={loading}
-              className="text-sm font-medium py-2 rounded-lg bg-chw-text text-bg hover:opacity-90 transition-opacity disabled:opacity-50"
-            >
-              {loading ? 'Signing in…' : 'Sign in'}
-            </button>
-          </form>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="max-w-2xl mx-auto px-4 py-8">
-      <h1 className="text-lg font-semibold text-chw-text mb-1">Match votes — {slug}</h1>
+    <div>
+      <Link href="/admin/vote-tagger" className="text-sm text-chw-tertiary hover:text-chw-secondary transition-colors">← Vote tagger</Link>
+      <h1 className="text-lg font-semibold text-chw-text mt-2 mb-1">Match votes — {slug}</h1>
       <p className="text-sm text-chw-secondary mb-6">
         Paste the JSON produced by <code className="font-mono text-xs">chw_minutes_scraper.py</code> below,
         then review and confirm each vote-result post.
